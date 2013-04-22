@@ -156,5 +156,14 @@ namespace wScreenshot.Native
             internal Native.Enum.KF_DEFINITION_FLAGS kfdFlags;
             internal Guid ftidType;
         }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct Rect
+        {
+            public int left;
+            public int top;
+            public int right;
+            public int bottom;
+        }
     }
 }

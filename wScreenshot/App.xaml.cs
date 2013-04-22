@@ -17,6 +17,7 @@ namespace wScreenshot
             {
                 var mod = Assembly.LoadFrom(module);
                 var mods = mod.GetModules();
+
                 //mod.
             }
         }
@@ -37,7 +38,7 @@ namespace wScreenshot
             //    }
             //    mod.
             //}
-            new ScreenshotModule.RedBoxTool().Show();
+            new ScreenshotModule.WhiteBoxTool().Show();
         }
     }
 }

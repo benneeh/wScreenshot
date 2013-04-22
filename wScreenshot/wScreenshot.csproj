@@ -96,6 +96,7 @@
     <Compile Include="Controls\ColorPicker\SpectrumSlider.cs" />
     <Compile Include="Dialog\OpenFolderDialog.cs" />
     <Compile Include="Dialog\SafeModuleHandle.cs" />
+    <Compile Include="Helper\Screeen.cs" />
     <Compile Include="Hooks\Classes\HotKey.cs" />
     <Compile Include="Hooks\Classes\HotKeyEventArgs.cs" />
     <Compile Include="Hooks\Classes\HotKeyList.cs" />
@@ -159,12 +160,15 @@
     <Compile Include="NotifyIconWpf\TaskbarIcon.Declarations.cs" />
     <Compile Include="NotifyIconWpf\Util.cs" />
     <Compile Include="Object\ScreenshotTool.cs" />
-    <Compile Include="ScreenshotModule\Interface\ScreenshotModuleHandler.cs" />
-    <Compile Include="ScreenshotModule\Interface\IScreenshotModule.cs" />
-    <Compile Include="ScreenshotModule\Interface\ScreenshotModuleArgs.cs" />
+    <Compile Include="ScreenshotModule\WhiteBoxTool.xaml.cs">
+      <DependentUpon>WhiteBoxTool.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScreenshotModule\RedBoxTool.xaml.cs">
       <DependentUpon>RedBoxTool.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ScreenshotModule\Interface\ScreenshotModuleHandler.cs" />
+    <Compile Include="ScreenshotModule\Interface\IScreenshotModule.cs" />
+    <Compile Include="ScreenshotModule\Interface\ScreenshotModuleArgs.cs" />
     <Compile Include="Tools\TaskBarItemOverlay.cs" />
     <Compile Include="Interface\IUpload.cs" />
     <Compile Include="Interface\IUploadMethod.cs" />
@@ -207,9 +211,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ScreenshotModule\RedBoxTool.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="ScreenshotModule\WhiteBoxTool.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScreenshotModule\RedBoxTool.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="View\Configuration.xaml">
       <SubType>Designer</SubType>
