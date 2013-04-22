@@ -744,6 +744,14 @@ namespace wScreenshot.Native
                 get { return Rectangle.FromLTRB(this.m_nLeft, this.m_nTop, this.m_nRight, this.m_nBottom); }
             }
 
+            /// <summary>
+            ///
+            /// </summary>
+            public System.Windows.Rect Rect
+            {
+                get { return new System.Windows.Rect(this.m_nLeft, this.m_nTop, this.m_nRight, this.m_nBottom); }
+            }
+
             #endregion Properties
 
             #region Constructors

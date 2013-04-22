@@ -26,8 +26,8 @@ namespace wScreenshot.Helper
         private class MonitorInfoEx
         {
             internal int cbSize = Marshal.SizeOf(typeof(MonitorInfoEx));
-            internal wScreenshot.Native.Struct.Rect rcMonitor = new wScreenshot.Native.Struct.Rect();
-            internal wScreenshot.Native.Struct.Rect rcWork = new wScreenshot.Native.Struct.Rect();
+            internal wScreenshot.Native.Win32.RECT rcMonitor = new wScreenshot.Native.Win32.RECT();
+            internal wScreenshot.Native.Win32.RECT rcWork = new wScreenshot.Native.Win32.RECT();
             internal int dwFlags = 0;
 
             [MarshalAs(UnmanagedType.ByValArray, SizeConst = 32)]
@@ -52,14 +52,9 @@ namespace wScreenshot.Helper
         {
             var info = new MonitorInfoEx();
             GetMonitorInfo(new HandleRef(null, monitor), info);
-            Bounds = new System.Windows.Rect(
-                        info.rcMonitor.left, info.rcMonitor.top,
-                        info.rcMonitor.right - info.rcMonitor.left,
-                        info.rcMonitor.bottom - info.rcMonitor.top);
-            WorkingArea = new System.Windows.Rect(
-                        info.rcWork.left, info.rcWork.top,
-                        info.rcWork.right - info.rcWork.left,
-                        info.rcWork.bottom - info.rcWork.top);
+
+            Bounds = info.rcMonitor.Rect;
+            WorkingArea = info.rcWork.Rect;
             IsPrimary = ((info.dwFlags & MonitorinfofPrimary) != 0);
             Name = new string(info.szDevice).TrimEnd((char)0);
         }

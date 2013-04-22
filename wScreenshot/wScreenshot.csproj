@@ -63,6 +63,9 @@
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Untitled - 17.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
@@ -160,6 +163,9 @@
     <Compile Include="NotifyIconWpf\TaskbarIcon.Declarations.cs" />
     <Compile Include="NotifyIconWpf\Util.cs" />
     <Compile Include="Object\ScreenshotTool.cs" />
+    <Compile Include="ScreenshotModule\WindowSelectorTool.xaml.cs">
+      <DependentUpon>WindowSelectorTool.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ScreenshotModule\WhiteBoxTool.xaml.cs">
       <DependentUpon>WhiteBoxTool.xaml</DependentUpon>
     </Compile>
@@ -208,6 +214,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resource\TabControlTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ScreenshotModule\WindowSelectorTool.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -301,6 +311,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Presenter\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Untitled - 17.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

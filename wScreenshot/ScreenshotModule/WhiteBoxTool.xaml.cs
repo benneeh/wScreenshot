@@ -28,8 +28,6 @@ namespace wScreenshot.ScreenshotModule
             InitializeComponent();
         }
 
-        private int DownX;
-        private int DownY;
         private bool IsMoving = false;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
