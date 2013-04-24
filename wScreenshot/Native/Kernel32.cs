@@ -35,14 +35,14 @@ namespace wScreenshot.Native
 
         #endregion LoadLibrary
 
-        #region String Resources
+        #region string Resources
 
         [DllImport("Kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
         public static extern uint FormatMessage([MarshalAs(UnmanagedType.U4)] wScreenshot.Native.Enum.FormatMessageFlags dwFlags, IntPtr lpSource,
            uint dwMessageId, uint dwLanguageId, ref IntPtr lpBuffer,
            uint nSize, string[] Arguments);
 
-        #endregion String Resources
+        #endregion string Resources
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
         public static extern int GetCurrentThreadId();

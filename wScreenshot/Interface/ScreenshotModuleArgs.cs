@@ -4,9 +4,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
-namespace wScreenshot.ScreenshotModule.Interface
+namespace wScreenshot.Interface
 {
-    public class ScreenshotModuleArgs
+    public class ScreenshotModuleArgs : EventArgs
     {
         public ScreenshotModuleArgs(Region ScreenshotRegion)
         {

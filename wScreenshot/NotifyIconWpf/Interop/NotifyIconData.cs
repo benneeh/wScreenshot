@@ -53,7 +53,7 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         public IntPtr IconHandle;
 
         /// <summary>
-        /// String with the text for a standard ToolTip. It can have a maximum of 64 characters including
+        /// string with the text for a standard ToolTip. It can have a maximum of 64 characters including
         /// the terminating NULL. For Version 5.0 and later, szTip can have a maximum of
         /// 128 characters, including the terminating NULL.
         /// </summary>
@@ -74,7 +74,7 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         public IconState StateMask;
 
         /// <summary>
-        /// String with the text for a balloon ToolTip. It can have a maximum of 255 characters.
+        /// string with the text for a balloon ToolTip. It can have a maximum of 255 characters.
         /// To remove the ToolTip, set the NIF_INFO flag in uFlags and set szInfo to an empty string.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 256)]
@@ -88,7 +88,7 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         public uint VersionOrTimeout;
 
         /// <summary>
-        /// String containing a title for a balloon ToolTip. This title appears in boldface
+        /// string containing a title for a balloon ToolTip. This title appears in boldface
         /// above the text. It can have a maximum of 63 characters.
         /// </summary>
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 64)]

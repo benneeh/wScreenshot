@@ -300,7 +300,7 @@ namespace wScreenshot.Native
         // /// <param name="pszSubIdList"></param>
         // /// <returns></returns>
         // [DllImport("uxtheme.dll", ExactSpelling = true, CharSet = CharSet.Auto)]
-        // public static extern int SetWindowTheme(IntPtr hwnd, String pszSubAppName, String pszSubIdList);
+        // public static extern int SetWindowTheme(IntPtr hwnd, string pszSubAppName, string pszSubIdList);
         // /// <summary>
         // ///
         // /// </summary>

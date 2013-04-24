@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace wScreenshot.ScreenshotModule.Interface
+namespace wScreenshot.Interface
 {
     public interface IScreenshotModule
     {
@@ -12,8 +12,11 @@ namespace wScreenshot.ScreenshotModule.Interface
         event ScreenshotModuleHandler OnComplete;
 
         bool IsBusy { get; }
+
         bool IsComplete { get; }
+
         void Initialize(Configuration.wScreenshot wScreenshotConfiguration);
+
         void Start();
     }
 }

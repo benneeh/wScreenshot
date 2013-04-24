@@ -38,7 +38,7 @@ namespace wScreenshot
             //    }
             //    mod.
             //}
-            new ScreenshotModule.WindowSelectorTool().Show();
+            //new ScreenshotModule.WindowSelectorTool().Show();
         }
     }
 }

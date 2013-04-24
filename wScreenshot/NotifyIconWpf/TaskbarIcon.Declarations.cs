@@ -21,6 +21,7 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
+using Hardcodet.Wpf.TaskbarNotification.Interop;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -29,7 +30,6 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using Hardcodet.Wpf.TaskbarNotification.Interop;
 
 namespace Hardcodet.Wpf.TaskbarNotification
 {
@@ -249,7 +249,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             DependencyProperty.Register("ToolTipText",
                                         typeof(string),
                                         typeof(TaskbarIcon),
-                                        new FrameworkPropertyMetadata(String.Empty, ToolTipTextPropertyChanged));
+                                        new FrameworkPropertyMetadata(string.Empty, ToolTipTextPropertyChanged));
 
         /// <summary>
         /// A property wrapper for the <see cref="ToolTipTextProperty"/>

@@ -21,6 +21,7 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
+using Hardcodet.Wpf.TaskbarNotification.Interop;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -28,7 +29,6 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Resources;
-using Hardcodet.Wpf.TaskbarNotification.Interop;
 
 namespace Hardcodet.Wpf.TaskbarNotification
 {
@@ -170,7 +170,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             if (streamInfo == null)
             {
                 string msg = "The supplied image source '{0}' could not be resolved.";
-                msg = String.Format(msg, imageSource);
+                msg = string.Format(msg, imageSource);
                 throw new ArgumentException(msg);
             }
 
@@ -232,6 +232,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
                 case PopupActivationMode.MiddleClick:
                     return me == MouseEvent.IconMiddleMouseUp;
                 case PopupActivationMode.All:
+
                     //return true for everything except mouse movements
                     return me != MouseEvent.MouseMove;
                 default:

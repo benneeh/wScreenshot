@@ -19,43 +19,43 @@
                     <x:Array Type="sys:Object">
                         <sys:Double>0</sys:Double>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#ffff00" Offset="0"/>
-                            <GradientStop Color="#ff0000" Offset="1"/>
+                            <GradientStop Color="#ffff00" Offset="0" />
+                            <GradientStop Color="#ff0000" Offset="1" />
                         </LinearGradientBrush>
                     </x:Array>
                     <x:Array Type="sys:Object">
                         <sys:Double>60</sys:Double>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#ff0000" Offset="0"/>
-                            <GradientStop Color="#ff00ff" Offset="1"/>
+                            <GradientStop Color="#ff0000" Offset="0" />
+                            <GradientStop Color="#ff00ff" Offset="1" />
                         </LinearGradientBrush>
                     </x:Array>
                     <x:Array Type="sys:Object">
                         <sys:Double>120</sys:Double>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#ff00ff" Offset="0"/>
-                            <GradientStop Color="#0000ff" Offset="1"/>
+                            <GradientStop Color="#ff00ff" Offset="0" />
+                            <GradientStop Color="#0000ff" Offset="1" />
                         </LinearGradientBrush>
                     </x:Array>
                     <x:Array Type="sys:Object">
                         <sys:Double>180</sys:Double>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#0000ff" Offset="0"/>
-                            <GradientStop Color="#00ffff" Offset="1"/>
+                            <GradientStop Color="#0000ff" Offset="0" />
+                            <GradientStop Color="#00ffff" Offset="1" />
                         </LinearGradientBrush>
                     </x:Array>
                     <x:Array Type="sys:Object">
                         <sys:Double>240</sys:Double>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#00ffff" Offset="0"/>
-                            <GradientStop Color="#00ff00" Offset="1"/>
+                            <GradientStop Color="#00ffff" Offset="0" />
+                            <GradientStop Color="#00ff00" Offset="1" />
                         </LinearGradientBrush>
                     </x:Array>
                     <x:Array Type="sys:Object">
                         <sys:Double>300</sys:Double>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
-                            <GradientStop Color="#00ff00" Offset="0"/>
-                            <GradientStop Color="#ffff00" Offset="1"/>
+                            <GradientStop Color="#00ff00" Offset="0" />
+                            <GradientStop Color="#ffff00" Offset="1" />
                         </LinearGradientBrush>
                     </x:Array>
                 </x:Array>
@@ -66,27 +66,27 @@
                 </ItemsControl.Effect>
                 <ItemsControl.OpacityMask>
                     <RadialGradientBrush>
-                        <GradientStop Color="Transparent" Offset=".63"/>
-                        <GradientStop Color="White" Offset="0.6299"/>
-                        <GradientStop Color="White" Offset="0.501"/>
-                        <GradientStop Color="Transparent" Offset="0.5"/>
+                        <GradientStop Color="Transparent" Offset=".63" />
+                        <GradientStop Color="White" Offset="0.6299" />
+                        <GradientStop Color="White" Offset="0.501" />
+                        <GradientStop Color="Transparent" Offset="0.5" />
                     </RadialGradientBrush>
                 </ItemsControl.OpacityMask>
                 <ItemsControl.Template>
                     <ControlTemplate TargetType="ItemsControl">
-                        <ItemsPresenter/>
+                        <ItemsPresenter />
                     </ControlTemplate>
                 </ItemsControl.Template>
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <Canvas/>
+                        <Canvas />
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Canvas Width="1" Height="1">
                             <Canvas.RenderTransform>
-                                <RotateTransform Angle="{Binding [0]}" CenterX="100" CenterY="100"/>
+                                <RotateTransform Angle="{Binding [0]}" CenterX="100" CenterY="100" />
                             </Canvas.RenderTransform>
                             <Viewport3D Width="200" Height="200" Name="vp">
                                 <ModelVisual3D>
@@ -94,13 +94,13 @@
                                         <Model3DGroup>
                                             <GeometryModel3D>
                                                 <GeometryModel3D.Geometry>
-                                                    <MeshGeometry3D Positions="0 0 0, 0 .999265 0, .635 1 0" TextureCoordinates="0 1, 0 0, 1 1, 1 0" TriangleIndices="0 2 1, 2 3 1"/>
+                                                    <MeshGeometry3D Positions="0 0 0, 0 .999265 0, .635 1 0" TextureCoordinates="0 1, 0 0, 1 1, 1 0" TriangleIndices="0 2 1, 2 3 1" />
                                                 </GeometryModel3D.Geometry>
                                                 <GeometryModel3D.Material>
-                                                    <DiffuseMaterial Brush="{Binding [1]}"/>
+                                                    <DiffuseMaterial Brush="{Binding [1]}" />
                                                 </GeometryModel3D.Material>
                                                 <GeometryModel3D.Transform>
-                                                    <MatrixTransform3D Matrix="0.002,0,0,0,-0.499,-0.498,0,-0.998,0,0,1,0,0.499,0.5,0,1"/>
+                                                    <MatrixTransform3D Matrix="0.002,0,0,0,-0.499,-0.498,0,-0.998,0,0,1,0,0.499,0.5,0,1" />
                                                 </GeometryModel3D.Transform>
                                             </GeometryModel3D>
                                             <AmbientLight Color="White" />
@@ -108,7 +108,7 @@
                                     </ModelVisual3D.Content>
                                 </ModelVisual3D>
                                 <Viewport3D.Camera>
-                                    <OrthographicCamera Position="0.5 0.5 1" LookDirection="0 0 -1" UpDirection="0 1 0" Width="1"/>
+                                    <OrthographicCamera Position="0.5 0.5 1" LookDirection="0 0 -1" UpDirection="0 1 0" Width="1" />
                                 </Viewport3D.Camera>
                             </Viewport3D>
                         </Canvas>
@@ -119,18 +119,18 @@
                 <Grid.Effect>
                     <DropShadowEffect ShadowDepth="0" BlurRadius="30">
                         <DropShadowEffect.Color>
-                            <Binding Path="Angle" ElementName="DegreeTransform" Converter="{StaticResource ColorToDegreeConverter}" >
+                            <Binding Path="Angle" ElementName="DegreeTransform" Converter="{StaticResource ColorToDegreeConverter}">
                                 <Binding.ConverterParameter>
-                                    <Rectangle Width="360" Height="10" Visibility="Collapsed" Name="ReferenceRect" >
+                                    <Rectangle Width="360" Height="10" Visibility="Collapsed" Name="ReferenceRect">
                                         <Rectangle.Fill>
                                             <LinearGradientBrush x:Name="lgb" StartPoint="0 0" EndPoint="1 0">
-                                                <GradientStop Color="#ffff00" Offset="0"/>
-                                                <GradientStop Color="#ff0000" Offset="0.1666666666666666666666666"/>
-                                                <GradientStop Color="#ff00ff" Offset="0.3333333333333333333333333"/>
-                                                <GradientStop Color="#0000ff" Offset="0.5"/>
-                                                <GradientStop Color="#00ffff" Offset="0.6666666666666666666666666"/>
-                                                <GradientStop Color="#00ff00" Offset="0.8333333333333333333333333"/>
-                                                <GradientStop Color="#ffff00" Offset="1"/>
+                                                <GradientStop Color="#ffff00" Offset="0" />
+                                                <GradientStop Color="#ff0000" Offset="0.1666666666666666666666666" />
+                                                <GradientStop Color="#ff00ff" Offset="0.3333333333333333333333333" />
+                                                <GradientStop Color="#0000ff" Offset="0.5" />
+                                                <GradientStop Color="#00ffff" Offset="0.6666666666666666666666666" />
+                                                <GradientStop Color="#00ff00" Offset="0.8333333333333333333333333" />
+                                                <GradientStop Color="#ffff00" Offset="1" />
                                             </LinearGradientBrush>
                                         </Rectangle.Fill>
                                     </Rectangle>
@@ -144,7 +144,7 @@
                         <EventTrigger.Actions>
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="DegreeTransform" Storyboard.TargetProperty="Angle" From="0" To="360" Duration="0:0:10" RepeatBehavior="Forever" />
+                                    <DoubleAnimation Storyboard.TargetName="DegreeTransform" Storyboard.TargetProperty="Angle" From="0" IsAdditive="True" To="360" Duration="0:0:10" RepeatBehavior="Forever" />
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger.Actions>
@@ -156,23 +156,23 @@
                     </TransformGroup>
                 </Grid.RenderTransform>
 
-                <Polygon Points="0,0 0,1 1,0.5" Stretch="Fill"  >
+                <Polygon Points="0,0 0,1 1,0.5" Stretch="Fill">
                     <Polygon.Fill>
                         <LinearGradientBrush>
-                            <GradientStop Offset="0" >
+                            <GradientStop Offset="0">
                                 <GradientStop.Color>
-                                    <Binding Path="Angle" ElementName="DegreeTransform" Converter="{StaticResource ColorToDegreeConverter}" >
+                                    <Binding Path="Angle" ElementName="DegreeTransform" Converter="{StaticResource ColorToDegreeConverter}">
                                         <Binding.ConverterParameter>
-                                            <Rectangle Width="360" Height="10" Visibility="Collapsed" >
+                                            <Rectangle Width="360" Height="10" Visibility="Collapsed">
                                                 <Rectangle.Fill>
                                                     <LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
-                                                        <GradientStop Color="#ffff00" Offset="0"/>
-                                                        <GradientStop Color="#ff0000" Offset="0.1666666666666666666666666"/>
-                                                        <GradientStop Color="#ff00ff" Offset="0.3333333333333333333333333"/>
-                                                        <GradientStop Color="#0000ff" Offset="0.5"/>
-                                                        <GradientStop Color="#00ffff" Offset="0.6666666666666666666666666"/>
-                                                        <GradientStop Color="#00ff00" Offset="0.8333333333333333333333333"/>
-                                                        <GradientStop Color="#ffff00" Offset="1"/>
+                                                        <GradientStop Color="#ffff00" Offset="0" />
+                                                        <GradientStop Color="#ff0000" Offset="0.1666666666666666666666666" />
+                                                        <GradientStop Color="#ff00ff" Offset="0.3333333333333333333333333" />
+                                                        <GradientStop Color="#0000ff" Offset="0.5" />
+                                                        <GradientStop Color="#00ffff" Offset="0.6666666666666666666666666" />
+                                                        <GradientStop Color="#00ff00" Offset="0.8333333333333333333333333" />
+                                                        <GradientStop Color="#ffff00" Offset="1" />
                                                     </LinearGradientBrush>
                                                 </Rectangle.Fill>
                                             </Rectangle>

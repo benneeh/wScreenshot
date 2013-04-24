@@ -21,6 +21,7 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
+using Hardcodet.Wpf.TaskbarNotification.Interop;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -30,7 +31,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
-using Hardcodet.Wpf.TaskbarNotification.Interop;
 using Point = Hardcodet.Wpf.TaskbarNotification.Interop.Point;
 
 namespace Hardcodet.Wpf.TaskbarNotification
@@ -164,7 +164,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             if (timeout.HasValue && timeout < 500)
             {
                 string msg = "Invalid timeout of {0} milliseconds. Timeout must be at least 500 ms";
-                msg = String.Format(msg, timeout);
+                msg = string.Format(msg, timeout);
                 throw new ArgumentOutOfRangeException("timeout", msg);
             }
 
@@ -320,35 +320,47 @@ namespace Hardcodet.Wpf.TaskbarNotification
             {
                 case MouseEvent.MouseMove:
                     RaiseTrayMouseMoveEvent();
+
                     //immediately return - there's nothing left to evaluate
                     return;
+
                 case MouseEvent.IconRightMouseDown:
                     RaiseTrayRightMouseDownEvent();
                     break;
+
                 case MouseEvent.IconLeftMouseDown:
                     RaiseTrayLeftMouseDownEvent();
                     break;
+
                 case MouseEvent.IconRightMouseUp:
                     RaiseTrayRightMouseUpEvent();
                     break;
+
                 case MouseEvent.IconLeftMouseUp:
                     RaiseTrayLeftMouseUpEvent();
                     break;
+
                 case MouseEvent.IconMiddleMouseDown:
                     RaiseTrayMiddleMouseDownEvent();
                     break;
+
                 case MouseEvent.IconMiddleMouseUp:
                     RaiseTrayMiddleMouseUpEvent();
                     break;
+
                 case MouseEvent.IconDoubleClick:
+
                     //cancel single click timer
                     singleClickTimer.Change(Timeout.Infinite, Timeout.Infinite);
+
                     //bubble event
                     RaiseTrayMouseDoubleClickEvent();
                     break;
+
                 case MouseEvent.BalloonToolTipClicked:
                     RaiseTrayBalloonTipClickedEvent();
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException("me", "Missing handler for mouse event flag: " + me);
             }
@@ -527,7 +539,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             {
                 //we need to set a tooltip text to get tooltip events from the
                 //taskbar icon
-                if (String.IsNullOrEmpty(iconData.ToolTipText) && TrayToolTipResolved != null)
+                if (string.IsNullOrEmpty(iconData.ToolTipText) && TrayToolTipResolved != null)
                 {
                     //if we have not tooltip text but a custom tooltip, we
                     //need to set a dummy value (we're displaying the ToolTip control, not the string)
@@ -735,8 +747,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         {
             EnsureNotDisposed();
 
-            iconData.BalloonText = message ?? String.Empty;
-            iconData.BalloonTitle = title ?? String.Empty;
+            iconData.BalloonText = message ?? string.Empty;
+            iconData.BalloonTitle = title ?? string.Empty;
 
             iconData.BalloonFlags = flags;
             iconData.CustomBalloonIconHandle = balloonIconHandle;
@@ -751,7 +763,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             EnsureNotDisposed();
 
             //reset balloon by just setting the info to an empty string
-            iconData.BalloonText = iconData.BalloonTitle = String.Empty;
+            iconData.BalloonText = iconData.BalloonTitle = string.Empty;
             Util.WriteIconData(ref iconData, NotifyCommand.Modify, IconDataMembers.Info);
         }
 

@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace wScreenshot.Controls
 {
-    [ValueConversion(typeof(double), typeof(String))]
+    [ValueConversion(typeof(double), typeof(string))]
     public class DoubleToIntegerStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -20,7 +20,7 @@ namespace wScreenshot.Controls
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            String stringValue = (String)value;
+            string stringValue = (string)value;
             double doubleValue = 0;
             if (!Double.TryParse(stringValue, out doubleValue))
                 doubleValue = 0;

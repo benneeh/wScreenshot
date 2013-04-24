@@ -11,7 +11,8 @@
     <RootNamespace>wScreenshot</RootNamespace>
     <AssemblyName>wScreenshot</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
@@ -43,7 +44,8 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <WarningLevel>3</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -72,6 +74,7 @@
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -90,6 +93,11 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\wScreenshot.cs" />
+    <Compile Include="Controls\AutoUpdate\AutoUpdate.xaml.cs">
+      <DependentUpon>AutoUpdate.xaml</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Controls\AutoUpdate\bRenamer.cs" />
+    <Compile Include="Controls\AutoUpdate\UpdateEventArgs.cs" />
     <Compile Include="Controls\ColorPicker\BindOnEnterTextBox.cs" />
     <Compile Include="Controls\ColorPicker\ColorComboBox.cs" />
     <Compile Include="Controls\ColorPicker\ColorPicker.cs" />
@@ -99,6 +107,7 @@
     <Compile Include="Controls\ColorPicker\SpectrumSlider.cs" />
     <Compile Include="Dialog\OpenFolderDialog.cs" />
     <Compile Include="Dialog\SafeModuleHandle.cs" />
+    <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\Screeen.cs" />
     <Compile Include="Hooks\Classes\HotKey.cs" />
     <Compile Include="Hooks\Classes\HotKeyEventArgs.cs" />
@@ -123,6 +132,7 @@
     <Compile Include="Native\Struct.cs" />
     <Compile Include="Native\User32.cs" />
     <Compile Include="Native\Win32.cs" />
+    <Compile Include="DataObject\UploadObject.cs" />
     <Compile Include="Properties\DirtySettings.cs" />
     <Compile Include="Properties\Configuration.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -162,7 +172,6 @@
     <Compile Include="NotifyIconWpf\TaskbarIcon.cs" />
     <Compile Include="NotifyIconWpf\TaskbarIcon.Declarations.cs" />
     <Compile Include="NotifyIconWpf\Util.cs" />
-    <Compile Include="Object\ScreenshotTool.cs" />
     <Compile Include="ScreenshotModule\WindowSelectorTool.xaml.cs">
       <DependentUpon>WindowSelectorTool.xaml</DependentUpon>
     </Compile>
@@ -172,12 +181,15 @@
     <Compile Include="ScreenshotModule\RedBoxTool.xaml.cs">
       <DependentUpon>RedBoxTool.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ScreenshotModule\Interface\ScreenshotModuleHandler.cs" />
-    <Compile Include="ScreenshotModule\Interface\IScreenshotModule.cs" />
-    <Compile Include="ScreenshotModule\Interface\ScreenshotModuleArgs.cs" />
+    <Compile Include="Interface\ScreenshotModuleHandler.cs" />
+    <Compile Include="Interface\IScreenshotModule.cs" />
+    <Compile Include="Interface\ScreenshotModuleArgs.cs" />
     <Compile Include="Tools\TaskBarItemOverlay.cs" />
     <Compile Include="Interface\IUpload.cs" />
     <Compile Include="Interface\IUploadMethod.cs" />
+    <Compile Include="UploadModule\EpvpImg.cs" />
+    <Compile Include="UploadModule\FTP.cs" />
+    <Compile Include="UploadModule\ImageBanana.cs" />
     <Compile Include="View\Configuration.xaml.cs">
       <DependentUpon>Configuration.xaml</DependentUpon>
     </Compile>
@@ -185,6 +197,10 @@
       <DependentUpon>Options.xaml</DependentUpon>
     </Compile>
     <Compile Include="WindowBorder.cs" />
+    <Page Include="Controls\AutoUpdate\AutoUpdate.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ColorPicker\Themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -268,6 +284,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="app.config" />
     <None Include="Properties\Configuration.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Configuration.Designer.cs</LastGenOutput>
@@ -309,9 +326,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Presenter\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Resource Include="Untitled - 17.ico" />
   </ItemGroup>

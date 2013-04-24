@@ -50,8 +50,8 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
 
     internal class AppBarInfo
     {
-        [DllImport("user32.dll")]
-        private static extern IntPtr FindWindow(String lpClassName, String lpWindowName);
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         [DllImport("shell32.dll")]
         private static extern UInt32 SHAppBarMessage(UInt32 dwMessage, ref APPBARDATA data);

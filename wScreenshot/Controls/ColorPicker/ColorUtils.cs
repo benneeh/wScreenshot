@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace wScreenshot.Controls
 {
-    [ValueConversion(typeof(Color), typeof(String))]
+    [ValueConversion(typeof(Color), typeof(string))]
     public class ColorToStringConverter : IValueConverter
     {
         public object Convert(
@@ -25,7 +25,7 @@ namespace wScreenshot.Controls
         }
     }
 
-    public /*internal*/ static class ColorNames
+    public static class ColorNames
     {
         #region Public Methods
 
@@ -36,7 +36,7 @@ namespace wScreenshot.Controls
             FillColorNames();
         }
 
-        static public String GetColorName(Color colorToSeek)
+        static public string GetColorName(Color colorToSeek)
         {
             if (m_colorNames.ContainsKey(colorToSeek))
                 return m_colorNames[colorToSeek];
@@ -55,7 +55,7 @@ namespace wScreenshot.Controls
 
             foreach (PropertyInfo colorProperty in colorsProperties)
             {
-                String colorName = colorProperty.Name;
+                string colorName = colorProperty.Name;
 
                 Color color = (Color)colorProperty.GetValue(null, null);
 
@@ -74,14 +74,14 @@ namespace wScreenshot.Controls
 
         #region Private Members
 
-        static private Dictionary<Color, String> m_colorNames;
+        static private Dictionary<Color, string> m_colorNames;
 
         #endregion Private Members
     }
 
-    public /*internal*/ static class ColorUtils
+    public static class ColorUtils
     {
-        public static String[] GetColorNames()
+        public static string[] GetColorNames()
         {
             Type colorsType = typeof(System.Windows.Media.Colors);
             PropertyInfo[] colorsProperties = colorsType.GetProperties();
@@ -91,13 +91,13 @@ namespace wScreenshot.Controls
             List<String> colorNames = new List<String>();
             foreach (PropertyInfo colorProperty in colorsProperties)
             {
-                String colorName = colorProperty.Name;
+                string colorName = colorProperty.Name;
                 colorNames.Add(colorName);
 
                 Color color = (Color)ColorConverter.ConvertFromString(colorName);
             }
 
-            //String[] colorNamesArray = new String[colorNames.Count];
+            //String[] colorNamesArray = new(string[colorNames.Count];
             return colorNames.ToArray();
         }
 
