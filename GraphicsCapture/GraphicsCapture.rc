@@ -1,0 +1,112 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// “ú–{Œê resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CONFIG DIALOGEX 0, 0, 542, 274
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Sources.GameCaptureSource"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    RTEXT           "Sources.GameCaptureSource.Application",IDC_STATIC,7,9,95,8
+    COMBOBOX        IDC_APPLIST,104,7,330,30,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Refresh",IDC_REFRESH,442,7,73,14
+    CONTROL         "Sources.GameCaptureSource.StretchToScreen",IDC_STRETCHTOSCREEN,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,106,27,308,10
+    CONTROL         "Sources.GameCaptureSource.IgnoreAspect",IDC_IGNOREASPECT,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,106,39,308,10
+    CONTROL         "Sources.SoftwareCaptureSource.MouseCapture",IDC_CAPTUREMOUSE,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,106,51,313,10
+    CONTROL         "Sources.SoftwareCaptureSource.InvertMouseOnClick",IDC_INVERTMOUSEONCLICK,
+                    "Button",BS_AUTOCHECKBOX | WS_TABSTOP,106,63,318,10
+    RTEXT           "Gamma",IDC_STATIC,4,84,114,8
+    CONTROL         "",IDC_GAMMA,"msctls_trackbar32",TBS_BOTH | WS_TABSTOP,122,76,227,26
+    LTEXT           ".numbers!",IDC_GAMMAVAL,354,84,66,8
+    EDITTEXT        IDC_INFO,7,109,403,158,ES_MULTILINE | ES_AUTOHSCROLL | ES_READONLY | WS_VSCROLL | WS_HSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,431,253,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,485,253,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_CONFIG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 535
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 267
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // “ú–{Œê resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

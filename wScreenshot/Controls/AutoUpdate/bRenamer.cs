@@ -9,7 +9,13 @@ using System.Windows;
 
 internal static class Program
 {
-    public static void Main(string[] a)
+    /// <summary>
+    /// first argument is process name to kill/wait for
+    /// second argument is the update file
+    /// third argument is the to overwrite file
+    /// </summary>
+    /// <param name="args"></param>
+    public static void Main(string[] args)
     {
         bool s = true;
         int c = 1000;
@@ -22,7 +28,7 @@ internal static class Program
                 List<Process> wScreenshotProcess = null;
                 for (int i = 0; i < 20; i++)
                 {
-                    wScreenshotProcess = Process.GetProcesses().Where(x => x.ProcessName.StartsWith("wScreenshot")).ToList();
+                    wScreenshotProcess = Process.GetProcesses().Where(x => x.ProcessName.StartsWith(args[0])).ToList();
                     if (wScreenshotProcess.Count > 0)
                     {
                         System.Threading.Thread.Sleep(100);
@@ -37,17 +43,25 @@ internal static class Program
                     wScreenshotProcess.ForEach(x => x.Kill());
                 }
                 System.Threading.Thread.Sleep(1000);
-                if (File.Exists(a[0]))
+                if (File.Exists(args[1]))
                 {
-                    if (File.Exists(a[1]))
-                        File.Delete(a[1]);
+                    if (args[2] == "zip")
+                    {
+                    }
+                    else
+                    {
+                        if (File.Exists(args[2]))
+                        {
+                            File.Delete(args[2]);
+                        }
 
-                    File.Move(a[0], a[1]);
+                        File.Move(args[1], args[2]);
+                    }
                 }
                 else
                 {
                     MessageBox.Show("Couldn't find update file,... starting the old one. Try updating manually www.nightow.de or run wScreenshot.exe as admin");
-                    Process.Start(a[1]);
+                    Process.Start(args[2]);
                     return;
                 }
                 s = false;
@@ -62,7 +76,7 @@ internal static class Program
                     startInfo.FileName = Assembly.GetExecutingAssembly().Location;
                     startInfo.Verb = "runas";
                     string arg = "";
-                    foreach (string _a in a)
+                    foreach (string _a in args)
                     {
                         arg += "\"" + _a + "\" ";
                     }
@@ -89,6 +103,6 @@ internal static class Program
                 System.Threading.Thread.Sleep(100);
             }
         }
-        if (!s) System.Diagnostics.Process.Start(a[1]);
+        if (!s) System.Diagnostics.Process.Start(args[2]);
     }
 }
