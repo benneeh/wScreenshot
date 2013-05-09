@@ -105,8 +105,10 @@
     <Compile Include="Controls\ColorPicker\ColorUtils.cs" />
     <Compile Include="Controls\ColorPicker\HsvControl.cs" />
     <Compile Include="Controls\ColorPicker\SpectrumSlider.cs" />
+    <Compile Include="DataObject\wScreenshotImage.cs" />
     <Compile Include="Dialog\OpenFolderDialog.cs" />
     <Compile Include="Dialog\SafeModuleHandle.cs" />
+    <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\Screeen.cs" />
     <Compile Include="Hooks\Classes\HotKey.cs" />
