@@ -105,6 +105,7 @@
     <Compile Include="Controls\ColorPicker\ColorUtils.cs" />
     <Compile Include="Controls\ColorPicker\HsvControl.cs" />
     <Compile Include="Controls\ColorPicker\SpectrumSlider.cs" />
+    <Compile Include="DataObject\AnnoyingRectangle.cs" />
     <Compile Include="DataObject\wScreenshotImage.cs" />
     <Compile Include="Dialog\OpenFolderDialog.cs" />
     <Compile Include="Dialog\SafeModuleHandle.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Native\User32.cs" />
     <Compile Include="Native\Win32.cs" />
     <Compile Include="DataObject\UploadObject.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\DirtySettings.cs" />
     <Compile Include="Properties\Configuration.Designer.cs">
       <AutoGen>True</AutoGen>

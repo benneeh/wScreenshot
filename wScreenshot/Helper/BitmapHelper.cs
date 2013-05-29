@@ -38,7 +38,8 @@ namespace wScreenshot.Helper
             bm.Freeze();
 
             BitmapDecoder imgDecoder = BitmapDecoder.Create(new Uri(path), BitmapCreateOptions.None, BitmapCacheOption.Default);
-            imgDecoder.
+
+            //imgDecoder.
             return null;
         }
     }
