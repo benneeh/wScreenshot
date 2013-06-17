@@ -1,13 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace wScreenshot.Interop
 {
     // Dummy base interface for CommonFileDialog coclasses
     public interface NativeCommonFileDialog
-    { }
+    {
+    }
 
     // ---------------------------------------------------------
     // Coclass interfaces - designed to "look like" the object 
@@ -15,22 +13,22 @@ namespace wScreenshot.Interop
     // straightforward way. Behind the scenes, the C# compiler
     // morphs all 'new CoClass()' calls to 'new CoClassWrapper()'
     [ComImport,
-    Guid(IIDGuid.IFileOpenDialog), 
-    CoClass(typeof(FileOpenDialogRCW))]
+     Guid(IIDGuid.IFileOpenDialog),
+     CoClass(typeof (FileOpenDialogRCW))]
     public interface NativeFileOpenDialog : IFileOpenDialog
     {
     }
 
     [ComImport,
-    Guid(IIDGuid.IFileSaveDialog),
-    CoClass(typeof(FileSaveDialogRCW))]
+     Guid(IIDGuid.IFileSaveDialog),
+     CoClass(typeof (FileSaveDialogRCW))]
     public interface NativeFileSaveDialog : IFileSaveDialog
     {
     }
 
     [ComImport,
-    Guid(IIDGuid.IKnownFolderManager),
-    CoClass(typeof(KnownFolderManagerRCW))]
+     Guid(IIDGuid.IKnownFolderManager),
+     CoClass(typeof (KnownFolderManagerRCW))]
     public interface KnownFolderManager : IKnownFolderManager
     {
     }
@@ -38,25 +36,25 @@ namespace wScreenshot.Interop
     // ---------------------------------------------------
     // .NET classes representing runtime callable wrappers
     [ComImport,
-    ClassInterface(ClassInterfaceType.None),
-    TypeLibType(TypeLibTypeFlags.FCanCreate),
-    Guid(CLSIDGuid.FileOpenDialog)]
+     ClassInterface(ClassInterfaceType.None),
+     TypeLibType(TypeLibTypeFlags.FCanCreate),
+     Guid(CLSIDGuid.FileOpenDialog)]
     internal class FileOpenDialogRCW
     {
     }
 
     [ComImport,
-    ClassInterface(ClassInterfaceType.None),
-    TypeLibType(TypeLibTypeFlags.FCanCreate),
-    Guid(CLSIDGuid.FileSaveDialog)]
+     ClassInterface(ClassInterfaceType.None),
+     TypeLibType(TypeLibTypeFlags.FCanCreate),
+     Guid(CLSIDGuid.FileSaveDialog)]
     internal class FileSaveDialogRCW
     {
     }
 
     [ComImport,
-    ClassInterface(ClassInterfaceType.None),
-    TypeLibType(TypeLibTypeFlags.FCanCreate),
-    Guid(CLSIDGuid.KnownFolderManager)]
+     ClassInterface(ClassInterfaceType.None),
+     TypeLibType(TypeLibTypeFlags.FCanCreate),
+     Guid(CLSIDGuid.KnownFolderManager)]
     internal class KnownFolderManagerRCW
     {
     }

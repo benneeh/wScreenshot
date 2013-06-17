@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace wScreenshot.Interface
+﻿namespace wScreenshot.Interface
 {
     public interface IScreenshotModule
     {
-        event ScreenshotModuleHandler OnCancel;
-
-        event ScreenshotModuleHandler OnComplete;
-
         bool IsBusy { get; }
 
         bool IsComplete { get; }
+        event ScreenshotModuleHandler OnCancel;
+
+        event ScreenshotModuleHandler OnComplete;
 
         void Initialize(Configuration.wScreenshot wScreenshotConfiguration);
 

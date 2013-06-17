@@ -1,52 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using wScreenshot.Helper;
-using wScreenshot.Hooks;
 
 namespace wScreenshot.ScreenshotModule
 {
     /// <summary>
-    /// Interaction logic for RedBoxTool.xaml
+    ///     Interaction logic for RedBoxTool.xaml
     /// </summary>
     public partial class WhiteBoxTool : Window
     {
+        private bool IsMoving;
+
+        private Point holePos;
+
         public WhiteBoxTool()
         {
             InitializeComponent();
         }
 
-        private bool IsMoving = false;
+        public Point Down { get; set; }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Rect r = new Rect();
+            var r = new Rect();
             ScreenHelper.AllScreens.Select(x => x.Bounds).ToList().ForEach(x => r.Union(x));
-            this.Left = r.Left;
-            this.Top = r.Top;
-            this.Width = r.Width;
-            this.Height = r.Height;
+            Left = r.Left;
+            Top = r.Top;
+            Width = r.Width;
+            Height = r.Height;
         }
-
-        private Point holePos;
-
-        public Point Down { get; set; }
 
         private void borderHole_MouseMove(object sender, MouseEventArgs e)
         {
-            var pos = e.GetPosition(borderHole);
+            Point pos = e.GetPosition(borderHole);
             if (!IsMoving)
             {
                 holePos = pos;

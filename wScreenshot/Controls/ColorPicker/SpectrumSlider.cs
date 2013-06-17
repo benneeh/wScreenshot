@@ -11,7 +11,8 @@ namespace wScreenshot.Controls
 
         static SpectrumSlider()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(SpectrumSlider), new FrameworkPropertyMetadata(typeof(SpectrumSlider)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (SpectrumSlider),
+                new FrameworkPropertyMetadata(typeof (SpectrumSlider)));
         }
 
         public SpectrumSlider()
@@ -49,7 +50,7 @@ namespace wScreenshot.Controls
 
         private void SetBackground()
         {
-            LinearGradientBrush backgroundBrush = new LinearGradientBrush();
+            var backgroundBrush = new LinearGradientBrush();
             backgroundBrush.StartPoint = new Point(0.5, 0);
             backgroundBrush.EndPoint = new Point(0.5, 1);
 
@@ -58,22 +59,22 @@ namespace wScreenshot.Controls
             Color[] spectrumColors = ColorUtils.GetSpectrumColors(spectrumColorCount);
             for (int i = 0; i < spectrumColorCount; ++i)
             {
-                double offset = i * 1.0 / spectrumColorCount;
-                GradientStop gradientStop = new GradientStop(spectrumColors[i], offset);
+                double offset = i*1.0/spectrumColorCount;
+                var gradientStop = new GradientStop(spectrumColors[i], offset);
                 backgroundBrush.GradientStops.Add(gradientStop);
             }
             Background = backgroundBrush;
         }
 
         private static void OnHuePropertyChanged(
-        DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
+            DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
         {
-            SpectrumSlider spectrumSlider = relatedObject as SpectrumSlider;
+            var spectrumSlider = relatedObject as SpectrumSlider;
             if (spectrumSlider != null && !spectrumSlider.m_withinChanging)
             {
                 spectrumSlider.m_withinChanging = true;
 
-                double hue = (double)e.NewValue;
+                var hue = (double) e.NewValue;
                 spectrumSlider.Value = 360 - hue;
 
                 spectrumSlider.m_withinChanging = false;
@@ -84,21 +85,21 @@ namespace wScreenshot.Controls
 
         #region Dependency Properties
 
+        public static readonly DependencyProperty HueProperty =
+            DependencyProperty.Register("Hue", typeof (double), typeof (SpectrumSlider),
+                new UIPropertyMetadata((double) 0, OnHuePropertyChanged));
+
         public double Hue
         {
-            get { return (double)GetValue(HueProperty); }
+            get { return (double) GetValue(HueProperty); }
             set { SetValue(HueProperty, value); }
         }
-
-        public static readonly DependencyProperty HueProperty =
-        DependencyProperty.Register("Hue", typeof(double), typeof(SpectrumSlider),
-        new UIPropertyMetadata((double)0, new PropertyChangedCallback(OnHuePropertyChanged)));
 
         #endregion Dependency Properties
 
         #region Private Members
 
-        private bool m_withinChanging = false;
+        private bool m_withinChanging;
 
         #endregion Private Members
     }

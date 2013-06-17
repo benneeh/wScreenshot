@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Globalization;
 using System.Windows.Data;
 
 namespace wScreenshot.Converter
@@ -9,7 +7,7 @@ namespace wScreenshot.Converter
     public class MultiplyConverter : IValueConverter
     {
         /// <summary>
-        /// Converts a value.
+        ///     Converts a value.
         /// </summary>
         /// <param name="value">The value produced by the binding source.</param>
         /// <param name="targetType">The type of the binding target property.</param>
@@ -19,7 +17,7 @@ namespace wScreenshot.Converter
         /// <exception cref="ArgumentException">throws a new "ArgumentException"</exception>
         /// <exception cref="ArgumentNullException">throws a new "ArgumentNullException"</exception>
         public object Convert(object value, Type targetType, object parameter,
-                              System.Globalization.CultureInfo culture)
+            CultureInfo culture)
         {
             if (targetType == null)
             {
@@ -42,11 +40,11 @@ namespace wScreenshot.Converter
             }
 
             decimal.TryParse(value.ToString(), out retVal);
-            return Math.Round(retVal * mul, round);
+            return Math.Round(retVal*mul, round);
         }
 
         /// <summary>
-        /// Converts a value.
+        ///     Converts a value.
         /// </summary>
         /// <param name="value">The value that is produced by the binding target.</param>
         /// <param name="targetType">The type to convert to.</param>
@@ -55,7 +53,7 @@ namespace wScreenshot.Converter
         /// <returns>A converted value. If the method returns null, the valid null value is used.</returns>
         /// <exception cref="NotSupportedException">throws a new "NotSupportedException"</exception>
         public object ConvertBack(object value, Type targetType, object parameter,
-                                  System.Globalization.CultureInfo culture)
+            CultureInfo culture)
         {
             if (targetType == null)
             {
@@ -63,7 +61,7 @@ namespace wScreenshot.Converter
             }
             if (value is int)
             {
-                return (decimal)(((int)value) / 100);
+                return (decimal) (((int) value)/100);
             }
             return 0;
         }

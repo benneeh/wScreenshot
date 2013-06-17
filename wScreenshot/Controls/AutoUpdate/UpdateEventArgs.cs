@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace wScreenshot.Controls.AutoUpdate
 {
     public class UpdateEventArgs : EventArgs
     {
+        private readonly bool _Available;
+        private readonly bool _Success;
+        private readonly string _Updatemessage;
+        private readonly string _Url;
+        private readonly string _Version;
+
         public UpdateEventArgs(string url, bool success, bool available, string updatemessage, string version)
         {
             _Url = url;
@@ -15,10 +18,6 @@ namespace wScreenshot.Controls.AutoUpdate
             _Updatemessage = updatemessage;
             _Version = version;
         }
-
-        private string _Url, _Version, _Updatemessage;
-        private bool _Success;
-        private bool _Available;
 
         public string Updatemessage
         {

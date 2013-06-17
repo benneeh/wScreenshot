@@ -1,39 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Disable warning CS0108: 'x' hides inherited member 'y'. Use the new keyword if hiding was intended.
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using System.Text;
+using wScreenshot.Native;
+using Enum = wScreenshot.Native.Enum;
 
-// Disable warning CS0108: 'x' hides inherited member 'y'. Use the new keyword if hiding was intended.
 #pragma warning disable 0108
 
 namespace wScreenshot.Interop
 {
-    [ComImport(),
-    Guid(IIDGuid.IModalWindow),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport,
+     Guid(IIDGuid.IModalWindow),
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IModalWindow
     {
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
-        PreserveSig]
+         PreserveSig]
         int Show([In] IntPtr parent);
     }
 
-    [ComImport(),
-    Guid(IIDGuid.IFileDialog),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport,
+     Guid(IIDGuid.IFileDialog),
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IFileDialog : IModalWindow
     {
         // Defined on IModalWindow - repeated here due to requirements of COM interop layer
         // --------------------------------------------------------------------------------
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
-        PreserveSig]
+         PreserveSig]
         int Show([In] IntPtr parent);
 
         // IFileDialog-Specific interface members
         // --------------------------------------------------------------------------------
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetFileTypes([In] uint cFileTypes, [In, MarshalAs(UnmanagedType.LPArray)] Native.Struct.COMDLG_FILTERSPEC[] rgFilterSpec);
+        void SetFileTypes([In] uint cFileTypes,
+            [In, MarshalAs(UnmanagedType.LPArray)] Struct.COMDLG_FILTERSPEC[] rgFilterSpec);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetFileTypeIndex([In] uint iFileType);
@@ -48,10 +49,10 @@ namespace wScreenshot.Interop
         void Unadvise([In] uint dwCookie);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetOptions([In] Native.Enum.FOS fos);
+        void SetOptions([In] Enum.FOS fos);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetOptions(out Native.Enum.FOS pfos);
+        void GetOptions(out Enum.FOS pfos);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetDefaultFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi);
@@ -84,7 +85,7 @@ namespace wScreenshot.Interop
         void GetResult([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Native.Enum.FDAP fdap);
+        void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Enum.FDAP fdap);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetDefaultExtension([In, MarshalAs(UnmanagedType.LPWStr)] string pszDefaultExtension);
@@ -103,18 +104,18 @@ namespace wScreenshot.Interop
         void SetFilter([MarshalAs(UnmanagedType.Interface)] IntPtr pFilter);
     }
 
-    [ComImport(), Guid(IIDGuid.IFileOpenDialog), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(IIDGuid.IFileOpenDialog), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IFileOpenDialog : IFileDialog
     {
         // Defined on IModalWindow - repeated here due to requirements of COM interop layer
         // --------------------------------------------------------------------------------
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
-        PreserveSig]
+         PreserveSig]
         int Show([In] IntPtr parent);
 
         // Defined on IFileDialog - repeated here due to requirements of COM interop layer
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetFileTypes([In] uint cFileTypes, [In] ref Native.Struct.COMDLG_FILTERSPEC rgFilterSpec);
+        void SetFileTypes([In] uint cFileTypes, [In] ref Struct.COMDLG_FILTERSPEC rgFilterSpec);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetFileTypeIndex([In] uint iFileType);
@@ -129,10 +130,10 @@ namespace wScreenshot.Interop
         void Unadvise([In] uint dwCookie);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetOptions([In] Native.Enum.FOS fos);
+        void SetOptions([In] Enum.FOS fos);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetOptions(out Native.Enum.FOS pfos);
+        void GetOptions(out Enum.FOS pfos);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetDefaultFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi);
@@ -165,7 +166,7 @@ namespace wScreenshot.Interop
         void GetResult([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Native.Enum.FDAP fdap);
+        void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Enum.FDAP fdap);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetDefaultExtension([In, MarshalAs(UnmanagedType.LPWStr)] string pszDefaultExtension);
@@ -192,20 +193,20 @@ namespace wScreenshot.Interop
         void GetSelectedItems([MarshalAs(UnmanagedType.Interface)] out IShellItemArray ppsai);
     }
 
-    [ComImport(),
-    Guid(IIDGuid.IFileSaveDialog),
-    InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport,
+     Guid(IIDGuid.IFileSaveDialog),
+     InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IFileSaveDialog : IFileDialog
     {
         // Defined on IModalWindow - repeated here due to requirements of COM interop layer
         // --------------------------------------------------------------------------------
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
-        PreserveSig]
+         PreserveSig]
         int Show([In] IntPtr parent);
 
         // Defined on IFileDialog - repeated here due to requirements of COM interop layer
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetFileTypes([In] uint cFileTypes, [In] ref Native.Struct.COMDLG_FILTERSPEC rgFilterSpec);
+        void SetFileTypes([In] uint cFileTypes, [In] ref Struct.COMDLG_FILTERSPEC rgFilterSpec);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetFileTypeIndex([In] uint iFileType);
@@ -220,10 +221,10 @@ namespace wScreenshot.Interop
         void Unadvise([In] uint dwCookie);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetOptions([In] Native.Enum.FOS fos);
+        void SetOptions([In] Enum.FOS fos);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetOptions(out Native.Enum.FOS pfos);
+        void GetOptions(out Enum.FOS pfos);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetDefaultFolder([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi);
@@ -256,7 +257,7 @@ namespace wScreenshot.Interop
         void GetResult([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Native.Enum.FDAP fdap);
+        void AddPlace([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, Enum.FDAP fdap);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void SetDefaultExtension([In, MarshalAs(UnmanagedType.LPWStr)] string pszDefaultExtension);
@@ -294,7 +295,10 @@ namespace wScreenshot.Interop
 
         // Not currently supported: IPropertyStore, IFileOperationProgressSink
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void ApplyProperties([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, [In, MarshalAs(UnmanagedType.Interface)] IntPtr pStore, [In, ComAliasName("Interop.wireHWND")] ref IntPtr hwnd, [In, MarshalAs(UnmanagedType.Interface)] IntPtr pSink);
+        void ApplyProperties([In, MarshalAs(UnmanagedType.Interface)] IShellItem psi,
+            [In, MarshalAs(UnmanagedType.Interface)] IntPtr pStore,
+            [In, ComAliasName("Interop.wireHWND")] ref IntPtr hwnd,
+            [In, MarshalAs(UnmanagedType.Interface)] IntPtr pSink);
     }
 
     [ComImport, Guid(IIDGuid.IFileDialogEvents), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -305,12 +309,13 @@ namespace wScreenshot.Interop
         // support this, we need to use the PreserveSig attribute to enable us to return
         // the proper HRESULT
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
-        PreserveSig]
+         PreserveSig]
         HRESULT OnFileOk([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime),
-        PreserveSig]
-        HRESULT OnFolderChanging([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd, [In, MarshalAs(UnmanagedType.Interface)] IShellItem psiFolder);
+         PreserveSig]
+        HRESULT OnFolderChanging([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd,
+            [In, MarshalAs(UnmanagedType.Interface)] IShellItem psiFolder);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void OnFolderChange([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd);
@@ -319,13 +324,15 @@ namespace wScreenshot.Interop
         void OnSelectionChange([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void OnShareViolation([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd, [In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, out Native.Enum.FDE_SHAREVIOLATION_RESPONSE pResponse);
+        void OnShareViolation([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd,
+            [In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, out Enum.FDE_SHAREVIOLATION_RESPONSE pResponse);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void OnTypeChange([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void OnOverwrite([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd, [In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, out Native.Enum.FDE_OVERWRITE_RESPONSE pResponse);
+        void OnOverwrite([In, MarshalAs(UnmanagedType.Interface)] IFileDialog pfd,
+            [In, MarshalAs(UnmanagedType.Interface)] IShellItem psi, out Enum.FDE_OVERWRITE_RESPONSE pResponse);
     }
 
     [ComImport, Guid(IIDGuid.IShellItem), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -333,13 +340,14 @@ namespace wScreenshot.Interop
     {
         // Not supported: IBindCtx
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void BindToHandler([In, MarshalAs(UnmanagedType.Interface)] IntPtr pbc, [In] ref Guid bhid, [In] ref Guid riid, out IntPtr ppv);
+        void BindToHandler([In, MarshalAs(UnmanagedType.Interface)] IntPtr pbc, [In] ref Guid bhid, [In] ref Guid riid,
+            out IntPtr ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetParent([MarshalAs(UnmanagedType.Interface)] out IShellItem ppsi);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetDisplayName([In] Native.Enum.SIGDN sigdnName, [MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
+        void GetDisplayName([In] Enum.SIGDN sigdnName, [MarshalAs(UnmanagedType.LPWStr)] out string ppszName);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetAttributes([In] uint sfgaoMask, out uint psfgaoAttribs);
@@ -353,16 +361,17 @@ namespace wScreenshot.Interop
     {
         // Not supported: IBindCtx
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void BindToHandler([In, MarshalAs(UnmanagedType.Interface)] IntPtr pbc, [In] ref Guid rbhid, [In] ref Guid riid, out IntPtr ppvOut);
+        void BindToHandler([In, MarshalAs(UnmanagedType.Interface)] IntPtr pbc, [In] ref Guid rbhid, [In] ref Guid riid,
+            out IntPtr ppvOut);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetPropertyStore([In] int Flags, [In] ref Guid riid, out IntPtr ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetPropertyDescriptionList([In] ref Native.Struct.PROPERTYKEY keyType, [In] ref Guid riid, out IntPtr ppv);
+        void GetPropertyDescriptionList([In] ref Struct.PROPERTYKEY keyType, [In] ref Guid riid, out IntPtr ppv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetAttributes([In] Native.Enum.SIATTRIBFLAGS dwAttribFlags, [In] uint sfgaoMask, out uint psfgaoAttribs);
+        void GetAttributes([In] Enum.SIATTRIBFLAGS dwAttribFlags, [In] uint sfgaoMask, out uint psfgaoAttribs);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetCount(out uint pdwNumItems);
@@ -428,22 +437,26 @@ namespace wScreenshot.Interop
         void GetFolder([In] ref Guid rfid, [MarshalAs(UnmanagedType.Interface)] out IKnownFolder ppkf);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetFolderByName([In, MarshalAs(UnmanagedType.LPWStr)] string pszCanonicalName, [MarshalAs(UnmanagedType.Interface)] out IKnownFolder ppkf);
+        void GetFolderByName([In, MarshalAs(UnmanagedType.LPWStr)] string pszCanonicalName,
+            [MarshalAs(UnmanagedType.Interface)] out IKnownFolder ppkf);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void RegisterFolder([In] ref Guid rfid, [In] ref Native.Struct.KNOWNFOLDER_DEFINITION pKFD);
+        void RegisterFolder([In] ref Guid rfid, [In] ref Struct.KNOWNFOLDER_DEFINITION pKFD);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void UnregisterFolder([In] ref Guid rfid);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void FindFolderFromPath([In, MarshalAs(UnmanagedType.LPWStr)] string pszPath, [In] Native.Enum.FFFP_MODE mode, [MarshalAs(UnmanagedType.Interface)] out IKnownFolder ppkf);
+        void FindFolderFromPath([In, MarshalAs(UnmanagedType.LPWStr)] string pszPath, [In] Enum.FFFP_MODE mode,
+            [MarshalAs(UnmanagedType.Interface)] out IKnownFolder ppkf);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void FindFolderFromIDList([In] IntPtr pidl, [MarshalAs(UnmanagedType.Interface)] out IKnownFolder ppkf);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void Redirect([In] ref Guid rfid, [In] IntPtr hwnd, [In] uint Flags, [In, MarshalAs(UnmanagedType.LPWStr)] string pszTargetPath, [In] uint cFolders, [In] ref Guid pExclusion, [MarshalAs(UnmanagedType.LPWStr)] out string ppszError);
+        void Redirect([In] ref Guid rfid, [In] IntPtr hwnd, [In] uint Flags,
+            [In, MarshalAs(UnmanagedType.LPWStr)] string pszTargetPath, [In] uint cFolders, [In] ref Guid pExclusion,
+            [MarshalAs(UnmanagedType.LPWStr)] out string ppszError);
     }
 
     [ComImport, Guid(IIDGuid.IFileDialogCustomize), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -480,10 +493,10 @@ namespace wScreenshot.Interop
         void SetControlLabel([In] int dwIDCtl, [In, MarshalAs(UnmanagedType.LPWStr)] string pszLabel);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetControlState([In] int dwIDCtl, [Out] out Native.Enum.CDCONTROLSTATE pdwState);
+        void GetControlState([In] int dwIDCtl, [Out] out Enum.CDCONTROLSTATE pdwState);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetControlState([In] int dwIDCtl, [In] Native.Enum.CDCONTROLSTATE dwState);
+        void SetControlState([In] int dwIDCtl, [In] Enum.CDCONTROLSTATE dwState);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetEditBoxText([In] int dwIDCtl, [Out] IntPtr ppszText);
@@ -507,10 +520,10 @@ namespace wScreenshot.Interop
         void RemoveAllControlItems([In] int dwIDCtl);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetControlItemState([In] int dwIDCtl, [In] int dwIDItem, [Out] out Native.Enum.CDCONTROLSTATE pdwState);
+        void GetControlItemState([In] int dwIDCtl, [In] int dwIDItem, [Out] out Enum.CDCONTROLSTATE pdwState);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetControlItemState([In] int dwIDCtl, [In] int dwIDItem, [In] Native.Enum.CDCONTROLSTATE dwState);
+        void SetControlItemState([In] int dwIDCtl, [In] int dwIDItem, [In] Enum.CDCONTROLSTATE dwState);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void GetSelectedControlItem([In] int dwIDCtl, [Out] out int pdwIDItem);
@@ -532,13 +545,15 @@ namespace wScreenshot.Interop
     public interface IFileDialogControlEvents
     {
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void OnItemSelected([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl, [In] int dwIDItem);
+        void OnItemSelected([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl,
+            [In] int dwIDItem);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void OnButtonClicked([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void OnCheckButtonToggled([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl, [In] bool bChecked);
+        void OnCheckButtonToggled([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl,
+            [In] bool bChecked);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void OnControlActivating([In, MarshalAs(UnmanagedType.Interface)] IFileDialogCustomize pfdc, [In] int dwIDCtl);
@@ -551,20 +566,20 @@ namespace wScreenshot.Interop
         void GetCount([Out] out uint cProps);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetAt([In] uint iProp, out Native.Struct.PROPERTYKEY pkey);
+        void GetAt([In] uint iProp, out Struct.PROPERTYKEY pkey);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void GetValue([In] ref Native.Struct.PROPERTYKEY key, out object pv);
+        void GetValue([In] ref Struct.PROPERTYKEY key, out object pv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
-        void SetValue([In] ref Native.Struct.PROPERTYKEY key, [In] ref object pv);
+        void SetValue([In] ref Struct.PROPERTYKEY key, [In] ref object pv);
 
         [MethodImpl(MethodImplOptions.InternalCall, MethodCodeType = MethodCodeType.Runtime)]
         void Commit();
     }
 
     /// <summary>
-    /// C# definition of the IMalloc interface.
+    ///     C# definition of the IMalloc interface.
     /// </summary>
     [ComImport]
     [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -572,7 +587,7 @@ namespace wScreenshot.Interop
     public interface IMalloc
     {
         /// <summary>
-        /// Allocate a block of memory
+        ///     Allocate a block of memory
         /// </summary>
         /// <param name="cb">Size, in bytes, of the memory block to be allocated.</param>
         /// <returns>a pointer to the allocated memory block.</returns>
@@ -581,7 +596,7 @@ namespace wScreenshot.Interop
             [In] UInt32 cb);
 
         /// <summary>
-        /// Changes the size of a previously allocated memory block.
+        ///     Changes the size of a previously allocated memory block.
         /// </summary>
         /// <param name="pv">Pointer to the memory block to be reallocated</param>
         /// <param name="cb">Size of the memory block, in bytes, to be reallocated.</param>
@@ -592,7 +607,7 @@ namespace wScreenshot.Interop
             [In] UInt32 cb);
 
         /// <summary>
-        /// Free a previously allocated block of memory.
+        ///     Free a previously allocated block of memory.
         /// </summary>
         /// <param name="pv">Pointer to the memory block to be freed.</param>
         [PreserveSig]
@@ -600,7 +615,8 @@ namespace wScreenshot.Interop
             [In] IntPtr pv);
 
         /// <summary>
-        /// This method returns the size, in bytes, of a memory block previously allocated with IMalloc::Alloc or IMalloc::Realloc.
+        ///     This method returns the size, in bytes, of a memory block previously allocated with IMalloc::Alloc or
+        ///     IMalloc::Realloc.
         /// </summary>
         /// <param name="pv">Pointer to the memory block for which the size is requested</param>
         /// <returns>The size of the allocated memory block in bytes.</returns>
@@ -609,20 +625,20 @@ namespace wScreenshot.Interop
             [In] IntPtr pv);
 
         /// <summary>
-        /// This method determines whether this allocator was used to allocate the specified block of memory.
+        ///     This method determines whether this allocator was used to allocate the specified block of memory.
         /// </summary>
         /// <param name="pv">Pointer to the memory block</param>
         /// <returns>
-        /// 1 - allocated
-        /// 0 - not allocated by this IMalloc Instance.
-        /// -1 if DidAlloc is unable to determine whether or not it allocated the memory block.
+        ///     1 - allocated
+        ///     0 - not allocated by this IMalloc Instance.
+        ///     -1 if DidAlloc is unable to determine whether or not it allocated the memory block.
         /// </returns>
         [PreserveSig]
         Int16 DidAlloc(
             [In] IntPtr pv);
 
         /// <summary>
-        /// Minimizes the heap by releasing unused memory to the operating system.
+        ///     Minimizes the heap by releasing unused memory to the operating system.
         /// </summary>
         [PreserveSig]
         void HeapMinimize();

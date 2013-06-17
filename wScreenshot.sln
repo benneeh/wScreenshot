@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OBSApi", "OBSApi\OBSApi.vcx
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libsamplerate", "libsamplerate\libsamplerate.vcxproj", "{47AFDBEF-F15F-4BC0-B436-5BE443C3F80F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "OBS", "OBS", "{687235B0-E59A-4202-8BBC-6E4F734D38C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,5 +118,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7BB0C67E-9CDD-4ABB-8728-41F2BE5C54D8} = {687235B0-E59A-4202-8BBC-6E4F734D38C3}
+		{E03BF070-E830-46BB-8442-5771F7E5F301} = {687235B0-E59A-4202-8BBC-6E4F734D38C3}
+		{47AFDBEF-F15F-4BC0-B436-5BE443C3F80F} = {687235B0-E59A-4202-8BBC-6E4F734D38C3}
+		{11A35235-DD48-41E2-8F40-825C78024BC0} = {687235B0-E59A-4202-8BBC-6E4F734D38C3}
 	EndGlobalSection
 EndGlobal

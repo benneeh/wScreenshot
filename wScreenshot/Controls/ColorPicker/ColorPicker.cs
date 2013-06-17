@@ -2,25 +2,26 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Media;
 
 namespace wScreenshot.Controls
 {
-    [ValueConversion(typeof(double), typeof(string))]
+    [ValueConversion(typeof (double), typeof (string))]
     public class DoubleToIntegerStringConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double doubleValue = (double)value;
-            int intValue = (int)doubleValue;
+            var doubleValue = (double) value;
+            var intValue = (int) doubleValue;
 
             return intValue.ToString();
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string stringValue = (string)value;
+            var stringValue = (string) value;
             double doubleValue = 0;
             if (!Double.TryParse(stringValue, out doubleValue))
                 doubleValue = 0;
@@ -35,42 +36,42 @@ namespace wScreenshot.Controls
 
         static ColorPicker()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorPicker), new FrameworkPropertyMetadata(typeof(ColorPicker)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (ColorPicker),
+                new FrameworkPropertyMetadata(typeof (ColorPicker)));
 
             // Register Event Handler for slider
-            EventManager.RegisterClassHandler(typeof(ColorPicker), Slider.ValueChangedEvent, new RoutedPropertyChangedEventHandler<double>(ColorPicker.OnSliderValueChanged));
+            EventManager.RegisterClassHandler(typeof (ColorPicker), RangeBase.ValueChangedEvent,
+                new RoutedPropertyChangedEventHandler<double>(OnSliderValueChanged));
 
             // Register Event Handler for Hsv Control
-            EventManager.RegisterClassHandler(typeof(ColorPicker), HsvControl.SelectedColorChangedEvent, new RoutedPropertyChangedEventHandler<Color>(ColorPicker.OnHsvControlSelectedColorChanged));
+            EventManager.RegisterClassHandler(typeof (ColorPicker), HsvControl.SelectedColorChangedEvent,
+                new RoutedPropertyChangedEventHandler<Color>(OnHsvControlSelectedColorChanged));
         }
 
         #endregion Public Methods
 
         #region Dependency Properties
 
-        public Color SelectedColor
-        {
-            get { return (Color)GetValue(SelectedColorProperty); }
-            set
-            {
-                SetValue(SelectedColorProperty, value);
-            }
-        }
-
         public static readonly DependencyProperty SelectedColorProperty =
-        DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorPicker),
-        new UIPropertyMetadata(Colors.Black, new PropertyChangedCallback(OnSelectedColorPropertyChanged)));
-
-        public bool FixedSliderColor
-        {
-            get { return (bool)GetValue(FixedSliderColorProperty); }
-            set { SetValue(FixedSliderColorProperty, value); }
-        }
+            DependencyProperty.Register("SelectedColor", typeof (Color), typeof (ColorPicker),
+                new UIPropertyMetadata(Colors.Black, OnSelectedColorPropertyChanged));
 
         // Using a DependencyProperty as the backing store for FixedSliderColor. This enables animation, styling, binding, etc...
         public static readonly DependencyProperty FixedSliderColorProperty =
-        DependencyProperty.Register("FixedSliderColor", typeof(bool), typeof(SpectrumSlider),
-        new UIPropertyMetadata(false, new PropertyChangedCallback(OnFixedSliderColorPropertyChanged)));
+            DependencyProperty.Register("FixedSliderColor", typeof (bool), typeof (SpectrumSlider),
+                new UIPropertyMetadata(false, OnFixedSliderColorPropertyChanged));
+
+        public Color SelectedColor
+        {
+            get { return (Color) GetValue(SelectedColorProperty); }
+            set { SetValue(SelectedColorProperty, value); }
+        }
+
+        public bool FixedSliderColor
+        {
+            get { return (bool) GetValue(FixedSliderColorProperty); }
+            set { SetValue(FixedSliderColorProperty, value); }
+        }
 
         #endregion Dependency Properties
 
@@ -79,8 +80,8 @@ namespace wScreenshot.Controls
         public static readonly RoutedEvent SelectedColorChangedEvent = EventManager.RegisterRoutedEvent(
             "SelectedColorChanged",
             RoutingStrategy.Bubble,
-            typeof(RoutedPropertyChangedEventHandler<Color>),
-            typeof(ColorPicker));
+            typeof (RoutedPropertyChangedEventHandler<Color>),
+            typeof (ColorPicker));
 
         public event RoutedPropertyChangedEventHandler<Color> SelectedColorChanged
         {
@@ -100,9 +101,9 @@ namespace wScreenshot.Controls
 
             m_withinChange = true;
             if (e.OriginalSource == m_redColorSlider ||
-            e.OriginalSource == m_greenColorSlider ||
-            e.OriginalSource == m_blueColorSlider ||
-            e.OriginalSource == m_alphaColorSlider)
+                e.OriginalSource == m_greenColorSlider ||
+                e.OriginalSource == m_blueColorSlider ||
+                e.OriginalSource == m_alphaColorSlider)
             {
                 Color newColor = GetRgbColor();
                 UpdateHsvControlColor(newColor);
@@ -122,7 +123,7 @@ namespace wScreenshot.Controls
 
         private static void OnSliderValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            ColorPicker colorPicker = sender as ColorPicker;
+            var colorPicker = sender as ColorPicker;
             colorPicker.OnSliderValueChanged(e);
         }
 
@@ -143,7 +144,7 @@ namespace wScreenshot.Controls
 
         private static void OnHsvControlSelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
         {
-            ColorPicker colorPicker = sender as ColorPicker;
+            var colorPicker = sender as ColorPicker;
             colorPicker.OnHsvControlSelectedColorChanged(e);
         }
 
@@ -162,21 +163,23 @@ namespace wScreenshot.Controls
 
             m_withinChange = true;
 
-            Color newColor = (Color)e.NewValue;
+            var newColor = (Color) e.NewValue;
             UpdateControlColors(newColor);
 
             m_withinChange = false;
         }
 
-        private static void OnSelectedColorPropertyChanged(DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
+        private static void OnSelectedColorPropertyChanged(DependencyObject relatedObject,
+            DependencyPropertyChangedEventArgs e)
         {
-            ColorPicker colorPicker = relatedObject as ColorPicker;
+            var colorPicker = relatedObject as ColorPicker;
             colorPicker.OnSelectedColorPropertyChanged(e);
         }
 
-        private static void OnFixedSliderColorPropertyChanged(DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
+        private static void OnFixedSliderColorPropertyChanged(DependencyObject relatedObject,
+            DependencyPropertyChangedEventArgs e)
         {
-            ColorPicker colorPicker = relatedObject as ColorPicker;
+            var colorPicker = relatedObject as ColorPicker;
             colorPicker.UpdateColorSlidersBackground();
         }
 
@@ -197,7 +200,7 @@ namespace wScreenshot.Controls
 
         protected override void OnPropertyChanged(DependencyPropertyChangedEventArgs e)
         {
-            if (e.Property == UIElement.IsVisibleProperty && (bool)e.NewValue == true)
+            if (e.Property == IsVisibleProperty && (bool) e.NewValue)
                 Focus();
             base.OnPropertyChanged(e);
         }
@@ -230,23 +233,23 @@ namespace wScreenshot.Controls
                 byte green = SelectedColor.G;
                 byte blue = SelectedColor.B;
                 SetColorSliderBackground(m_redColorSlider,
-                Color.FromRgb(0, green, blue), Color.FromRgb(255, green, blue));
+                    Color.FromRgb(0, green, blue), Color.FromRgb(255, green, blue));
                 SetColorSliderBackground(m_greenColorSlider,
-                Color.FromRgb(red, 0, blue), Color.FromRgb(red, 255, blue));
+                    Color.FromRgb(red, 0, blue), Color.FromRgb(red, 255, blue));
                 SetColorSliderBackground(m_blueColorSlider,
-                Color.FromRgb(red, green, 0), Color.FromRgb(red, green, 255));
+                    Color.FromRgb(red, green, 0), Color.FromRgb(red, green, 255));
                 SetColorSliderBackground(m_alphaColorSlider,
-                Color.FromArgb(0, red, green, blue), Color.FromArgb(255, red, green, blue));
+                    Color.FromArgb(0, red, green, blue), Color.FromArgb(255, red, green, blue));
             }
         }
 
         private Color GetRgbColor()
         {
             return Color.FromArgb(
-            (byte)m_alphaColorSlider.Value,
-            (byte)m_redColorSlider.Value,
-            (byte)m_greenColorSlider.Value,
-            (byte)m_blueColorSlider.Value);
+                (byte) m_alphaColorSlider.Value,
+                (byte) m_redColorSlider.Value,
+                (byte) m_greenColorSlider.Value,
+                (byte) m_blueColorSlider.Value);
         }
 
         private void UpdateRgbColors(Color newColor)
@@ -272,7 +275,7 @@ namespace wScreenshot.Controls
         private Color GetHsvColor()
         {
             Color hsvColor = m_hsvControl.SelectedColor;
-            hsvColor.A = (byte)m_alphaColorSlider.Value;
+            hsvColor.A = (byte) m_alphaColorSlider.Value;
             return hsvColor;
         }
 
@@ -334,17 +337,16 @@ namespace wScreenshot.Controls
         private const string SpectrumSliderName = "spectrumSlider";
         private const string HsvControlName = "PART_HsvControl";
 
-        private ColorSlider m_redColorSlider;
-        private ColorSlider m_greenColorSlider;
-        private ColorSlider m_blueColorSlider;
         private ColorSlider m_alphaColorSlider;
-
-        private SpectrumSlider m_spectrumSlider;
+        private ColorSlider m_blueColorSlider;
+        private ColorSlider m_greenColorSlider;
 
         private HsvControl m_hsvControl;
+        private ColorSlider m_redColorSlider;
+        private SpectrumSlider m_spectrumSlider;
 
-        private bool m_withinChange;
         private bool m_templateApplied;
+        private bool m_withinChange;
 
         #endregion Private Members
     }

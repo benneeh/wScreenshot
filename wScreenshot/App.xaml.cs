@@ -1,22 +1,23 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Navigation;
 
 namespace wScreenshot
 {
     /// <summary>
-    /// Interaction logic for App.xaml
+    ///     Interaction logic for App.xaml
     /// </summary>
     public partial class App : Application
     {
-        private void Application_LoadCompleted(object sender, System.Windows.Navigation.NavigationEventArgs e)
+        private void Application_LoadCompleted(object sender, NavigationEventArgs e)
         {
             string AppPath = Assembly.GetExecutingAssembly().GetName().FullName;
             string[] Modules = Directory.GetFiles("Modules");
-            foreach (var module in Modules)
+            foreach (string module in Modules)
             {
-                var mod = Assembly.LoadFrom(module);
-                var mods = mod.GetModules();
+                Assembly mod = Assembly.LoadFrom(module);
+                Module[] mods = mod.GetModules();
 
                 //mod.
             }
@@ -38,7 +39,6 @@ namespace wScreenshot
             //    }
             //    mod.
             //}
-            new ScreenshotModule.WindowSelectorTool().Show();
         }
     }
 }

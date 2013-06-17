@@ -1,20 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Ink;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using wScreenshot.DataObject;
 using wScreenshot.Helper;
 using wScreenshot.Hooks;
@@ -23,11 +13,16 @@ using wScreenshot.Native;
 namespace wScreenshot.ScreenshotModule
 {
     /// <summary>
-    /// Interaction logic for RedBoxTool.xaml
+    ///     Interaction logic for RedBoxTool.xaml
     /// </summary>
     public partial class WindowSelectorTool : Window
     {
-        private ObservableCollection<AnnoyingRectangle> borderCollectionSource = new ObservableCollection<AnnoyingRectangle>();
+        private readonly ObservableCollection<AnnoyingRectangle> borderCollectionSource =
+            new ObservableCollection<AnnoyingRectangle>();
+
+        private readonly MouseHook m;
+        private AnnoyingRectangle currentBorder;
+        private bool lastMouseDownHandled;
 
         public WindowSelectorTool()
         {
@@ -38,18 +33,16 @@ namespace wScreenshot.ScreenshotModule
             borderCollectionSource.Add(currentBorder);
         }
 
-        private AnnoyingRectangle currentBorder;
-        private MouseHook m;
-        private bool lastMouseDownHandled;
+        public IntPtr _handle { get; set; }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Rect r = new Rect();
+            var r = new Rect();
             ScreenHelper.AllScreens.Select(x => x.Bounds).ToList().ForEach(x => r.Union(x));
-            this.Left = r.Left;
-            this.Top = r.Top;
-            this.Width = r.Width;
-            this.Height = r.Height;
+            Left = r.Left;
+            Top = r.Top;
+            Width = r.Width;
+            Height = r.Height;
 
             m.IsHooked = true;
             m.MouseMove += m_MouseMove;
@@ -62,6 +55,10 @@ namespace wScreenshot.ScreenshotModule
             lastMouseDownHandled = false;
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
+                currentBorder.Background = new LinearGradientBrush(
+                    Color.FromArgb(20, 255, 0, 0),
+                    Color.FromArgb(20, 255, 0, 0),
+                    90.0);
                 currentBorder = new AnnoyingRectangle();
                 borderCollectionSource.Add(currentBorder);
                 e.Handled = lastMouseDownHandled = true;
@@ -74,8 +71,9 @@ namespace wScreenshot.ScreenshotModule
 
             if (!Keyboard.IsKeyDown(Key.LeftCtrl) && !Keyboard.IsKeyDown(Key.RightCtrl))
             {
-                Rect r = new Rect();
-                borderCollectionSource.ToList().ForEach(x => r.Union(new Rect((double)x.X, (double)x.Y, (double)x.Width, (double)x.Height)));
+                var r = new Rect();
+                borderCollectionSource.ToList()
+                    .ForEach(x => r.Union(new Rect((double) x.X, (double) x.Y, (double) x.Width, (double) x.Height)));
 
                 //screenshot
             }
@@ -86,12 +84,12 @@ namespace wScreenshot.ScreenshotModule
             if (_handle == IntPtr.Zero)
                 _handle = new WindowInteropHelper(this).Handle;
 
-            var hwnd = Native.Win32.WindowFromPoint(new Native.Win32.POINT(e.X, e.Y));
+            IntPtr hwnd = Win32.WindowFromPoint(new Win32.POINT(e.X, e.Y));
 
             if (_handle != hwnd)
             {
-                Native.Win32.RECT re = new Native.Win32.RECT();
-                Native.Win32.GetWindowRect(hwnd, out re);
+                var re = new Win32.RECT();
+                Win32.GetWindowRect(hwnd, out re);
 
                 currentBorder.X = re.m_nLeft;
                 currentBorder.Y = re.m_nTop;
@@ -104,7 +102,5 @@ namespace wScreenshot.ScreenshotModule
                 //currentBorder.SetValue(Canvas.HeightProperty, (double)re.Height);
             }
         }
-
-        public IntPtr _handle { get; set; }
     }
 }

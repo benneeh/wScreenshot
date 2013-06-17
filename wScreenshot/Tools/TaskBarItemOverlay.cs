@@ -11,16 +11,16 @@ namespace wScreenshot.Tools
         public static readonly DependencyProperty ContentProperty =
             DependencyProperty.RegisterAttached(
                 "Content",
-                typeof(object),
-                typeof(TaskbarItemOverlay),
+                typeof (object),
+                typeof (TaskbarItemOverlay),
                 new PropertyMetadata(OnPropertyChanged));
 
         public static readonly DependencyProperty TemplateProperty =
             DependencyProperty.RegisterAttached(
-            "Template",
-            typeof(DataTemplate),
-            typeof(TaskbarItemOverlay),
-            new PropertyMetadata(OnPropertyChanged));
+                "Template",
+                typeof (DataTemplate),
+                typeof (TaskbarItemOverlay),
+                new PropertyMetadata(OnPropertyChanged));
 
         public static object GetContent(DependencyObject dependencyObject)
         {
@@ -34,7 +34,7 @@ namespace wScreenshot.Tools
 
         public static DataTemplate GetTemplate(DependencyObject dependencyObject)
         {
-            return (DataTemplate)dependencyObject.GetValue(TemplateProperty);
+            return (DataTemplate) dependencyObject.GetValue(TemplateProperty);
         }
 
         public static void SetTemplate(DependencyObject dependencyObject, DataTemplate template)
@@ -44,9 +44,9 @@ namespace wScreenshot.Tools
 
         private static void OnPropertyChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs e)
         {
-            var taskbarItemInfo = (TaskbarItemInfo)dependencyObject;
-            var content = GetContent(taskbarItemInfo);
-            var template = GetTemplate(taskbarItemInfo);
+            var taskbarItemInfo = (TaskbarItemInfo) dependencyObject;
+            object content = GetContent(taskbarItemInfo);
+            DataTemplate template = GetTemplate(taskbarItemInfo);
 
             if (template == null || content == null)
             {

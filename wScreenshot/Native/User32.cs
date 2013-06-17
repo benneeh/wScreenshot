@@ -13,13 +13,14 @@ namespace wScreenshot.Native
         [DllImport("user32.dll")]
         public static extern bool PrintWindow(IntPtr hwnd, IntPtr hdcBlt, uint nFlags);
 
-        [DllImportAttribute("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
 
-        [DllImportAttribute("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, Native.Win32.WindowsMessages Msg, Native.Win32.SystemCommands wParam, int lParam);
+        [DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, Win32.WindowsMessages Msg, Win32.SystemCommands wParam,
+            int lParam);
 
-        [DllImportAttribute("user32.dll")]
+        [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
@@ -35,7 +36,7 @@ namespace wScreenshot.Native
         public static extern IntPtr ReleaseDC(IntPtr hWnd, IntPtr hDC);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr GetWindowRect(IntPtr hWnd, ref wScreenshot.Native.Win32.RECT rect);
+        public static extern IntPtr GetWindowRect(IntPtr hWnd, ref Win32.RECT rect);
 
         [DllImport("User32.dll", CharSet = CharSet.Auto)]
         public static extern bool ChangeClipboardChain(IntPtr hWndRemove, IntPtr hWndNewNext);
@@ -55,7 +56,8 @@ namespace wScreenshot.Native
         // [DllImport("user32.dll")]
         // public static extern bool GetScrollInfo(IntPtr hwnd, int fnBar, out SCROLLINFO lpsi);
 
-        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false, ThrowOnUnmappableChar = true)]
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto, BestFitMapping = false,
+            ThrowOnUnmappableChar = true)]
         public static extern int LoadString(SafeModuleHandle hInstance, uint uID, StringBuilder lpBuffer, int nBufferMax);
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, ExactSpelling = true)]
@@ -65,9 +67,11 @@ namespace wScreenshot.Native
         public static extern int GetWindowThreadProcessId(IntPtr hWnd, out int lpdwProcessId);
 
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        public static extern IntPtr SendMessage(IntPtr hWnd, wScreenshot.Native.Enum.FolderBrowserDialogMessage msg, IntPtr wParam, string lParam);
+        public static extern IntPtr SendMessage(IntPtr hWnd, Enum.FolderBrowserDialogMessage msg, IntPtr wParam,
+            string lParam);
 
         [DllImport("user32.dll")]
-        public static extern IntPtr SendMessage(IntPtr hWnd, wScreenshot.Native.Enum.FolderBrowserDialogMessage msg, IntPtr wParam, IntPtr lParam);
+        public static extern IntPtr SendMessage(IntPtr hWnd, Enum.FolderBrowserDialogMessage msg, IntPtr wParam,
+            IntPtr lParam);
     }
 }

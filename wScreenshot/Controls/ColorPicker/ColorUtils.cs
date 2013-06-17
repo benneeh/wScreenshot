@@ -8,18 +8,18 @@ using System.Windows.Media;
 
 namespace wScreenshot.Controls
 {
-    [ValueConversion(typeof(Color), typeof(string))]
+    [ValueConversion(typeof (Color), typeof (string))]
     public class ColorToStringConverter : IValueConverter
     {
         public object Convert(
-        object value, Type targetType, object parameter, CultureInfo culture)
+            object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Color colorValue = (Color)value;
+            var colorValue = (Color) value;
             return ColorNames.GetColorName(colorValue);
         }
 
         public object ConvertBack(
-        object value, Type targetType, object parameter, CultureInfo culture)
+            object value, Type targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
@@ -36,12 +36,11 @@ namespace wScreenshot.Controls
             FillColorNames();
         }
 
-        static public string GetColorName(Color colorToSeek)
+        public static string GetColorName(Color colorToSeek)
         {
             if (m_colorNames.ContainsKey(colorToSeek))
                 return m_colorNames[colorToSeek];
-            else
-                return colorToSeek.ToString();
+            return colorToSeek.ToString();
         }
 
         #endregion Public Methods
@@ -50,14 +49,14 @@ namespace wScreenshot.Controls
 
         public static void FillColorNames()
         {
-            Type colorsType = typeof(System.Windows.Media.Colors);
+            Type colorsType = typeof (Colors);
             PropertyInfo[] colorsProperties = colorsType.GetProperties();
 
             foreach (PropertyInfo colorProperty in colorsProperties)
             {
                 string colorName = colorProperty.Name;
 
-                Color color = (Color)colorProperty.GetValue(null, null);
+                var color = (Color) colorProperty.GetValue(null, null);
 
                 // Path - Aqua is the same as Magenta - so we add 1 to red to avoid collision
                 if (colorName == "Aqua")
@@ -74,7 +73,7 @@ namespace wScreenshot.Controls
 
         #region Private Members
 
-        static private Dictionary<Color, string> m_colorNames;
+        private static readonly Dictionary<Color, string> m_colorNames;
 
         #endregion Private Members
     }
@@ -83,34 +82,36 @@ namespace wScreenshot.Controls
     {
         public static string[] GetColorNames()
         {
-            Type colorsType = typeof(System.Windows.Media.Colors);
+            Type colorsType = typeof (Colors);
             PropertyInfo[] colorsProperties = colorsType.GetProperties();
 
-            ColorConverter convertor = new ColorConverter();
+            var convertor = new ColorConverter();
 
-            List<String> colorNames = new List<String>();
+            var colorNames = new List<String>();
             foreach (PropertyInfo colorProperty in colorsProperties)
             {
                 string colorName = colorProperty.Name;
                 colorNames.Add(colorName);
 
-                Color color = (Color)ColorConverter.ConvertFromString(colorName);
+                var color = (Color) ColorConverter.ConvertFromString(colorName);
             }
 
             //String[] colorNamesArray = new(string[colorNames.Count];
             return colorNames.ToArray();
         }
 
-        public static void FireSelectedColorChangedEvent(UIElement issuer, RoutedEvent routedEvent, Color oldColor, Color newColor)
+        public static void FireSelectedColorChangedEvent(UIElement issuer, RoutedEvent routedEvent, Color oldColor,
+            Color newColor)
         {
-            RoutedPropertyChangedEventArgs<Color> newEventArgs = new RoutedPropertyChangedEventArgs<Color>(oldColor, newColor);
+            var newEventArgs = new RoutedPropertyChangedEventArgs<Color>(oldColor, newColor);
             newEventArgs.RoutedEvent = routedEvent;
             issuer.RaiseEvent(newEventArgs);
         }
 
-        public static void FireInvertedSelectedColorChangedEvent(UIElement issuer, RoutedEvent routedEvent, Color oldColor, Color newColor)
+        public static void FireInvertedSelectedColorChangedEvent(UIElement issuer, RoutedEvent routedEvent,
+            Color oldColor, Color newColor)
         {
-            RoutedPropertyChangedEventArgs<Color> newEventArgs = new RoutedPropertyChangedEventArgs<Color>(oldColor, newColor);
+            var newEventArgs = new RoutedPropertyChangedEventArgs<Color>(oldColor, newColor);
             newEventArgs.RoutedEvent = routedEvent;
             issuer.RaiseEvent(newEventArgs);
         }
@@ -118,18 +119,18 @@ namespace wScreenshot.Controls
         private static Color BuildColor(double red, double green, double blue, double m)
         {
             return Color.FromArgb(
-            255,
-            (byte)((red + m) * 255 + 0.5),
-            (byte)((green + m) * 255 + 0.5),
-            (byte)((blue + m) * 255 + 0.5));
+                255,
+                (byte) ((red + m)*255 + 0.5),
+                (byte) ((green + m)*255 + 0.5),
+                (byte) ((blue + m)*255 + 0.5));
         }
 
         public static void ConvertRgbToHsv(
-        Color color, out double hue, out double saturation, out double value)
+            Color color, out double hue, out double saturation, out double value)
         {
-            double red = color.R / 255.0;
-            double green = color.G / 255.0;
-            double blue = color.B / 255.0;
+            double red = color.R/255.0;
+            double green = color.G/255.0;
+            double blue = color.B/255.0;
             double min = Math.Min(red, Math.Min(green, blue));
             double max = Math.Max(red, Math.Max(green, blue));
 
@@ -139,18 +140,18 @@ namespace wScreenshot.Controls
             if (value == 0)
                 saturation = 0;
             else
-                saturation = delta / max;
+                saturation = delta/max;
 
             if (saturation == 0)
                 hue = 0;
             else
             {
                 if (red == max)
-                    hue = (green - blue) / delta;
+                    hue = (green - blue)/delta;
                 else if (green == max)
-                    hue = 2 + (blue - red) / delta;
+                    hue = 2 + (blue - red)/delta;
                 else // blue == max
-                    hue = 4 + (red - green) / delta;
+                    hue = 4 + (red - green)/delta;
             }
             hue *= 60;
             if (hue < 0)
@@ -161,15 +162,15 @@ namespace wScreenshot.Controls
         // Algorithm taken from Wikipedia
         public static Color ConvertHsvToRgb(double hue, double saturation, double value)
         {
-            double chroma = value * saturation;
+            double chroma = value*saturation;
 
             if (hue == 360)
                 hue = 0;
 
-            double hueTag = hue / 60;
-            double x = chroma * (1 - Math.Abs(hueTag % 2 - 1));
+            double hueTag = hue/60;
+            double x = chroma*(1 - Math.Abs(hueTag%2 - 1));
             double m = value - chroma;
-            switch ((int)hueTag)
+            switch ((int) hueTag)
             {
                 case 0:
                     return BuildColor(chroma, x, 0, m);
@@ -188,10 +189,10 @@ namespace wScreenshot.Controls
 
         public static Color[] GetSpectrumColors(int colorCount)
         {
-            Color[] spectrumColors = new Color[colorCount];
+            var spectrumColors = new Color[colorCount];
             for (int i = 0; i < colorCount; ++i)
             {
-                double hue = (i * 360.0) / colorCount;
+                double hue = (i*360.0)/colorCount;
                 spectrumColors[i] = ConvertHsvToRgb(hue, /*saturation*/1.0, /*value*/1.0);
             }
 
@@ -202,9 +203,9 @@ namespace wScreenshot.Controls
         {
             for (int i = 0; i <= 0xFFFFFF; ++i)
             {
-                byte Red = (byte)(i & 0xFF);
-                byte Green = (byte)((i & 0xFF00) >> 8);
-                byte Blue = (byte)((i & 0xFF0000) >> 16);
+                var Red = (byte) (i & 0xFF);
+                var Green = (byte) ((i & 0xFF00) >> 8);
+                var Blue = (byte) ((i & 0xFF0000) >> 16);
                 Color originalColor = Color.FromRgb(Red, Green, Blue);
 
                 double hue, saturation, value;

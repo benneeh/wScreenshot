@@ -1,103 +1,87 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 using wScreenshot.Helper;
 using wScreenshot.Hooks;
 
 namespace wScreenshot.ScreenshotModule
 {
     /// <summary>
-    /// Interaction logic for RedBoxTool.xaml
+    ///     Interaction logic for RedBoxTool.xaml
     /// </summary>
     public partial class RedBoxTool : Window
     {
+        private readonly MouseHook _m;
+
+        private int _downX;
+        private int _downY;
+        private IntPtr _handle;
+        private bool _isMoving;
+
         public RedBoxTool()
         {
             InitializeComponent();
-            m = new MouseHook();
+            _m = new MouseHook();
         }
 
-        private MouseHook m;
-        private int DownX;
-        private int DownY;
-        private bool IsMoving = false;
+        public Point Down { get; set; }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            Rect r = new Rect();
-            ScreenHelper.AllScreens.Select(x => x.Bounds).ToList().ForEach(x => r.Union(x));
-            this.Left = r.Left;
-            this.Top = r.Top;
-            this.Width = r.Width;
-            this.Height = r.Height;
+            var r = new Rect();
+            ScreenHelper.AllScreens.Select(x => x.Bounds).ToList().ForEach(r.Union);
+            Left = r.Left;
+            Top = r.Top;
+            Width = r.Width;
+            Height = r.Height;
 
-            m.IsHooked = true;
-            m.MouseMove += m_MouseMove;
-            m.MouseUp += m_MouseUp;
-            m.MouseDown += m_MouseDown;
+            _m.IsHooked = true;
+            _m.MouseMove += m_MouseMove;
+            _m.MouseUp += m_MouseUp;
+            _m.MouseDown += m_MouseDown;
         }
 
         private void m_MouseDown(object sender, MouseHookEventArgs e)
         {
             e.Handled = true;
-            IsMoving = true;
-            this.DownX = e.X;
-            this.DownY = e.Y;
-            this.MinWidth = 1;
-            this.MinHeight = 1;
+            _isMoving = true;
+            _downX = e.X;
+            _downY = e.Y;
+            MinWidth = 1;
+            MinHeight = 1;
 
-            SetBounds(Math.Min(e.X, DownX), Math.Min(e.Y, DownY), Math.Abs(e.X - DownX), Math.Abs(e.Y - DownY));
+            SetBounds(Math.Min(e.X, _downX), Math.Min(e.Y, _downY), Math.Abs(e.X - _downX), Math.Abs(e.Y - _downY));
         }
 
         private void m_MouseUp(object sender, MouseHookEventArgs e)
         {
-            IsMoving = false;
+            _isMoving = false;
         }
 
         private void m_MouseMove(object sender, MouseHookEventArgs e)
         {
-            if (IsMoving)
+            if (_isMoving)
             {
-                SetBounds(Math.Min(e.X, DownX), Math.Min(e.Y, DownY), Math.Abs(e.X - DownX), Math.Abs(e.Y - DownY));
+                SetBounds(Math.Min(e.X, _downX), Math.Min(e.Y, _downY), Math.Abs(e.X - _downX), Math.Abs(e.Y - _downY));
             }
         }
-
-        private void Window_MouseMove(object sender, MouseEventArgs e)
-        {
-        }
-
-        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void Window_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private IntPtr _handle;
 
         private void SetBounds(int left, int top, int width, int height)
         {
             if (_handle == IntPtr.Zero)
+            {
                 _handle = new WindowInteropHelper(this).Handle;
+            }
 
             //SetWindowPos(_handle, IntPtr.Zero, left, top, width, height, 0);
-            redBord.SetValue(Canvas.LeftProperty, (double)left);
-            redBord.SetValue(Canvas.WidthProperty, (double)width);
-            redBord.SetValue(Canvas.TopProperty, (double)top);
-            redBord.SetValue(Canvas.HeightProperty, (double)height);
+            redBord.SetValue(Canvas.LeftProperty, (double) left);
+            redBord.SetValue(WidthProperty, (double) width);
+            redBord.SetValue(Canvas.TopProperty, (double) top);
+            redBord.SetValue(HeightProperty, (double) height);
         }
 
         [DllImport("user32")]
@@ -110,6 +94,9 @@ namespace wScreenshot.ScreenshotModule
             int cy,
             uint uFlags);
 
-        public Point Down { get; set; }
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            _m.IsHooked = false;
+        }
     }
 }

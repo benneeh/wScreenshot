@@ -3,22 +3,19 @@ using System.Diagnostics.Contracts;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
-using wScreenshot.Hooks;
 
 namespace wScreenshot.Hooks
 {
     /// <summary>
-    /// Class allow to register hotkeys in system
+    ///     Class allow to register hotkeys in system
     /// </summary>
     public sealed class HotKey : IDisposable
     {
-        public event Action<HotKey> HotKeyPressed;
-
-        private readonly int _id;
-        private bool _isKeyRegistered;
         private readonly IntPtr _handle;
+        private readonly int _id;
 
         private bool _disposed;
+        private bool _isKeyRegistered;
 
         public HotKey(ModifierKeys modifierKeys, Keys keys, Window window)
             : this(modifierKeys, keys, new WindowInteropHelper(window))
@@ -45,14 +42,21 @@ namespace wScreenshot.Hooks
             ComponentDispatcher.ThreadPreprocessMessage += ThreadPreprocessMessageMethod;
         }
 
+        public Keys Keys { get; private set; }
+
+        public ModifierKeys KeyModifier { get; private set; }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        public event Action<HotKey> HotKeyPressed;
+
         ~HotKey()
         {
             Dispose(false);
         }
-
-        public Keys Keys { get; private set; }
-
-        public ModifierKeys KeyModifier { get; private set; }
 
         public void RegisterHotKey()
         {
@@ -78,11 +82,6 @@ namespace wScreenshot.Hooks
             _isKeyRegistered = !HotKeyWinApi.UnregisterHotKey(_handle, _id);
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-        }
-
         private void Dispose(bool disposing)
         {
             if (!_disposed)
@@ -102,7 +101,7 @@ namespace wScreenshot.Hooks
             if (!handled)
             {
                 if (msg.message == HotKeyWinApi.WmHotKey
-                    && (int)(msg.wParam) == _id)
+                    && (int) (msg.wParam) == _id)
                 {
                     OnHotKeyPressed();
                     handled = true;

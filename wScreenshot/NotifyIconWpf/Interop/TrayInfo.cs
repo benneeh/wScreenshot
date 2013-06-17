@@ -7,12 +7,12 @@ using System.Runtime.InteropServices;
 namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
     /// <summary>
-    /// Resolves the current tray position.
+    ///     Resolves the current tray position.
     /// </summary>
     public static class TrayInfo
     {
         /// <summary>
-        /// Gets the position of the system tray.
+        ///     Gets the position of the system tray.
         /// </summary>
         /// <returns>Tray coordinates.</returns>
         public static Point GetTrayLocation()
@@ -44,21 +44,20 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
                 y = rcWorkArea.Bottom;
             }
 
-            return new Point { X = x, Y = y };
+            return new Point {X = x, Y = y};
         }
     }
 
     internal class AppBarInfo
     {
-        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
-        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
-
-        [DllImport("shell32.dll")]
-        private static extern UInt32 SHAppBarMessage(UInt32 dwMessage, ref APPBARDATA data);
-
-        [DllImport("user32.dll")]
-        private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam,
-                                                         IntPtr pvParam, UInt32 fWinIni);
+        public enum ScreenEdge
+        {
+            Undefined = -1,
+            Left = ABE_LEFT,
+            Top = ABE_TOP,
+            Right = ABE_RIGHT,
+            Bottom = ABE_BOTTOM
+        }
 
         private const int ABE_BOTTOM = 3;
         private const int ABE_LEFT = 0;
@@ -74,7 +73,7 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
 
         public ScreenEdge Edge
         {
-            get { return (ScreenEdge)m_data.uEdge; }
+            get { return (ScreenEdge) m_data.uEdge; }
         }
 
         public Rectangle WorkArea
@@ -85,7 +84,7 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
                 var rc = new RECT();
                 IntPtr rawRect = Marshal.AllocHGlobal(Marshal.SizeOf(rc));
                 bResult = SystemParametersInfo(SPI_GETWORKAREA, 0, rawRect, 0);
-                rc = (RECT)Marshal.PtrToStructure(rawRect, rc.GetType());
+                rc = (RECT) Marshal.PtrToStructure(rawRect, rc.GetType());
 
                 if (bResult == 1)
                 {
@@ -97,10 +96,20 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
             }
         }
 
+        [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        [DllImport("shell32.dll")]
+        private static extern UInt32 SHAppBarMessage(UInt32 dwMessage, ref APPBARDATA data);
+
+        [DllImport("user32.dll")]
+        private static extern Int32 SystemParametersInfo(UInt32 uiAction, UInt32 uiParam,
+            IntPtr pvParam, UInt32 fWinIni);
+
         public void GetPosition(string strClassName, string strWindowName)
         {
             m_data = new APPBARDATA();
-            m_data.cbSize = (UInt32)Marshal.SizeOf(m_data.GetType());
+            m_data.cbSize = (UInt32) Marshal.SizeOf(m_data.GetType());
 
             IntPtr hWnd = FindWindow(strClassName, strWindowName);
 
@@ -124,33 +133,24 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
             GetPosition("Shell_TrayWnd", null);
         }
 
-        public enum ScreenEdge
-        {
-            Undefined = -1,
-            Left = ABE_LEFT,
-            Top = ABE_TOP,
-            Right = ABE_RIGHT,
-            Bottom = ABE_BOTTOM
-        }
-
         [StructLayout(LayoutKind.Sequential)]
         private struct APPBARDATA
         {
             public UInt32 cbSize;
-            public IntPtr hWnd;
-            public UInt32 uCallbackMessage;
-            public UInt32 uEdge;
-            public RECT rc;
-            public Int32 lParam;
+            public readonly IntPtr hWnd;
+            public readonly UInt32 uCallbackMessage;
+            public readonly UInt32 uEdge;
+            public readonly RECT rc;
+            public readonly Int32 lParam;
         }
 
         [StructLayout(LayoutKind.Sequential)]
         private struct RECT
         {
-            public Int32 left;
-            public Int32 top;
-            public Int32 right;
-            public Int32 bottom;
+            public readonly Int32 left;
+            public readonly Int32 top;
+            public readonly Int32 right;
+            public readonly Int32 bottom;
         }
     }
 }

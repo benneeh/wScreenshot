@@ -3,17 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="RedBoxTool" Height="200" Width="300" Background="Transparent"
         ShowInTaskbar="False" Topmost="True" BorderThickness="0" WindowStyle="None"
-        Padding="0" Margin="0" AllowsTransparency="True" Loaded="Window_Loaded" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        Padding="0" Margin="0" AllowsTransparency="True" Loaded="Window_Loaded"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled"
         ResizeMode="NoResize">
-    <Window.Resources>
-        <ResourceDictionary>
-            <Border x:Key="RedBord" Width="0" Height="0" Margin="0" Padding="0" BorderThickness="1" BorderBrush="#ff0000">
-                <Border.Effect>
-                    <BlurEffect Radius="3" />
-                </Border.Effect>
-            </Border>
-        </ResourceDictionary>
-    </Window.Resources>
     <Grid>
         <ItemsControl Name="BorderContainer">
             <ItemsControl.ItemsPanel>
@@ -29,7 +21,8 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Border Width="{Binding Width}" Height="{Binding Height}" Margin="0" Padding="0" BorderThickness="1" BorderBrush="#ff0000">
+                    <Border Background="{Binding Background}" Width="{Binding Width}" Height="{Binding Height}"
+                            Margin="0" Padding="0" BorderThickness="1" BorderBrush="#ff0000">
                         <Border.Effect>
                             <BlurEffect Radius="3" />
                         </Border.Effect>

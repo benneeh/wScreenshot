@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interop;
 using wScreenshot.Model;
+using wScreenshot.Native;
+using wScreenshot.ScreenshotModule;
 
 namespace wScreenshot.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    ///     Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
@@ -21,18 +21,12 @@ namespace wScreenshot.View
 
         #region public properties
 
-        public System.IntPtr Handle { get; set; }
+        public IntPtr Handle { get; set; }
 
         public wScreenshotModel Model
         {
-            get
-            {
-                return this.DataContext as wScreenshotModel;
-            }
-            set
-            {
-                this.DataContext = value;
-            }
+            get { return DataContext as wScreenshotModel; }
+            set { DataContext = value; }
         }
 
         #endregion public properties
@@ -42,9 +36,9 @@ namespace wScreenshot.View
         public MainWindow()
         {
             InitializeComponent();
-            this.StateChanged += new System.EventHandler(MainWindow_StateChanged);
-            this.Model = new wScreenshotModel();
-            btnCoolHole.AddHandler(Window.MouseMoveEvent, new MouseEventHandler(borderHole_MouseMove), true);
+            StateChanged += MainWindow_StateChanged;
+            Model = new wScreenshotModel();
+            btnCoolHole.AddHandler(MouseMoveEvent, new MouseEventHandler(borderHole_MouseMove), true);
         }
 
         #endregion constructors
@@ -53,7 +47,7 @@ namespace wScreenshot.View
 
         private void PrivateTest()
         {
-            TimeSpan dur = new TimeSpan(0, 0, 0, 10);
+            var dur = new TimeSpan(0, 0, 0, 10);
             DateTime init = DateTime.Now;
             int i = 0;
             for (i = 0; (DateTime.Now - init) <= dur; i++)
@@ -61,8 +55,8 @@ namespace wScreenshot.View
                 new Random().Next();
             }
             int length = int.MaxValue / 1;
-            Dictionary<string, TimeSpan> dict = new Dictionary<string, TimeSpan>();
-            List<Action> tests = new List<Action>();
+            var dict = new Dictionary<string, TimeSpan>();
+            var tests = new List<Action>();
             tests.Add(delegate
             {
                 int one = 0;
@@ -74,15 +68,15 @@ namespace wScreenshot.View
                 {
                     Type t = eha.GetType();
                     if (t == typeof(byte) ||
-                    t == typeof(sbyte) ||
-                    t == typeof(ushort) ||
-                    t == typeof(short) ||
-                    t == typeof(uint) ||
-                    t == typeof(int) ||
-                    t == typeof(float) ||
-                    t == typeof(double))
+                        t == typeof(sbyte) ||
+                        t == typeof(ushort) ||
+                        t == typeof(short) ||
+                        t == typeof(uint) ||
+                        t == typeof(int) ||
+                        t == typeof(float) ||
+                        t == typeof(double))
                     {
-                        d = (double)(int)eha;
+                        d = (int)eha;
                     }
                 }
             });
@@ -93,28 +87,28 @@ namespace wScreenshot.View
                 object eha = 42;
                 DateTime last = DateTime.Now;
                 last = DateTime.Now;
-                List<int> hashes = new List<int>()
-                 {
-                 typeof(byte).GetHashCode(),
-                 typeof(sbyte).GetHashCode(),
-                 typeof(ushort).GetHashCode(),
-                 typeof(short).GetHashCode(),
-                 typeof(uint).GetHashCode(),
-                 typeof(int).GetHashCode(),
-                 typeof(float).GetHashCode(),
-                 typeof(double).GetHashCode(),
-                 };
+                var hashes = new List<int>
+                {
+                    typeof (byte).GetHashCode(),
+                    typeof (sbyte).GetHashCode(),
+                    typeof (ushort).GetHashCode(),
+                    typeof (short).GetHashCode(),
+                    typeof (uint).GetHashCode(),
+                    typeof (int).GetHashCode(),
+                    typeof (float).GetHashCode(),
+                    typeof (double).GetHashCode(),
+                };
                 while (one++ < length)
                 {
                     int h = eha.GetType().GetHashCode();
                     if (hashes.Contains(h))
                     {
-                        d = (double)(int)eha;
+                        d = (int)eha;
                     }
                 }
             });
             i = 0;
-            foreach (var t in tests)
+            foreach (Action t in tests)
             {
                 DateTime last = DateTime.Now;
                 t.Invoke();
@@ -130,25 +124,28 @@ namespace wScreenshot.View
                                                select k).OrderBy(x => x.Value).First().Key
                     };
             outp += "\n" + string.Join("\n", from dval in r
-                                             select dval.str + ":\t" + dval.perc.ToString());
+                                             select dval.str + ":\t" + dval.perc);
             MessageBox.Show(outp);
         }
 
         private void StartTheEnd()
         {
-            wScreenshot.View.Options.CurrentOptions.Close();
-            this.Close();
+            Options.CurrentOptions.Close();
+            Close();
         }
 
         #endregion private methods
 
         #region eventhandlers
 
-        private void MainWindow_StateChanged(object sender, System.EventArgs e)
+        private Point holePos;
+        private bool moving;
+
+        private void MainWindow_StateChanged(object sender, EventArgs e)
         {
-            if (this.WindowState == System.Windows.WindowState.Maximized)
+            if (WindowState == WindowState.Maximized)
             {
-                this.SizeToContent = System.Windows.SizeToContent.Manual;
+                SizeToContent = SizeToContent.Manual;
             }
         }
 
@@ -159,17 +156,17 @@ namespace wScreenshot.View
 
         private void btnMinimize_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = System.Windows.WindowState.Minimized;
+            WindowState = WindowState.Minimized;
         }
 
         private void btnMaximize_Click(object sender, RoutedEventArgs e)
         {
-            this.WindowState = System.Windows.WindowState.Maximized;
+            WindowState = WindowState.Maximized;
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            this.SizeToContent = System.Windows.SizeToContent.Manual;
+            SizeToContent = SizeToContent.Manual;
 
             if ((Handle = new WindowInteropHelper(this).Handle) == IntPtr.Zero)
             {
@@ -177,35 +174,33 @@ namespace wScreenshot.View
             }
         }
 
-        private bool moving = false;
-
-        private void mainBorder_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void mainBorder_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!moving && e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            if (!moving && e.LeftButton == MouseButtonState.Pressed)
             {
                 moving = true;
-                if (this.WindowState == System.Windows.WindowState.Maximized)
+                if (WindowState == WindowState.Maximized)
                 {
-                    var _lastMouseDown = e.GetPosition(this);
-                    var _lastWindowPos = this.PointToScreen(new Point(0, 0));
-                    var _lastHeight = this.ActualHeight;
-                    var _lastWidth = this.ActualWidth;
-                    this.WindowState = System.Windows.WindowState.Normal;
-                    Left = _lastMouseDown.X + _lastWindowPos.X - (this.ActualWidth / _lastWidth) * _lastMouseDown.X;
-                    Top = _lastMouseDown.Y + _lastWindowPos.Y - (this.ActualHeight / _lastHeight) * _lastMouseDown.Y;
+                    Point _lastMouseDown = e.GetPosition(this);
+                    Point _lastWindowPos = PointToScreen(new Point(0, 0));
+                    double _lastHeight = ActualHeight;
+                    double _lastWidth = ActualWidth;
+                    WindowState = WindowState.Normal;
+                    Left = _lastMouseDown.X + _lastWindowPos.X - (ActualWidth / _lastWidth) * _lastMouseDown.X;
+                    Top = _lastMouseDown.Y + _lastWindowPos.Y - (ActualHeight / _lastHeight) * _lastMouseDown.Y;
                 }
 
-                this.WindowState = System.Windows.WindowState.Normal;
-                this.DragMove();
+                WindowState = WindowState.Normal;
+                DragMove();
                 moving = false;
             }
         }
 
-        private void borderHole_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void borderHole_MouseMove(object sender, MouseEventArgs e)
         {
             if (moving)
             {
-                if (e.LeftButton == System.Windows.Input.MouseButtonState.Released)
+                if (e.LeftButton == MouseButtonState.Released)
                 {
                     moving = false;
 
@@ -214,7 +209,7 @@ namespace wScreenshot.View
                     return;
                 }
                 btHae.Content = "Move";
-                var pos = e.GetPosition(borderHole);
+                Point pos = e.GetPosition(borderHole);
                 var delta = new Point(pos.X - holePos.X, pos.Y - holePos.Y);
                 if (delta.X > 0)
                 {
@@ -247,15 +242,13 @@ namespace wScreenshot.View
             }
         }
 
-        private void Border_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Native.User32.ReleaseCapture();
-            Native.User32.SendMessage(this.Handle, Native.Win32.WindowsMessages.WM_SYSCOMMAND, Native.Win32.SystemCommands.SC_DRAGSIZE_SW, 0);
+            User32.ReleaseCapture();
+            User32.SendMessage(Handle, Win32.WindowsMessages.WM_SYSCOMMAND, Win32.SystemCommands.SC_DRAGSIZE_SW, 0);
         }
 
-        private Point holePos;
-
-        private void btnCoolHole_PreviewMouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void btnCoolHole_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             //e.Handled = true;
             moving = true;
@@ -263,7 +256,7 @@ namespace wScreenshot.View
             holePos = e.GetPosition(borderHole);
         }
 
-        private void btnCoolHole_PreviewMouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void btnCoolHole_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             moving = false;
             Model.IsSpecialWhiteButtonDown = false;
@@ -282,7 +275,7 @@ namespace wScreenshot.View
         private void ShowOptionsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             new Configuration().ShowDialog();
-            new View.Options().ShowDialog();
+            new Options().ShowDialog();
         }
 
         private void DoUploadCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -292,6 +285,36 @@ namespace wScreenshot.View
 
         private void DoUploadCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
+        }
+
+        private void RunScreenshotBoxToolCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void RunScreenshotBoxToolCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            new RedBoxTool().Show();
+        }
+
+        private void RunScreenshotHoleToolCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void RunScreenshotHoleToolCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            new WhiteBoxTool().Show();
+        }
+
+        private void RunScreenshotWindowToolCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void RunScreenshotWindowToolCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            new WindowSelectorTool().Show();
         }
     }
 }

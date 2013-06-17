@@ -14,7 +14,7 @@ namespace wScreenshot.Controls
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double doubleValue = (double)value;
+            var doubleValue = (double) value;
 
             return ColorUtils.ConvertHsvToRgb(doubleValue, 1, 1);
         }
@@ -31,65 +31,68 @@ namespace wScreenshot.Controls
 
         static HsvControl()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(HsvControl), new FrameworkPropertyMetadata(typeof(HsvControl)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (HsvControl),
+                new FrameworkPropertyMetadata(typeof (HsvControl)));
 
             // Register Event Handler for the Thumb
-            EventManager.RegisterClassHandler(typeof(HsvControl), Thumb.DragDeltaEvent, new DragDeltaEventHandler(HsvControl.OnThumbDragDelta));
+            EventManager.RegisterClassHandler(typeof (HsvControl), Thumb.DragDeltaEvent,
+                new DragDeltaEventHandler(OnThumbDragDelta));
         }
 
         #endregion Public Methods
 
         #region Dependency Properties
 
+        public static readonly DependencyProperty HueProperty =
+            DependencyProperty.Register("Hue", typeof (double), typeof (HsvControl),
+                new UIPropertyMetadata((double) 0, OnHueChanged));
+
+        public static readonly DependencyProperty SaturationProperty =
+            DependencyProperty.Register("Saturation", typeof (double), typeof (HsvControl),
+                new UIPropertyMetadata((double) 0, OnSaturationChanged));
+
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register("Value", typeof (double), typeof (HsvControl),
+                new UIPropertyMetadata((double) 0, OnValueChanged));
+
+        public static readonly DependencyProperty SelectedColorProperty =
+            DependencyProperty.Register("SelectedColor", typeof (Color), typeof (HsvControl),
+                new UIPropertyMetadata(Colors.Transparent));
+
         public double Hue
         {
-            get { return (double)GetValue(HueProperty); }
+            get { return (double) GetValue(HueProperty); }
             set { SetValue(HueProperty, value); }
         }
 
-        public static readonly DependencyProperty HueProperty =
-        DependencyProperty.Register("Hue", typeof(double), typeof(HsvControl),
-        new UIPropertyMetadata((double)0, new PropertyChangedCallback(OnHueChanged)));
-
         public double Saturation
         {
-            get { return (double)GetValue(SaturationProperty); }
+            get { return (double) GetValue(SaturationProperty); }
             set { SetValue(SaturationProperty, value); }
         }
 
-        public static readonly DependencyProperty SaturationProperty =
-        DependencyProperty.Register("Saturation", typeof(double), typeof(HsvControl),
-        new UIPropertyMetadata((double)0, new PropertyChangedCallback(OnSaturationChanged)));
-
         public double Value
         {
-            get { return (double)GetValue(ValueProperty); }
+            get { return (double) GetValue(ValueProperty); }
             set { SetValue(ValueProperty, value); }
         }
 
-        public static readonly DependencyProperty ValueProperty =
-        DependencyProperty.Register("Value", typeof(double), typeof(HsvControl),
-        new UIPropertyMetadata((double)0, new PropertyChangedCallback(OnValueChanged)));
-
         public Color SelectedColor
         {
-            get { return (Color)GetValue(SelectedColorProperty); }
+            get { return (Color) GetValue(SelectedColorProperty); }
             set { SetValue(SelectedColorProperty, value); }
         }
-
-        public static readonly DependencyProperty SelectedColorProperty =
-        DependencyProperty.Register("SelectedColor", typeof(Color), typeof(HsvControl), new UIPropertyMetadata(Colors.Transparent));
 
         #endregion Dependency Properties
 
         #region Routed Events
 
         public static readonly RoutedEvent SelectedColorChangedEvent = EventManager.RegisterRoutedEvent(
-        "SelectedColorChanged",
-        RoutingStrategy.Bubble,
-        typeof(RoutedPropertyChangedEventHandler<Color>),
-        typeof(HsvControl)
-        );
+            "SelectedColorChanged",
+            RoutingStrategy.Bubble,
+            typeof (RoutedPropertyChangedEventHandler<Color>),
+            typeof (HsvControl)
+            );
 
         public event RoutedPropertyChangedEventHandler<Color> SelectedColorChanged
         {
@@ -111,7 +114,7 @@ namespace wScreenshot.Controls
 
         private static void OnThumbDragDelta(object sender, DragDeltaEventArgs e)
         {
-            HsvControl hsvControl = sender as HsvControl;
+            var hsvControl = sender as HsvControl;
             hsvControl.OnThumbDragDelta(e);
         }
 
@@ -138,25 +141,25 @@ namespace wScreenshot.Controls
         }
 
         private static void OnHueChanged(
-        DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
+            DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
         {
-            HsvControl hsvControl = relatedObject as HsvControl;
+            var hsvControl = relatedObject as HsvControl;
             if (hsvControl != null && !hsvControl.m_withinUpdate)
                 hsvControl.UpdateSelectedColor();
         }
 
         private static void OnSaturationChanged(
-        DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
+            DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
         {
-            HsvControl hsvControl = relatedObject as HsvControl;
+            var hsvControl = relatedObject as HsvControl;
             if (hsvControl != null && !hsvControl.m_withinUpdate)
                 hsvControl.UpdateThumbPosition();
         }
 
         private static void OnValueChanged(
-        DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
+            DependencyObject relatedObject, DependencyPropertyChangedEventArgs e)
         {
-            HsvControl hsvControl = relatedObject as HsvControl;
+            var hsvControl = relatedObject as HsvControl;
             if (hsvControl != null && !hsvControl.m_withinUpdate)
                 hsvControl.UpdateThumbPosition();
         }
@@ -208,16 +211,16 @@ namespace wScreenshot.Controls
             m_thumbTransform.X = positionX;
             m_thumbTransform.Y = positionY;
 
-            Saturation = positionX / ActualWidth;
-            Value = 1 - positionY / ActualHeight;
+            Saturation = positionX/ActualWidth;
+            Value = 1 - positionY/ActualHeight;
 
             UpdateSelectedColor();
         }
 
         private void UpdateThumbPosition()
         {
-            m_thumbTransform.X = Saturation * ActualWidth;
-            m_thumbTransform.Y = (1 - Value) * ActualHeight;
+            m_thumbTransform.X = Saturation*ActualWidth;
+            m_thumbTransform.Y = (1 - Value)*ActualHeight;
 
             SelectedColor = ColorUtils.ConvertHsvToRgb(Hue, Saturation, Value);
         }
@@ -228,7 +231,7 @@ namespace wScreenshot.Controls
 
         private const string ThumbName = "PART_Thumb";
 
-        private TranslateTransform m_thumbTransform = new TranslateTransform();
+        private readonly TranslateTransform m_thumbTransform = new TranslateTransform();
         private Thumb m_thumb;
         private bool m_withinUpdate = false;
 

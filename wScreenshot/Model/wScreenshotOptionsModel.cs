@@ -15,10 +15,7 @@ namespace wScreenshot.Model
 
         public Color DefaultBackgroundColor
         {
-            get
-            {
-                return _DefaultBackgroundColor;
-            }
+            get { return _DefaultBackgroundColor; }
             set
             {
                 if (value != _DefaultBackgroundColor)
@@ -33,6 +30,8 @@ namespace wScreenshot.Model
 
         #region INotifyPropertyChanged
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void RaisePropertyChangedEvent(string Property)
         {
             if (PropertyChanged != null)
@@ -40,8 +39,6 @@ namespace wScreenshot.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(Property));
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion INotifyPropertyChanged
     }

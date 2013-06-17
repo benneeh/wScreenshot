@@ -21,7 +21,6 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
-using Hardcodet.Wpf.TaskbarNotification.Interop;
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -31,54 +30,60 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Threading;
+using Hardcodet.Wpf.TaskbarNotification.Interop;
+using Brushes = System.Windows.Media.Brushes;
 using Point = Hardcodet.Wpf.TaskbarNotification.Interop.Point;
 
 namespace Hardcodet.Wpf.TaskbarNotification
 {
     /// <summary>
-    /// A WPF proxy to for a taskbar icon (NotifyIcon) that sits in the system's
-    /// taskbar notification area ("system tray").
+    ///     A WPF proxy to for a taskbar icon (NotifyIcon) that sits in the system's
+    ///     taskbar notification area ("system tray").
     /// </summary>
     public partial class TaskbarIcon : FrameworkElement, IDisposable
     {
         #region Members
 
         /// <summary>
-        /// Represents the current icon data.
-        /// </summary>
-        private NotifyIconData iconData;
-
-        /// <summary>
-        /// Receives messages from the taskbar icon.
-        /// </summary>
-        private readonly WindowMessageSink messageSink;
-
-        /// <summary>
-        /// An action that is being invoked if the
-        /// <see cref="singleClickTimer"/> fires.
-        /// </summary>
-        private Action delayedTimerAction;
-
-        /// <summary>
-        /// A timer that is used to differentiate between single
-        /// and double clicks.
-        /// </summary>
-        private readonly Timer singleClickTimer;
-
-        /// <summary>
-        /// A timer that is used to close open balloon tooltips.
+        ///     A timer that is used to close open balloon tooltips.
         /// </summary>
         private readonly Timer balloonCloseTimer;
 
         /// <summary>
-        /// Indicates whether the taskbar icon has been created or not.
+        ///     Receives messages from the taskbar icon.
         /// </summary>
-        public bool IsTaskbarIconCreated { get; private set; }
+        private readonly WindowMessageSink messageSink;
 
         /// <summary>
-        /// Indicates whether custom tooltips are supported, which depends
-        /// on the OS. Windows Vista or higher is required in order to
-        /// support this feature.
+        ///     A timer that is used to differentiate between single
+        ///     and double clicks.
+        /// </summary>
+        private readonly Timer singleClickTimer;
+
+        /// <summary>
+        ///     An action that is being invoked if the
+        ///     <see cref="singleClickTimer" /> fires.
+        /// </summary>
+        private Action delayedTimerAction;
+
+        /// <summary>
+        ///     Represents the current icon data.
+        /// </summary>
+        private NotifyIconData iconData;
+
+        /// <summary>
+        ///     Indicates whether the taskbar icon has been created or not.
+        /// </summary>
+        public bool IsTaskbarIconCreated
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///     Indicates whether custom tooltips are supported, which depends
+        ///     on the OS. Windows Vista or higher is required in order to
+        ///     support this feature.
         /// </summary>
         public bool SupportsCustomToolTips
         {
@@ -86,15 +91,15 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Checks whether a non-tooltip popup is currently opened.
+        ///     Checks whether a non-tooltip popup is currently opened.
         /// </summary>
         private bool IsPopupOpen
         {
             get
             {
-                var popup = TrayPopupResolved;
-                var menu = ContextMenu;
-                var balloon = CustomBalloon;
+                Popup popup = TrayPopupResolved;
+                ContextMenu menu = ContextMenu;
+                Popup balloon = CustomBalloon;
 
                 return popup != null && popup.IsOpen ||
                        menu != null && menu.IsOpen ||
@@ -107,15 +112,15 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Construction
 
         /// <summary>
-        /// Inits the taskbar icon and registers a message listener
-        /// in order to receive events from the taskbar area.
+        ///     Inits the taskbar icon and registers a message listener
+        ///     in order to receive events from the taskbar area.
         /// </summary>
         public TaskbarIcon()
         {
             //using dummy sink in design mode
             messageSink = Util.IsDesignMode
-                              ? WindowMessageSink.CreateEmpty()
-                              : new WindowMessageSink(NotifyIconVersion.Win95);
+                ? WindowMessageSink.CreateEmpty()
+                : new WindowMessageSink(NotifyIconVersion.Win95);
 
             //init icon data structure
             iconData = NotifyIconData.CreateDefault(messageSink.MessageWindowHandle);
@@ -142,15 +147,18 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Custom Balloons
 
         /// <summary>
-        /// Shows a custom control as a tooltip in the tray location.
+        ///     Shows a custom control as a tooltip in the tray location.
         /// </summary>
         /// <param name="balloon"></param>
         /// <param name="animation">An optional animation for the popup.</param>
-        /// <param name="timeout">The time after which the popup is being closed.
-        /// Submit null in order to keep the balloon open inde
+        /// <param name="timeout">
+        ///     The time after which the popup is being closed.
+        ///     Submit null in order to keep the balloon open inde
         /// </param>
-        /// <exception cref="ArgumentNullException">If <paramref name="balloon"/>
-        /// is a null reference.</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     If <paramref name="balloon" />
+        ///     is a null reference.
+        /// </exception>
         public void ShowCustomBalloon(UIElement balloon, PopupAnimation animation, int? timeout)
         {
             if (!Application.Current.Dispatcher.CheckAccess())
@@ -177,7 +185,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             }
 
             //create an invisible popup that hosts the UIElement
-            Popup popup = new Popup();
+            var popup = new Popup();
             popup.AllowsTransparency = true;
 
             //provide the popup with the taskbar icon's data context
@@ -220,16 +228,14 @@ namespace Hardcodet.Wpf.TaskbarNotification
                 //register timer to close the popup
                 balloonCloseTimer.Change(timeout.Value, Timeout.Infinite);
             }
-
-            return;
         }
 
         /// <summary>
-        /// Resets the closing timeout, which effectively
-        /// keeps a displayed balloon message open until
-        /// it is either closed programmatically through
-        /// <see cref="CloseBalloon"/> or due to a new
-        /// message being displayed.
+        ///     Resets the closing timeout, which effectively
+        ///     keeps a displayed balloon message open until
+        ///     it is either closed programmatically through
+        ///     <see cref="CloseBalloon" /> or due to a new
+        ///     message being displayed.
         /// </summary>
         public void ResetBalloonCloseTimer()
         {
@@ -243,8 +249,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Closes the current <see cref="CustomBalloon"/>, if the
-        /// property is set.
+        ///     Closes the current <see cref="CustomBalloon" />, if the
+        ///     property is set.
         /// </summary>
         public void CloseBalloon()
         {
@@ -289,8 +295,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Timer-invoke event which closes the currently open balloon and
-        /// resets the <see cref="CustomBalloon"/> dependency property.
+        ///     Timer-invoke event which closes the currently open balloon and
+        ///     resets the <see cref="CustomBalloon" /> dependency property.
         /// </summary>
         private void CloseBalloonCallback(object state)
         {
@@ -306,10 +312,10 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Process Incoming Mouse Events
 
         /// <summary>
-        /// Processes mouse events, which are bubbled
-        /// through the class' routed events, trigger
-        /// certain actions (e.g. show a popup), or
-        /// both.
+        ///     Processes mouse events, which are bubbled
+        ///     through the class' routed events, trigger
+        ///     certain actions (e.g. show a popup), or
+        ///     both.
         /// </summary>
         /// <param name="me">Event flag.</param>
         private void OnMouseEvent(MouseEvent me)
@@ -366,7 +372,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             }
 
             //get mouse coordinates
-            Point cursorPosition = new Point();
+            var cursorPosition = new Point();
             WinApi.GetCursorPos(ref cursorPosition);
 
             bool isLeftClickCommandInvoked = false;
@@ -378,10 +384,10 @@ namespace Hardcodet.Wpf.TaskbarNotification
                 {
                     //show popup once we are sure it's not a double click
                     delayedTimerAction = () =>
-                                           {
-                                               LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
-                                               ShowTrayPopup(cursorPosition);
-                                           };
+                    {
+                        LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
+                        ShowTrayPopup(cursorPosition);
+                    };
                     singleClickTimer.Change(WinApi.GetDoubleClickTime(), Timeout.Infinite);
                     isLeftClickCommandInvoked = true;
                 }
@@ -399,10 +405,10 @@ namespace Hardcodet.Wpf.TaskbarNotification
                 {
                     //show context menu once we are sure it's not a double click
                     delayedTimerAction = () =>
-                                           {
-                                               LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
-                                               ShowContextMenu(cursorPosition);
-                                           };
+                    {
+                        LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
+                        ShowContextMenu(cursorPosition);
+                    };
                     singleClickTimer.Change(WinApi.GetDoubleClickTime(), Timeout.Infinite);
                     isLeftClickCommandInvoked = true;
                 }
@@ -417,7 +423,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
             if (me == MouseEvent.IconLeftMouseUp && !isLeftClickCommandInvoked)
             {
                 //show context menu once we are sure it's not a double click
-                delayedTimerAction = () => LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
+                delayedTimerAction =
+                    () => LeftClickCommand.ExecuteIfEnabled(LeftClickCommandParameter, LeftClickCommandTarget ?? this);
                 singleClickTimer.Change(WinApi.GetDoubleClickTime(), Timeout.Infinite);
             }
         }
@@ -427,8 +434,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region ToolTips
 
         /// <summary>
-        /// Displays a custom tooltip, if available. This method is only
-        /// invoked for Windows Vista and above.
+        ///     Displays a custom tooltip, if available. This method is only
+        ///     invoked for Windows Vista and above.
         /// </summary>
         /// <param name="visible">Whether to show or hide the tooltip.</param>
         private void OnToolTipChange(bool visible)
@@ -444,7 +451,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
                     return;
                 }
 
-                var args = RaisePreviewTrayToolTipOpenEvent();
+                RoutedEventArgs args = RaisePreviewTrayToolTipOpenEvent();
                 if (args.Handled) return;
 
                 TrayToolTipResolved.IsOpen = true;
@@ -457,7 +464,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
             }
             else
             {
-                var args = RaisePreviewTrayToolTipCloseEvent();
+                RoutedEventArgs args = RaisePreviewTrayToolTipCloseEvent();
                 if (args.Handled) return;
 
                 //raise attached event first
@@ -471,22 +478,24 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Creates a <see cref="ToolTip"/> control that either
-        /// wraps the currently set <see cref="TrayToolTip"/>
-        /// control or the <see cref="ToolTipText"/> string.<br/>
-        /// If <see cref="TrayToolTip"/> itself is already
-        /// a <see cref="ToolTip"/> instance, it will be used directly.
+        ///     Creates a <see cref="ToolTip" /> control that either
+        ///     wraps the currently set <see cref="TrayToolTip" />
+        ///     control or the <see cref="ToolTipText" /> string.<br />
+        ///     If <see cref="TrayToolTip" /> itself is already
+        ///     a <see cref="ToolTip" /> instance, it will be used directly.
         /// </summary>
-        /// <remarks>We use a <see cref="ToolTip"/> rather than
-        /// <see cref="Popup"/> because there was no way to prevent a
-        /// popup from causing cyclic open/close commands if it was
-        /// placed under the mouse. ToolTip internally uses a Popup of
-        /// its own, but takes advance of Popup's internal <see cref="Popup.HitTestable"/>
-        /// property which prevents this issue.</remarks>
+        /// <remarks>
+        ///     We use a <see cref="ToolTip" /> rather than
+        ///     <see cref="Popup" /> because there was no way to prevent a
+        ///     popup from causing cyclic open/close commands if it was
+        ///     placed under the mouse. ToolTip internally uses a Popup of
+        ///     its own, but takes advance of Popup's internal <see cref="Popup.HitTestable" />
+        ///     property which prevents this issue.
+        /// </remarks>
         private void CreateCustomToolTip()
         {
             //check if the item itself is a tooltip
-            ToolTip tt = TrayToolTip as ToolTip;
+            var tt = TrayToolTip as ToolTip;
 
             if (tt == null && TrayToolTip != null)
             {
@@ -502,7 +511,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
                 //make sure the tooltip is invisible
                 tt.HasDropShadow = false;
                 tt.BorderThickness = new Thickness(0);
-                tt.Background = System.Windows.Media.Brushes.Transparent;
+                tt.Background = Brushes.Transparent;
 
                 //setting the
                 tt.StaysOpen = true;
@@ -527,8 +536,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Sets tooltip settings for the class depending on defined
-        /// dependency properties and OS support.
+        ///     Sets tooltip settings for the class depending on defined
+        ///     dependency properties and OS support.
         /// </summary>
         private void WriteToolTipSettings()
         {
@@ -556,22 +565,24 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Custom Popup
 
         /// <summary>
-        /// Creates a <see cref="ToolTip"/> control that either
-        /// wraps the currently set <see cref="TrayToolTip"/>
-        /// control or the <see cref="ToolTipText"/> string.<br/>
-        /// If <see cref="TrayToolTip"/> itself is already
-        /// a <see cref="ToolTip"/> instance, it will be used directly.
+        ///     Creates a <see cref="ToolTip" /> control that either
+        ///     wraps the currently set <see cref="TrayToolTip" />
+        ///     control or the <see cref="ToolTipText" /> string.<br />
+        ///     If <see cref="TrayToolTip" /> itself is already
+        ///     a <see cref="ToolTip" /> instance, it will be used directly.
         /// </summary>
-        /// <remarks>We use a <see cref="ToolTip"/> rather than
-        /// <see cref="Popup"/> because there was no way to prevent a
-        /// popup from causing cyclic open/close commands if it was
-        /// placed under the mouse. ToolTip internally uses a Popup of
-        /// its own, but takes advance of Popup's internal <see cref="Popup.HitTestable"/>
-        /// property which prevents this issue.</remarks>
+        /// <remarks>
+        ///     We use a <see cref="ToolTip" /> rather than
+        ///     <see cref="Popup" /> because there was no way to prevent a
+        ///     popup from causing cyclic open/close commands if it was
+        ///     placed under the mouse. ToolTip internally uses a Popup of
+        ///     its own, but takes advance of Popup's internal <see cref="Popup.HitTestable" />
+        ///     property which prevents this issue.
+        /// </remarks>
         private void CreatePopup()
         {
             //check if the item itself is a popup
-            Popup popup = TrayPopup as Popup;
+            var popup = TrayPopup as Popup;
 
             if (popup == null && TrayPopup != null)
             {
@@ -609,8 +620,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Displays the <see cref="TrayPopup"/> control if
-        /// it was set.
+        ///     Displays the <see cref="TrayPopup" /> control if
+        ///     it was set.
         /// </summary>
         private void ShowTrayPopup(Point cursorPosition)
         {
@@ -618,7 +629,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
 
             //raise preview event no matter whether popup is currently set
             //or not (enables client to set it on demand)
-            var args = RaisePreviewTrayPopupOpenEvent();
+            RoutedEventArgs args = RaisePreviewTrayPopupOpenEvent();
             if (args.Handled) return;
 
             if (TrayPopup != null)
@@ -649,8 +660,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Context Menu
 
         /// <summary>
-        /// Displays the <see cref="ContextMenu"/> if
-        /// it was set.
+        ///     Displays the <see cref="ContextMenu" /> if
+        ///     it was set.
         /// </summary>
         private void ShowContextMenu(Point cursorPosition)
         {
@@ -658,7 +669,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
 
             //raise preview event no matter whether context menu is currently set
             //or not (enables client to set it on demand)
-            var args = RaisePreviewTrayContextMenuOpenEvent();
+            RoutedEventArgs args = RaisePreviewTrayContextMenuOpenEvent();
             if (args.Handled) return;
 
             if (ContextMenu != null)
@@ -683,11 +694,13 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Balloon Tips
 
         /// <summary>
-        /// Bubbles events if a balloon ToolTip was displayed
-        /// or removed.
+        ///     Bubbles events if a balloon ToolTip was displayed
+        ///     or removed.
         /// </summary>
-        /// <param name="visible">Whether the ToolTip was just displayed
-        /// or removed.</param>
+        /// <param name="visible">
+        ///     Whether the ToolTip was just displayed
+        ///     or removed.
+        /// </param>
         private void OnBalloonToolTipChanged(bool visible)
         {
             if (visible)
@@ -701,8 +714,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Displays a balloon tip with the specified title,
-        /// text, and icon in the taskbar for the specified time period.
+        ///     Displays a balloon tip with the specified title,
+        ///     text, and icon in the taskbar for the specified time period.
         /// </summary>
         /// <param name="title">The title to display on the balloon tip.</param>
         /// <param name="message">The text to display on the balloon tip.</param>
@@ -716,14 +729,16 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Displays a balloon tip with the specified title,
-        /// text, and a custom icon in the taskbar for the specified time period.
+        ///     Displays a balloon tip with the specified title,
+        ///     text, and a custom icon in the taskbar for the specified time period.
         /// </summary>
         /// <param name="title">The title to display on the balloon tip.</param>
         /// <param name="message">The text to display on the balloon tip.</param>
         /// <param name="customIcon">A custom icon.</param>
-        /// <exception cref="ArgumentNullException">If <paramref name="customIcon"/>
-        /// is a null reference.</exception>
+        /// <exception cref="ArgumentNullException">
+        ///     If <paramref name="customIcon" />
+        ///     is a null reference.
+        /// </exception>
         public void ShowBalloonTip(string title, string message, Icon customIcon)
         {
             if (customIcon == null) throw new ArgumentNullException("customIcon");
@@ -735,14 +750,16 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Invokes <see cref="WinApi.Shell_NotifyIcon"/> in order to display
-        /// a given balloon ToolTip.
+        ///     Invokes <see cref="WinApi.Shell_NotifyIcon" /> in order to display
+        ///     a given balloon ToolTip.
         /// </summary>
         /// <param name="title">The title to display on the balloon tip.</param>
         /// <param name="message">The text to display on the balloon tip.</param>
         /// <param name="flags">Indicates what icon to use.</param>
-        /// <param name="balloonIconHandle">A handle to a custom icon, if any, or
-        /// <see cref="IntPtr.Zero"/>.</param>
+        /// <param name="balloonIconHandle">
+        ///     A handle to a custom icon, if any, or
+        ///     <see cref="IntPtr.Zero" />.
+        /// </param>
         private void ShowBalloonTip(string title, string message, BalloonFlags flags, IntPtr balloonIconHandle)
         {
             EnsureNotDisposed();
@@ -756,7 +773,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Hides a balloon ToolTip, if any is displayed.
+        ///     Hides a balloon ToolTip, if any is displayed.
         /// </summary>
         public void HideBalloonTip()
         {
@@ -772,9 +789,9 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Single Click Timer event
 
         /// <summary>
-        /// Performs a delayed action if the user requested an action
-        /// based on a single click of the left mouse.<br/>
-        /// This method is invoked by the <see cref="singleClickTimer"/>.
+        ///     Performs a delayed action if the user requested an action
+        ///     based on a single click of the left mouse.<br />
+        ///     This method is invoked by the <see cref="singleClickTimer" />.
         /// </summary>
         private void DoSingleClickAction(object state)
         {
@@ -797,22 +814,22 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Set Version (API)
 
         /// <summary>
-        /// Sets the version flag for the <see cref="iconData"/>.
+        ///     Sets the version flag for the <see cref="iconData" />.
         /// </summary>
         private void SetVersion()
         {
-            iconData.VersionOrTimeout = (uint)NotifyIconVersion.Vista;
+            iconData.VersionOrTimeout = (uint) NotifyIconVersion.Vista;
             bool status = WinApi.Shell_NotifyIcon(NotifyCommand.SetVersion, ref iconData);
 
             if (!status)
             {
-                iconData.VersionOrTimeout = (uint)NotifyIconVersion.Win2000;
+                iconData.VersionOrTimeout = (uint) NotifyIconVersion.Win2000;
                 status = Util.WriteIconData(ref iconData, NotifyCommand.SetVersion);
             }
 
             if (!status)
             {
-                iconData.VersionOrTimeout = (uint)NotifyIconVersion.Win95;
+                iconData.VersionOrTimeout = (uint) NotifyIconVersion.Win95;
                 status = Util.WriteIconData(ref iconData, NotifyCommand.SetVersion);
             }
 
@@ -827,8 +844,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Create / Remove Taskbar Icon
 
         /// <summary>
-        /// Recreates the taskbar icon if the whole taskbar was
-        /// recreated (e.g. because Explorer was shut down).
+        ///     Recreates the taskbar icon if the whole taskbar was
+        ///     recreated (e.g. because Explorer was shut down).
         /// </summary>
         private void OnTaskbarCreated()
         {
@@ -837,8 +854,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Creates the taskbar icon. This message is invoked during initialization,
-        /// if the taskbar is restarted, and whenever the icon is displayed.
+        ///     Creates the taskbar icon. This message is invoked during initialization,
+        ///     if the taskbar is restarted, and whenever the icon is displayed.
         /// </summary>
         private void CreateTaskbarIcon()
         {
@@ -851,7 +868,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
                                                     | IconDataMembers.Tip;
 
                     //write initial configuration
-                    var status = Util.WriteIconData(ref iconData, NotifyCommand.Add, members);
+                    bool status = Util.WriteIconData(ref iconData, NotifyCommand.Add, members);
                     if (!status)
                     {
                         throw new Win32Exception("Could not create icon data");
@@ -859,7 +876,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
 
                     //set to most recent version
                     SetVersion();
-                    messageSink.Version = (NotifyIconVersion)iconData.VersionOrTimeout;
+                    messageSink.Version = (NotifyIconVersion) iconData.VersionOrTimeout;
 
                     IsTaskbarIconCreated = true;
                 }
@@ -867,7 +884,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Closes the taskbar icon if required.
+        ///     Closes the taskbar icon if required.
         /// </summary>
         private void RemoveTaskbarIcon()
         {
@@ -886,48 +903,21 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region Dispose / Exit
 
         /// <summary>
-        /// Set to true as soon as <see cref="Dispose"/>
-        /// has been invoked.
+        ///     Set to true as soon as <see cref="Dispose" />
+        ///     has been invoked.
         /// </summary>
-        public bool IsDisposed { get; private set; }
-
-        /// <summary>
-        /// Checks if the object has been disposed and
-        /// raises a <see cref="ObjectDisposedException"/> in case
-        /// the <see cref="IsDisposed"/> flag is true.
-        /// </summary>
-        private void EnsureNotDisposed()
+        public bool IsDisposed
         {
-            if (IsDisposed) throw new ObjectDisposedException(Name ?? GetType().FullName);
+            get;
+            private set;
         }
 
         /// <summary>
-        /// Disposes the class if the application exits.
+        ///     Disposes the object.
         /// </summary>
-        private void OnExit(object sender, EventArgs e)
-        {
-            Dispose();
-        }
-
-        /// <summary>
-        /// This destructor will run only if the <see cref="Dispose()"/>
-        /// method does not get called. This gives this base class the
-        /// opportunity to finalize.
-        /// <para>
-        /// Important: Do not provide destructors in types derived from
-        /// this class.
-        /// </para>
-        /// </summary>
-        ~TaskbarIcon()
-        {
-            Dispose(false);
-        }
-
-        /// <summary>
-        /// Disposes the object.
-        /// </summary>
-        /// <remarks>This method is not virtual by design. Derived classes
-        /// should override <see cref="Dispose(bool)"/>.
+        /// <remarks>
+        ///     This method is not virtual by design. Derived classes
+        ///     should override <see cref="Dispose(bool)" />.
         /// </remarks>
         public void Dispose()
         {
@@ -942,20 +932,56 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Closes the tray and releases all resources.
+        ///     Checks if the object has been disposed and
+        ///     raises a <see cref="ObjectDisposedException" /> in case
+        ///     the <see cref="IsDisposed" /> flag is true.
+        /// </summary>
+        private void EnsureNotDisposed()
+        {
+            if (IsDisposed) throw new ObjectDisposedException(Name ?? GetType().FullName);
+        }
+
+        /// <summary>
+        ///     Disposes the class if the application exits.
+        /// </summary>
+        private void OnExit(object sender, EventArgs e)
+        {
+            Dispose();
+        }
+
+        /// <summary>
+        ///     This destructor will run only if the <see cref="Dispose()" />
+        ///     method does not get called. This gives this base class the
+        ///     opportunity to finalize.
+        ///     <para>
+        ///         Important: Do not provide destructors in types derived from
+        ///         this class.
+        ///     </para>
+        /// </summary>
+        ~TaskbarIcon()
+        {
+            Dispose(false);
+        }
+
+        /// <summary>
+        ///     Closes the tray and releases all resources.
         /// </summary>
         /// <summary>
-        /// <c>Dispose(bool disposing)</c> executes in two distinct scenarios.
-        /// If disposing equals <c>true</c>, the method has been called directly
-        /// or indirectly by a user's code. Managed and unmanaged resources
-        /// can be disposed.
+        ///     <c>Dispose(bool disposing)</c> executes in two distinct scenarios.
+        ///     If disposing equals <c>true</c>, the method has been called directly
+        ///     or indirectly by a user's code. Managed and unmanaged resources
+        ///     can be disposed.
         /// </summary>
-        /// <param name="disposing">If disposing equals <c>false</c>, the method
-        /// has been called by the runtime from inside the finalizer and you
-        /// should not reference other objects. Only unmanaged resources can
-        /// be disposed.</param>
-        /// <remarks>Check the <see cref="IsDisposed"/> property to determine whether
-        /// the method has already been called.</remarks>
+        /// <param name="disposing">
+        ///     If disposing equals <c>false</c>, the method
+        ///     has been called by the runtime from inside the finalizer and you
+        ///     should not reference other objects. Only unmanaged resources can
+        ///     be disposed.
+        /// </param>
+        /// <remarks>
+        ///     Check the <see cref="IsDisposed" /> property to determine whether
+        ///     the method has already been called.
+        /// </remarks>
         private void Dispose(bool disposing)
         {
             //don't do anything if the component is already disposed

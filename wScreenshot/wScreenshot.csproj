@@ -111,6 +111,7 @@
     <Compile Include="Dialog\SafeModuleHandle.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
+    <Compile Include="Helper\KeyBoardEventHelper.cs" />
     <Compile Include="Helper\Screeen.cs" />
     <Compile Include="Hooks\Classes\HotKey.cs" />
     <Compile Include="Hooks\Classes\HotKeyEventArgs.cs" />

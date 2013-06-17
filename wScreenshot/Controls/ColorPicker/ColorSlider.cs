@@ -10,30 +10,33 @@ namespace wScreenshot.Controls
 
         static ColorSlider()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorSlider), new FrameworkPropertyMetadata(typeof(ColorSlider)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (ColorSlider),
+                new FrameworkPropertyMetadata(typeof (ColorSlider)));
         }
 
         #endregion Public Methods
 
         #region Dependency Properties
 
+        public static readonly DependencyProperty LeftColorProperty =
+            DependencyProperty.Register("LeftColor", typeof (Color), typeof (ColorSlider),
+                new UIPropertyMetadata(Colors.Black));
+
+        public static readonly DependencyProperty RightColorProperty =
+            DependencyProperty.Register("RightColor", typeof (Color), typeof (ColorSlider),
+                new UIPropertyMetadata(Colors.White));
+
         public Color LeftColor
         {
-            get { return (Color)GetValue(LeftColorProperty); }
+            get { return (Color) GetValue(LeftColorProperty); }
             set { SetValue(LeftColorProperty, value); }
         }
 
-        public static readonly DependencyProperty LeftColorProperty =
-        DependencyProperty.Register("LeftColor", typeof(Color), typeof(ColorSlider), new UIPropertyMetadata(Colors.Black));
-
         public Color RightColor
         {
-            get { return (Color)GetValue(RightColorProperty); }
+            get { return (Color) GetValue(RightColorProperty); }
             set { SetValue(RightColorProperty, value); }
         }
-
-        public static readonly DependencyProperty RightColorProperty =
-        DependencyProperty.Register("RightColor", typeof(Color), typeof(ColorSlider), new UIPropertyMetadata(Colors.White));
 
         // TESTING
         //

@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows.Input;
 
 namespace wScreenshot.Hooks
 {
     public class MouseHookEventArgs
     {
-        private System.Windows.Input.MouseButton? MouseButton;
-        public MouseHookEventArgs(System.Windows.Input.MouseButton? MouseButton, int Clicks, int X, int Y, int Delta, bool Handled)
+        private MouseButton? MouseButton;
+
+        public MouseHookEventArgs(MouseButton? MouseButton, int Clicks, int X, int Y, int Delta, bool Handled)
         {
             // TODO: Complete member initialization
             this.MouseButton = MouseButton;

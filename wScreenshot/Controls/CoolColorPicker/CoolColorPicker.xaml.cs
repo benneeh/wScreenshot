@@ -3,7 +3,7 @@
 namespace wScreenshot.Controls
 {
     /// <summary>
-    /// Interaction logic for DreieckColorPicker.xaml
+    ///     Interaction logic for DreieckColorPicker.xaml
     /// </summary>
     public partial class CoolColorPicker : UserControl
     {

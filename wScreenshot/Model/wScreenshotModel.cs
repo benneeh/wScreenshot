@@ -1,9 +1,7 @@
-﻿using System;
-using System.ComponentModel;
-using System.Threading;
+﻿using System.ComponentModel;
 using System.Windows.Media.Imaging;
 using System.Windows.Shell;
-using System.Windows.Threading;
+using wScreenshot.Helper;
 
 namespace wScreenshot.Model
 {
@@ -11,36 +9,52 @@ namespace wScreenshot.Model
     {
         #region private fields
 
-        private double _UploadProgress = 1;
-        private TaskbarItemProgressState _ProgressState = TaskbarItemProgressState.Error;
-        private BitmapSource _CurrentPicture;
-        private bool _IsSpecialWhiteButtonDown;
-        private wScreenshotOptionsModel _Options;
-        private bool _IsUploading;
+        private BitmapSource _currentPicture;
+        private bool _isSpecialWhiteButtonDown;
+        private bool _isUploading;
+        private KeyBoardEventHelper _keyBoard;
+        private wScreenshotOptionsModel _options;
+        private TaskbarItemProgressState _progressState = TaskbarItemProgressState.Error;
+        private double _uploadProgress = 1;
 
         #endregion private fields
 
         #region public properties
 
-        public wScreenshotModel This
+        public KeyBoardEventHelper KeyBoard
         {
             get
             {
-                return this;
+                if (_keyBoard == null)
+                {
+                    _keyBoard = new KeyBoardEventHelper();
+                    _keyBoard.PropertyChanged += (s, e) => { RaisePropertyChangedEvent("KeyBoard" + e.PropertyName); };
+                }
+                return _keyBoard;
             }
+            set
+            {
+                if (value != _keyBoard)
+                {
+                    _keyBoard = value;
+                    RaisePropertyChangedEvent("KeyBoard");
+                }
+            }
+        }
+
+        public wScreenshotModel This
+        {
+            get { return this; }
         }
 
         public double UploadProgress
         {
-            get
-            {
-                return _UploadProgress;
-            }
+            get { return _uploadProgress; }
             set
             {
-                if (value != _UploadProgress)
+                if (value != _uploadProgress)
                 {
-                    _UploadProgress = value;
+                    _uploadProgress = value;
                     RaisePropertyChangedEvent("UploadProgress");
                 }
             }
@@ -48,15 +62,12 @@ namespace wScreenshot.Model
 
         public bool IsUploading
         {
-            get
-            {
-                return _IsUploading;
-            }
+            get { return _isUploading; }
             set
             {
-                if (value != _IsUploading)
+                if (value != _isUploading)
                 {
-                    _IsUploading = value;
+                    _isUploading = value;
                     RaisePropertyChangedEvent("IsUploading");
                 }
             }
@@ -64,15 +75,12 @@ namespace wScreenshot.Model
 
         public TaskbarItemProgressState ProgressState
         {
-            get
-            {
-                return _ProgressState;
-            }
+            get { return _progressState; }
             set
             {
-                if (value != _ProgressState)
+                if (value != _progressState)
                 {
-                    _ProgressState = value;
+                    _progressState = value;
                     RaisePropertyChangedEvent("ProgressState");
                 }
             }
@@ -82,17 +90,17 @@ namespace wScreenshot.Model
         {
             get
             {
-                if (_Options == null)
+                if (_options == null)
                 {
-                    _Options = new wScreenshotOptionsModel();
+                    _options = new wScreenshotOptionsModel();
                 }
-                return _Options;
+                return _options;
             }
             set
             {
-                if (value != _Options)
+                if (value != _options)
                 {
-                    _Options = value;
+                    _options = value;
                     RaisePropertyChangedEvent("Options");
                 }
             }
@@ -100,15 +108,12 @@ namespace wScreenshot.Model
 
         public BitmapSource CurrentPicture
         {
-            get
-            {
-                return _CurrentPicture;
-            }
+            get { return _currentPicture; }
             set
             {
-                if (value != _CurrentPicture)
+                if (value != _currentPicture)
                 {
-                    _CurrentPicture = value;
+                    _currentPicture = value;
                     RaisePropertyChangedEvent("CurrentPicture");
                 }
             }
@@ -116,15 +121,12 @@ namespace wScreenshot.Model
 
         public bool IsSpecialWhiteButtonDown
         {
-            get
-            {
-                return _IsSpecialWhiteButtonDown;
-            }
+            get { return _isSpecialWhiteButtonDown; }
             set
             {
-                if (value != _IsSpecialWhiteButtonDown)
+                if (value != _isSpecialWhiteButtonDown)
                 {
-                    _IsSpecialWhiteButtonDown = value;
+                    _isSpecialWhiteButtonDown = value;
                     RaisePropertyChangedEvent("IsSpecialWhiteButtonDown");
                 }
             }
@@ -134,13 +136,11 @@ namespace wScreenshot.Model
 
         #region Constructors
 
-        public wScreenshotModel()
-        {
-        }
-
         #endregion Constructors
 
         #region INotifyPropertyChanged
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void RaisePropertyChangedEvent(string Property)
         {
@@ -149,8 +149,6 @@ namespace wScreenshot.Model
                 PropertyChanged(this, new PropertyChangedEventArgs(Property));
             }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion INotifyPropertyChanged
     }

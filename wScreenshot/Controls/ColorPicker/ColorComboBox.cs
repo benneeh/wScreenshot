@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace wScreenshot.Controls
 {
@@ -12,34 +13,36 @@ namespace wScreenshot.Controls
 
         static ColorComboBox()
         {
-            DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorComboBox), new FrameworkPropertyMetadata(typeof(ColorComboBox)));
+            DefaultStyleKeyProperty.OverrideMetadata(typeof (ColorComboBox),
+                new FrameworkPropertyMetadata(typeof (ColorComboBox)));
 
-            EventManager.RegisterClassHandler(typeof(ColorComboBox), ColorPicker.SelectedColorChangedEvent, new RoutedPropertyChangedEventHandler<Color>(OnColorPickerSelectedColorChanged));
+            EventManager.RegisterClassHandler(typeof (ColorComboBox), ColorPicker.SelectedColorChangedEvent,
+                new RoutedPropertyChangedEventHandler<Color>(OnColorPickerSelectedColorChanged));
         }
 
         #endregion Public Methods
 
         #region Dependency Properties
 
+        public static readonly DependencyProperty IsDropDownOpenProperty =
+            DependencyProperty.Register("IsDropDownOpen", typeof (bool), typeof (ColorComboBox),
+                new UIPropertyMetadata(false, OnIsDropDownOpenChanged));
+
+        public static readonly DependencyProperty SelectedColorProperty =
+            DependencyProperty.Register("SelectedColor", typeof (Color), typeof (ColorComboBox),
+                new UIPropertyMetadata(Colors.Transparent, OnSelectedColorPropertyChanged));
+
         public bool IsDropDownOpen
         {
-            get { return (bool)GetValue(IsDropDownOpenProperty); }
+            get { return (bool) GetValue(IsDropDownOpenProperty); }
             set { SetValue(IsDropDownOpenProperty, value); }
         }
 
-        public static readonly DependencyProperty IsDropDownOpenProperty =
-        DependencyProperty.Register("IsDropDownOpen", typeof(bool), typeof(ColorComboBox),
-        new UIPropertyMetadata(false, new PropertyChangedCallback(OnIsDropDownOpenChanged)));
-
         public Color SelectedColor
         {
-            get { return (Color)GetValue(SelectedColorProperty); }
+            get { return (Color) GetValue(SelectedColorProperty); }
             set { SetValue(SelectedColorProperty, value); }
         }
-
-        public static readonly DependencyProperty SelectedColorProperty =
-        DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorComboBox),
-        new UIPropertyMetadata(Colors.Transparent, new PropertyChangedCallback(OnSelectedColorPropertyChanged)));
 
         #endregion Dependency Properties
 
@@ -47,8 +50,8 @@ namespace wScreenshot.Controls
 
         private static void OnIsDropDownOpenChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ColorComboBox colorComboBox = d as ColorComboBox;
-            bool newValue = (bool)e.NewValue;
+            var colorComboBox = d as ColorComboBox;
+            var newValue = (bool) e.NewValue;
 
             // Mask HistTest visibility of toggle button otherwise when pressing it
             // and popup is open the popup is closed (since StaysOpen is false)
@@ -56,13 +59,10 @@ namespace wScreenshot.Controls
             if (colorComboBox.m_toggleButton != null)
             {
                 colorComboBox.Dispatcher.BeginInvoke(
-                System.Windows.Threading.DispatcherPriority.Normal,
-                new Action(
-                delegate()
-                {
-                    colorComboBox.m_toggleButton.IsHitTestVisible = !newValue;
-                }
-                ));
+                    DispatcherPriority.Normal,
+                    new Action(
+                        delegate { colorComboBox.m_toggleButton.IsHitTestVisible = !newValue; }
+                        ));
             }
             //Console.WriteLine("OnIsDropDownOpenChanged - Popup Focused {0} {1}",
             // colorComboBox.m_popup.IsFocused, colorComboBox.m_popup.IsKeyboardFocused);
@@ -70,7 +70,7 @@ namespace wScreenshot.Controls
 
         private static void OnSelectedColorPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            ColorComboBox colorComboBox = d as ColorComboBox;
+            var colorComboBox = d as ColorComboBox;
 
             if (colorComboBox.m_withinChange)
                 return;
@@ -85,7 +85,7 @@ namespace wScreenshot.Controls
 
         private static void OnColorPickerSelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color> e)
         {
-            ColorComboBox colorComboBox = sender as ColorComboBox;
+            var colorComboBox = sender as ColorComboBox;
 
             if (colorComboBox.m_withinChange)
                 return;
@@ -116,10 +116,10 @@ namespace wScreenshot.Controls
 
         #region Private Members
 
-        private UIElement m_popup;
         private ColorPicker m_colorPicker;
-        private bool m_withinChange;
+        private UIElement m_popup;
         private ToggleButton m_toggleButton;
+        private bool m_withinChange;
 
         #endregion Private Members
     }

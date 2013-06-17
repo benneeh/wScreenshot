@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-     xmlns:Extension="clr-namespace:wScreenshot.Extension">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Extension="clr-namespace:wScreenshot.Extension">
     <SolidColorBrush x:Key="TabControlNormalBorderBrush" Color="#00fffaeb" />
     <Style x:Key="wScreenshotTabStyle" TargetType="{x:Type TabControl}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
@@ -26,11 +26,19 @@
                                 <RowDefinition x:Name="RowDefinition0" Height="Auto" />
                                 <RowDefinition x:Name="RowDefinition1" Height="*" />
                             </Grid.RowDefinitions>
-                            <TabPanel x:Name="HeaderPanel" Background="{TemplateBinding Extension:TabControlExtension.HeaderBackground}" Grid.Column="0" IsItemsHost="true" Margin="0" Grid.Row="0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" />
+                            <TabPanel x:Name="HeaderPanel"
+                                      Background="{TemplateBinding Extension:TabControlExtension.HeaderBackground}"
+                                      Grid.Column="0" IsItemsHost="true" Margin="0" Grid.Row="0"
+                                      KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" />
                             <Border CornerRadius="15 0 0 5" Grid.Column="0" Grid.Row="1">
                                 <Border BorderBrush="#ffe8a6" BorderThickness="0 3 0 0">
-                                    <Border x:Name="ContentPanel" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" KeyboardNavigation.DirectionalNavigation="Contained" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
-                                        <ContentPresenter x:Name="PART_SelectedContentHost" ContentSource="SelectedContent" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                    <Border x:Name="ContentPanel" Padding="{TemplateBinding Padding}"
+                                            Background="{TemplateBinding Background}"
+                                            KeyboardNavigation.DirectionalNavigation="Contained"
+                                            KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                                        <ContentPresenter x:Name="PART_SelectedContentHost"
+                                                          ContentSource="SelectedContent"
+                                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                                     </Border>
                                 </Border>
                             </Border>
@@ -67,7 +75,8 @@
                             <Setter Property="Margin" TargetName="HeaderPanel" Value="0,2,2,2" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -78,7 +87,9 @@
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Rectangle Margin="3,3,3,1" SnapsToDevicePixels="true" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" StrokeThickness="1" StrokeDashArray="1 2" />
+                    <Rectangle Margin="3,3,3,1" SnapsToDevicePixels="true"
+                               Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                               StrokeThickness="1" StrokeDashArray="1 2" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -114,10 +125,17 @@
                             <ColumnDefinition Width="10" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <Polygon Fill="{TemplateBinding Background}" x:Name="Poli" Margin="0 1 0 0" Stretch="Fill" Points="0,1 1,0 1,1" />
-                        <Border Grid.Column="1" x:Name="Bd" CornerRadius="0 5 0 0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
+                        <Polygon Fill="{TemplateBinding Background}" x:Name="Poli" Margin="0 1 0 0" Stretch="Fill"
+                                 Points="0,1 1,0 1,1" />
+                        <Border Grid.Column="1" x:Name="Bd" CornerRadius="0 5 0 0"
+                                BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="0"
+                                Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}">
                             <Label x:Name="lblFg" Foreground="White" Margin="0" Padding="0">
-                                <ContentPresenter x:Name="Content" ContentSource="Header" HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
+                                <ContentPresenter x:Name="Content" ContentSource="Header"
+                                                  HorizontalAlignment="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"
+                                                  RecognizesAccessKey="True"
+                                                  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                                  VerticalAlignment="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}" />
                             </Label>
                         </Border>
                     </Grid>
@@ -129,8 +147,10 @@
                         <Trigger Property="IsSelected" Value="true">
                             <Setter Property="Panel.ZIndex" Value="1" />
                             <Setter Property="Foreground" TargetName="lblFg" Value="Black" />
-                            <Setter Property="Fill" TargetName="Poli" Value="{StaticResource TabItemSelectedBackground}" />
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource TabItemSelectedBackground}" />
+                            <Setter Property="Fill" TargetName="Poli"
+                                    Value="{StaticResource TabItemSelectedBackground}" />
+                            <Setter Property="Background" TargetName="Bd"
+                                    Value="{StaticResource TabItemSelectedBackground}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -181,9 +201,12 @@
                             <Setter Property="Margin" TargetName="Content" Value="1,0,0,0" />-->
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource TabItemDisabledBackground}" />
-                            <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource TabItemDisabledBorderBrush}" />
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                            <Setter Property="Background" TargetName="Bd"
+                                    Value="{StaticResource TabItemDisabledBackground}" />
+                            <Setter Property="BorderBrush" TargetName="Bd"
+                                    Value="{StaticResource TabItemDisabledBorderBrush}" />
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

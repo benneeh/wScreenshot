@@ -3,15 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="RedBoxTool" Height="200" Width="300" Background="Transparent"
         ShowInTaskbar="False" Topmost="True" BorderThickness="0" WindowStyle="None"
-        Padding="0" Margin="0" AllowsTransparency="True" Loaded="Window_Loaded" ScrollViewer.VerticalScrollBarVisibility="Disabled"
+        Padding="0" Margin="0" AllowsTransparency="True" Loaded="Window_Loaded"
+        ScrollViewer.VerticalScrollBarVisibility="Disabled"
         ResizeMode="NoResize">
     <Grid>
-        <Border Background="#01ffffff"></Border>
-        <Border BorderBrush="#000000" Grid.IsSharedSizeScope="True" BorderThickness="1" Margin="0" Name="borderHole" MouseMove="borderHole_MouseMove" MouseDown="borderHole_MouseDown" MouseUp="borderHole_MouseUp">
+        <Border Background="#01ffffff" />
+        <Border BorderBrush="#000000" Grid.IsSharedSizeScope="True" BorderThickness="1" Margin="0" Name="borderHole"
+                MouseMove="borderHole_MouseMove" MouseDown="borderHole_MouseDown" MouseUp="borderHole_MouseUp">
             <Border.OpacityMask>
                 <VisualBrush>
                     <VisualBrush.Visual>
-                        <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}" Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
+                        <Grid
+                            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                            Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="5*" x:Name="btHoleCol1" />
                                 <ColumnDefinition Width="4*" x:Name="btHoleCol2" />

@@ -8,25 +8,25 @@ namespace wScreenshot.Extension
         #region HeaderBackground dependency property
 
         /// <summary>
-        /// An attached dependency property which provides an
-        /// <see cref="Brush" /> for arbitrary WPF elements.
+        ///     An attached dependency property which provides an
+        ///     <see cref="Brush" /> for arbitrary WPF elements.
         /// </summary>
         public static readonly DependencyProperty HeaderBackgroundProperty;
 
         /// <summary>
-        /// Gets the <see cref="HeaderBackgroundProperty"/> for a given
-        /// <see cref="DependencyObject"/>, which provides an
-        /// <see cref="Brush" /> for arbitrary WPF elements.
+        ///     Gets the <see cref="HeaderBackgroundProperty" /> for a given
+        ///     <see cref="DependencyObject" />, which provides an
+        ///     <see cref="Brush" /> for arbitrary WPF elements.
         /// </summary>
         public static Brush GetHeaderBackground(DependencyObject obj)
         {
-            return (Brush)obj.GetValue(HeaderBackgroundProperty);
+            return (Brush) obj.GetValue(HeaderBackgroundProperty);
         }
 
         /// <summary>
-        /// Sets the attached <see cref="HeaderBackgroundProperty"/> for a given
-        /// <see cref="DependencyObject"/>, which provides an
-        /// <see cref="Brush" /> for arbitrary WPF elements.
+        ///     Sets the attached <see cref="HeaderBackgroundProperty" /> for a given
+        ///     <see cref="DependencyObject" />, which provides an
+        ///     <see cref="Brush" /> for arbitrary WPF elements.
         /// </summary>
         public static void SetHeaderBackground(DependencyObject obj, Brush value)
         {
@@ -38,10 +38,10 @@ namespace wScreenshot.Extension
         static TabControlExtension()
         {
             //register attached dependency property
-            var metadata = new FrameworkPropertyMetadata((Brush)new SolidColorBrush(Colors.Red));
+            var metadata = new FrameworkPropertyMetadata(new SolidColorBrush(Colors.Red));
             HeaderBackgroundProperty = DependencyProperty.RegisterAttached("HeaderBackground",
-            typeof(Brush),
-            typeof(TabControlExtension), metadata);
+                typeof (Brush),
+                typeof (TabControlExtension), metadata);
         }
     }
 }

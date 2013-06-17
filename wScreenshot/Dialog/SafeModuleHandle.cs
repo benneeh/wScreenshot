@@ -1,12 +1,9 @@
-﻿using Microsoft.Win32.SafeHandles;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Runtime.ConstrainedExecution;
 using System.Runtime.InteropServices;
 using System.Security.Permissions;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Win32.SafeHandles;
+using wScreenshot.Native;
 
 namespace wScreenshot.Dialog
 {
@@ -26,7 +23,7 @@ namespace wScreenshot.Dialog
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         protected override bool ReleaseHandle()
         {
-            return Native.Kernel32.FreeLibrary(handle);
+            return Kernel32.FreeLibrary(handle);
         }
     }
 
@@ -41,7 +38,7 @@ namespace wScreenshot.Dialog
         [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
         protected override bool ReleaseHandle()
         {
-            Native.Kernel32.ReleaseActCtx(handle);
+            Kernel32.ReleaseActCtx(handle);
             return true;
         }
     }

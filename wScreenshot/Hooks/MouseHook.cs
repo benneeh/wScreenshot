@@ -1,20 +1,19 @@
 using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using wScreenshot.Hooks;
 using wScreenshot.Native;
 
 namespace wScreenshot.Hooks
 {
-    public class MouseHook 
+    public class MouseHook
     {
         #region Declarations
 
         private Win32.mouseHookProc HookProcHandler;
-        private bool m_bHook = false;
+        private bool m_bHook;
 
         /// <summary>
-        /// Handle to the hook, need this to unhook and call the next hook
+        ///     Handle to the hook, need this to unhook and call the next hook
         /// </summary>
         private IntPtr m_hHook = IntPtr.Zero;
 
@@ -25,18 +24,17 @@ namespace wScreenshot.Hooks
         #region Properties
 
         /// <summary>
-        ///
         /// </summary>
         [Category("Hook"), DefaultValue(false), Description("Start or stop the hook.")]
         public bool IsHooked
         {
-            get { return this.m_bHook; }
+            get { return m_bHook; }
             set
             {
-                if (value) this.InitHook();
-                else this.UnHook();
+                if (value) InitHook();
+                else UnHook();
 
-                this.m_bHook = value;
+                m_bHook = value;
             }
         }
 
@@ -50,7 +48,7 @@ namespace wScreenshot.Hooks
         public event MouseHookEventHandler MouseDown;
 
         /// <summary>
-        /// Occurs when one of the hooked keys is pressed
+        ///     Occurs when one of the hooked keys is pressed
         /// </summary>
         [Category("Hook"), Description("Sets an global mouse move event.")]
         public event MouseHookEventHandler MouseMove;
@@ -66,19 +64,11 @@ namespace wScreenshot.Hooks
         #region Constructors and Destructors
 
         /// <summary>
-        /// Initializes a new instance
-        /// </summary>
-        public MouseHook()
-        {
-
-        }
-
-        /// <summary>
-        /// Release unmanaged code
+        ///     Release unmanaged code
         /// </summary>
         ~MouseHook()
         {
-            this.UnHook();
+            UnHook();
         }
 
         #endregion Constructors and Destructors
@@ -86,100 +76,103 @@ namespace wScreenshot.Hooks
         #region Methods
 
         /// <summary>
-        ///
         /// </summary>
         /// <param name="mouseMessages"></param>
         /// <returns></returns>
-        private MouseButton GetMouseButton(wScreenshot.Native.Win32.MouseMessages mouseMessages)
+        private MouseButton GetMouseButton(Win32.MouseMessages mouseMessages)
         {
             switch (mouseMessages)
             {
-                case wScreenshot.Native.Win32.MouseMessages.WM_LBUTTONUP:
-                case wScreenshot.Native.Win32.MouseMessages.WM_LBUTTONDOWN:
+                case Win32.MouseMessages.WM_LBUTTONUP:
+                case Win32.MouseMessages.WM_LBUTTONDOWN:
                     return MouseButton.Left;
 
-                case wScreenshot.Native.Win32.MouseMessages.WM_MBUTTONUP:
-                case wScreenshot.Native.Win32.MouseMessages.WM_MBUTTONDOWN:
+                case Win32.MouseMessages.WM_MBUTTONUP:
+                case Win32.MouseMessages.WM_MBUTTONDOWN:
                     return MouseButton.Middle;
 
-                case wScreenshot.Native.Win32.MouseMessages.WM_RBUTTONUP:
-                case wScreenshot.Native.Win32.MouseMessages.WM_RBUTTONDOWN:
+                case Win32.MouseMessages.WM_RBUTTONUP:
+                case Win32.MouseMessages.WM_RBUTTONDOWN:
                     return MouseButton.Right;
             }
             return MouseButton.Left;
         }
 
         /// <summary>
-        /// The callback for the mouse hook
+        ///     The callback for the mouse hook
         /// </summary>
         /// <param name="code"></param>
         /// <param name="wParam"></param>
         /// <param name="lParam"></param>
         /// <returns></returns>
-        private int HookProc(int code, int wParam, ref wScreenshot.Native.Win32.MSLLHOOKSTRUCT lParam)
+        private int HookProc(int code, int wParam, ref Win32.MSLLHOOKSTRUCT lParam)
         {
             if (code >= 0)
             {
-                MouseHookEventArgs eventArgs=null;
-                if (this.MouseDown != null
-                    && (wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_LBUTTONDOWN
-                    || wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_MBUTTONDOWN
-                    || wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_RBUTTONDOWN))
+                MouseHookEventArgs eventArgs = null;
+                if (MouseDown != null
+                    && (wParam == (int) Win32.MouseMessages.WM_LBUTTONDOWN
+                        || wParam == (int) Win32.MouseMessages.WM_MBUTTONDOWN
+                        || wParam == (int) Win32.MouseMessages.WM_RBUTTONDOWN))
                 {
-                    MouseButton eMouseButtons = this.GetMouseButton((wScreenshot.Native.Win32.MouseMessages)wParam);
-                    eventArgs = new MouseHookEventArgs(eMouseButtons, 0, lParam.pt.X, lParam.pt.Y, 0,false);
+                    MouseButton eMouseButtons = GetMouseButton((Win32.MouseMessages) wParam);
+                    eventArgs = new MouseHookEventArgs(eMouseButtons, 0, lParam.pt.X, lParam.pt.Y, 0, false);
+
                     //this.MouseDown.Invoke(this, new MouseEventArgs(eMouseButtons, 0, lParam.pt.X, lParam.pt.Y, 0));
                     MouseDown(this, eventArgs);
                 }
-                else if (this.MouseUp != null
-                    && (wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_LBUTTONUP
-                    || wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_MBUTTONUP
-                    || wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_RBUTTONUP))
+                else if (MouseUp != null
+                         && (wParam == (int) Win32.MouseMessages.WM_LBUTTONUP
+                             || wParam == (int) Win32.MouseMessages.WM_MBUTTONUP
+                             || wParam == (int) Win32.MouseMessages.WM_RBUTTONUP))
                 {
-                    MouseButton eMouseButtons = this.GetMouseButton((wScreenshot.Native.Win32.MouseMessages)wParam);
+                    MouseButton eMouseButtons = GetMouseButton((Win32.MouseMessages) wParam);
                     eventArgs = new MouseHookEventArgs(eMouseButtons, 0, lParam.pt.X, lParam.pt.Y, 0, false);
+
                     //this.MouseUp.Invoke(this, new MouseEventArgs(eMouseButtons, 0, lParam.pt.X, lParam.pt.Y, 0));
                     MouseUp(this, eventArgs);
                 }
-                else if (this.MouseWheel != null
-                    && (wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_MOUSEWHEEL || wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_MOUSEHWHEEL))
+                else if (MouseWheel != null
+                         &&
+                         (wParam == (int) Win32.MouseMessages.WM_MOUSEWHEEL ||
+                          wParam == (int) Win32.MouseMessages.WM_MOUSEHWHEEL))
                 {
                     eventArgs = new MouseHookEventArgs(MouseButton.Middle, 0, lParam.pt.X, lParam.pt.Y, 0, false);
-                    this.MouseWheel.Invoke(this, eventArgs);
+                    MouseWheel.Invoke(this, eventArgs);
                 }
 
-                else if (this.MouseMove != null
-                    && wParam == (int)wScreenshot.Native.Win32.MouseMessages.WM_MOUSEMOVE)
+                else if (MouseMove != null
+                         && wParam == (int) Win32.MouseMessages.WM_MOUSEMOVE)
                 {
                     eventArgs = new MouseHookEventArgs(null, 0, lParam.pt.X, lParam.pt.Y, 0, false);
-                    this.MouseMove.Invoke(this, eventArgs);
+                    MouseMove.Invoke(this, eventArgs);
                 }
                 if (eventArgs != null && eventArgs.Handled)
                 {
                     return -1;
                 }
             }
-            return wScreenshot.Native.Win32.CallNextHookEx(this.m_hHook, code, wParam, ref lParam);
+            return Win32.CallNextHookEx(m_hHook, code, wParam, ref lParam);
         }
 
         /// <summary>
-        /// Installs the global hook 'mouse'
+        ///     Installs the global hook 'mouse'
         /// </summary>
         private void InitHook()
         {
-            this.HookProcHandler = new wScreenshot.Native.Win32.mouseHookProc(this.HookProc);
-            this.m_hInstance = wScreenshot.Native.Win32.LoadLibrary("User32");
-            this.m_hHook = wScreenshot.Native.Win32.SetWindowsHookEx((int)wScreenshot.Native.Win32.WindowsHook.WH_MOUSE_LL, this.HookProcHandler, this.m_hInstance, 0);
+            HookProcHandler = HookProc;
+            m_hInstance = Win32.LoadLibrary("User32");
+            m_hHook = Win32.SetWindowsHookEx((int) Win32.WindowsHook.WH_MOUSE_LL, HookProcHandler, m_hInstance, 0);
         }
 
         /// <summary>
-        /// Uninstalls the global hook
+        ///     Uninstalls the global hook
         /// </summary>
         private void UnHook()
         {
-            this.HookProcHandler = null;
-            wScreenshot.Native.Win32.FreeLibrary(this.m_hInstance);
-            wScreenshot.Native.Win32.UnhookWindowsHookEx(m_hHook);
+            HookProcHandler = null;
+            Win32.FreeLibrary(m_hInstance);
+            Win32.UnhookWindowsHookEx(m_hHook);
         }
 
         #endregion Methods

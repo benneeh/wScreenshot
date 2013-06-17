@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Windows.Media.Imaging;
 
 namespace wScreenshot.Helper
@@ -11,9 +8,10 @@ namespace wScreenshot.Helper
     {
         public static void Save(Stream imageStream, BitmapMetadata metaData, Stream targetStream)
         {
-            BitmapDecoder imgDecoder = BitmapDecoder.Create(imageStream, BitmapCreateOptions.None, BitmapCacheOption.Default);
+            BitmapDecoder imgDecoder = BitmapDecoder.Create(imageStream, BitmapCreateOptions.None,
+                BitmapCacheOption.Default);
             BitmapFrame img = imgDecoder.Frames[0];
-            BmpBitmapEncoder bmpEnc = new BmpBitmapEncoder();
+            var bmpEnc = new BmpBitmapEncoder();
             if (metaData != null)
             {
                 bmpEnc.Metadata = metaData;
@@ -37,7 +35,8 @@ namespace wScreenshot.Helper
             var bm = new BitmapImage(new Uri(path));
             bm.Freeze();
 
-            BitmapDecoder imgDecoder = BitmapDecoder.Create(new Uri(path), BitmapCreateOptions.None, BitmapCacheOption.Default);
+            BitmapDecoder imgDecoder = BitmapDecoder.Create(new Uri(path), BitmapCreateOptions.None,
+                BitmapCacheOption.Default);
 
             //imgDecoder.
             return null;

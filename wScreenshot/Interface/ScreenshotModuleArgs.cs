@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace wScreenshot.Interface
 {
@@ -10,7 +7,7 @@ namespace wScreenshot.Interface
     {
         public ScreenshotModuleArgs(Region ScreenshotRegion)
         {
-            this.IsRegion = true;
+            IsRegion = true;
             this.ScreenshotRegion = ScreenshotRegion;
         }
 
@@ -21,14 +18,8 @@ namespace wScreenshot.Interface
 
         public bool IsRectangle
         {
-            get
-            {
-                return !IsRegion;
-            }
-            set
-            {
-                IsRegion = !value;
-            }
+            get { return !IsRegion; }
+            set { IsRegion = !value; }
         }
 
         public bool IsRegion { get; set; }

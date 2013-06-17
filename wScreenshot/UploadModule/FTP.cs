@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Windows;
-using wScreenshot.Helper;
-
-namespace wScreenshot.UploadModule
+﻿namespace wScreenshot.UploadModule
 {
     internal class FTP
     {

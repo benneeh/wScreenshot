@@ -28,53 +28,53 @@ using System.Diagnostics;
 namespace Hardcodet.Wpf.TaskbarNotification.Interop
 {
     /// <summary>
-    /// Receives messages from the taskbar icon through
-    /// window messages of an underlying helper window.
+    ///     Receives messages from the taskbar icon through
+    ///     window messages of an underlying helper window.
     /// </summary>
     public class WindowMessageSink : IDisposable
     {
         #region members
 
         /// <summary>
-        /// The ID of messages that are received from the the
-        /// taskbar icon.
+        ///     The ID of messages that are received from the the
+        ///     taskbar icon.
         /// </summary>
         public const int CallbackMessageId = 0x400;
 
         /// <summary>
-        /// The ID of the message that is being received if the
-        /// taskbar is (re)started.
-        /// </summary>
-        private uint taskbarRestartMessageId;
-
-        /// <summary>
-        /// Used to track whether a mouse-up event is just
-        /// the aftermath of a double-click and therefore needs
-        /// to be suppressed.
+        ///     Used to track whether a mouse-up event is just
+        ///     the aftermath of a double-click and therefore needs
+        ///     to be suppressed.
         /// </summary>
         private bool isDoubleClick;
 
         /// <summary>
-        /// A delegate that processes messages of the hidden
-        /// native window that receives window messages. Storing
-        /// this reference makes sure we don't loose our reference
-        /// to the message window.
+        ///     A delegate that processes messages of the hidden
+        ///     native window that receives window messages. Storing
+        ///     this reference makes sure we don't loose our reference
+        ///     to the message window.
         /// </summary>
         private WindowProcedureHandler messageHandler;
 
         /// <summary>
-        /// Window class ID.
+        ///     The ID of the message that is being received if the
+        ///     taskbar is (re)started.
+        /// </summary>
+        private uint taskbarRestartMessageId;
+
+        /// <summary>
+        ///     Window class ID.
         /// </summary>
         internal string WindowId { get; private set; }
 
         /// <summary>
-        /// Handle for the message window.
+        ///     Handle for the message window.
         /// </summary
         internal IntPtr MessageWindowHandle { get; private set; }
 
         /// <summary>
-        /// The version of the underlying icon. Defines how
-        /// incoming messages are interpreted.
+        ///     The version of the underlying icon. Defines how
+        ///     incoming messages are interpreted.
         /// </summary>
         public NotifyIconVersion Version { get; set; }
 
@@ -83,25 +83,25 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         #region events
 
         /// <summary>
-        /// The custom tooltip should be closed or hidden.
+        ///     The custom tooltip should be closed or hidden.
         /// </summary>
         public event Action<bool> ChangeToolTipStateRequest;
 
         /// <summary>
-        /// Fired in case the user clicked or moved within
-        /// the taskbar icon area.
+        ///     Fired in case the user clicked or moved within
+        ///     the taskbar icon area.
         /// </summary>
         public event Action<MouseEvent> MouseEventReceived;
 
         /// <summary>
-        /// Fired if a balloon ToolTip was either displayed
-        /// or closed (indicated by the boolean flag).
+        ///     Fired if a balloon ToolTip was either displayed
+        ///     or closed (indicated by the boolean flag).
         /// </summary>
         public event Action<bool> BallonToolTipChanged;
 
         /// <summary>
-        /// Fired if the taskbar was created or restarted. Requires the taskbar
-        /// icon to be reset.
+        ///     Fired if the taskbar was created or restarted. Requires the taskbar
+        ///     icon to be reset.
         /// </summary>
         public event Action TaskbarCreated;
 
@@ -110,8 +110,8 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         #region construction
 
         /// <summary>
-        /// Creates a new message sink that receives message from
-        /// a given taskbar icon.
+        ///     Creates a new message sink that receives message from
+        ///     a given taskbar icon.
         /// </summary>
         /// <param name="version"></param>
         public WindowMessageSink(NotifyIconVersion version)
@@ -125,18 +125,18 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         }
 
         /// <summary>
-        /// Creates a dummy instance that provides an empty
-        /// pointer rather than a real window handler.<br/>
-        /// Used at design time.
+        ///     Creates a dummy instance that provides an empty
+        ///     pointer rather than a real window handler.<br />
+        ///     Used at design time.
         /// </summary>
         /// <returns></returns>
         internal static WindowMessageSink CreateEmpty()
         {
             return new WindowMessageSink
-                         {
-                             MessageWindowHandle = IntPtr.Zero,
-                             Version = NotifyIconVersion.Vista
-                         };
+            {
+                MessageWindowHandle = IntPtr.Zero,
+                Version = NotifyIconVersion.Vista
+            };
         }
 
         #endregion construction
@@ -144,8 +144,8 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         #region CreateMessageWindow
 
         /// <summary>
-        /// Creates the helper message window that is used
-        /// to receive messages from the taskbar icon.
+        ///     Creates the helper message window that is used
+        ///     to receive messages from the taskbar icon.
         /// </summary>
         private void CreateMessageWindow()
         {
@@ -191,7 +191,7 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         #region Handle Window Messages
 
         /// <summary>
-        /// Callback method that receives messages from the taskbar area.
+        ///     Callback method that receives messages from the taskbar area.
         /// </summary>
         private long OnWindowMessageReceived(IntPtr hwnd, uint messageId, uint wparam, uint lparam)
         {
@@ -209,12 +209,14 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         }
 
         /// <summary>
-        /// Processes incoming system messages.
+        ///     Processes incoming system messages.
         /// </summary>
         /// <param name="msg">Callback ID.</param>
-        /// <param name="wParam">If the version is <see cref="NotifyIconVersion.Vista"/>
-        /// or higher, this parameter can be used to resolve mouse coordinates.
-        /// Currently not in use.</param>
+        /// <param name="wParam">
+        ///     If the version is <see cref="NotifyIconVersion.Vista" />
+        ///     or higher, this parameter can be used to resolve mouse coordinates.
+        ///     Currently not in use.
+        /// </param>
         /// <param name="lParam">Provides information about the event.</param>
         private void ProcessWindowMessage(uint msg, uint wParam, uint lParam)
         {
@@ -299,16 +301,17 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         #region Dispose
 
         /// <summary>
-        /// Set to true as soon as <see cref="Dispose"/>
-        /// has been invoked.
+        ///     Set to true as soon as <see cref="Dispose" />
+        ///     has been invoked.
         /// </summary>
         public bool IsDisposed { get; private set; }
 
         /// <summary>
-        /// Disposes the object.
+        ///     Disposes the object.
         /// </summary>
-        /// <remarks>This method is not virtual by design. Derived classes
-        /// should override <see cref="Dispose(bool)"/>.
+        /// <remarks>
+        ///     This method is not virtual by design. Derived classes
+        ///     should override <see cref="Dispose(bool)" />.
         /// </remarks>
         public void Dispose()
         {
@@ -323,13 +326,13 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         }
 
         /// <summary>
-        /// This destructor will run only if the <see cref="Dispose()"/>
-        /// method does not get called. This gives this base class the
-        /// opportunity to finalize.
-        /// <para>
-        /// Important: Do not provide destructors in types derived from
-        /// this class.
-        /// </para>
+        ///     This destructor will run only if the <see cref="Dispose()" />
+        ///     method does not get called. This gives this base class the
+        ///     opportunity to finalize.
+        ///     <para>
+        ///         Important: Do not provide destructors in types derived from
+        ///         this class.
+        ///     </para>
         /// </summary>
         ~WindowMessageSink()
         {
@@ -337,8 +340,8 @@ namespace Hardcodet.Wpf.TaskbarNotification.Interop
         }
 
         /// <summary>
-        /// Removes the windows hook that receives window
-        /// messages and closes the underlying helper window.
+        ///     Removes the windows hook that receives window
+        ///     messages and closes the underlying helper window.
         /// </summary>
         private void Dispose(bool disposing)
         {

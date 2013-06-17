@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 using wScreenshot.Dialog;
 
 namespace wScreenshot.Interop
@@ -16,8 +13,8 @@ namespace wScreenshot.Interop
     }
 
     [ComImport,
-    Guid(IIDGuid.IProgressDialog),
-    CoClass(typeof(ProgressDialogRCW))]
+     Guid(IIDGuid.IProgressDialog),
+     CoClass(typeof (ProgressDialogRCW))]
     public interface ProgressDialog : IProgressDialog
     {
     }
@@ -41,13 +38,14 @@ namespace wScreenshot.Interop
     public interface IProgressDialog
     {
         [PreserveSig]
-        void StartProgressDialog(IntPtr hwndParent, [MarshalAs(UnmanagedType.IUnknown)]			object punkEnableModless, ProgressDialogFlags dwFlags, IntPtr pvResevered);
+        void StartProgressDialog(IntPtr hwndParent, [MarshalAs(UnmanagedType.IUnknown)] object punkEnableModless,
+            ProgressDialogFlags dwFlags, IntPtr pvResevered);
 
         [PreserveSig]
         void StopProgressDialog();
 
         [PreserveSig]
-        void SetTitle([MarshalAs(UnmanagedType.LPWStr)]			string pwzTitle);
+        void SetTitle([MarshalAs(UnmanagedType.LPWStr)] string pwzTitle);
 
         [PreserveSig]
         void SetAnimation(SafeModuleHandle hInstAnimation, ushort idAnimation);
@@ -63,10 +61,11 @@ namespace wScreenshot.Interop
         void SetProgress64(ulong ullCompleted, ulong ullTotal);
 
         [PreserveSig]
-        void SetLine(uint dwLineNum, [MarshalAs(UnmanagedType.LPWStr)]			string pwzString, [MarshalAs(UnmanagedType.VariantBool)]		bool fCompactPath, IntPtr pvResevered);
+        void SetLine(uint dwLineNum, [MarshalAs(UnmanagedType.LPWStr)] string pwzString,
+            [MarshalAs(UnmanagedType.VariantBool)] bool fCompactPath, IntPtr pvResevered);
 
         [PreserveSig]
-        void SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)]			string pwzCancelMsg, object pvResevered);
+        void SetCancelMsg([MarshalAs(UnmanagedType.LPWStr)] string pwzCancelMsg, object pvResevered);
 
         [PreserveSig]
         void Timer(uint dwTimerAction, object pvResevered);

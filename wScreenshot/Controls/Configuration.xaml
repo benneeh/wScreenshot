@@ -23,11 +23,22 @@
                         <RowDefinition x:Name="RowDefinition0" Height="Auto" />
                         <RowDefinition x:Name="RowDefinition1" Height="*" />
                     </Grid.RowDefinitions>
-                    <Border x:Name="HeaderBorder" Grid.Column="0" Grid.Row="0" Background="White" BorderBrush="Black" BorderThickness="1">
-                        <TabPanel x:Name="HeaderPanel" IsItemsHost="True" Margin="2,2,2,0" KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" />
+                    <Border x:Name="HeaderBorder" Grid.Column="0" Grid.Row="0" Background="White" BorderBrush="Black"
+                            BorderThickness="1">
+                        <TabPanel x:Name="HeaderPanel" IsItemsHost="True" Margin="2,2,2,0"
+                                  KeyboardNavigation.TabIndex="1" Panel.ZIndex="1" />
                     </Border>
-                    <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Grid.Column="0" KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1" KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
-                        <ContentPresenter Grid.Row="1" x:Name="PART_SelectedContentHost" ContentTemplate="{TemplateBinding SelectedContentTemplate}" Content="{TemplateBinding SelectedContent}" ContentStringFormat="{TemplateBinding SelectedContentStringFormat}" ContentSource="SelectedContent" Margin="{TemplateBinding Padding}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    <Border x:Name="ContentPanel" BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Background="{TemplateBinding Background}" Grid.Column="0"
+                            KeyboardNavigation.DirectionalNavigation="Contained" Grid.Row="1"
+                            KeyboardNavigation.TabIndex="2" KeyboardNavigation.TabNavigation="Local">
+                        <ContentPresenter Grid.Row="1" x:Name="PART_SelectedContentHost"
+                                          ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                                          Content="{TemplateBinding SelectedContent}"
+                                          ContentStringFormat="{TemplateBinding SelectedContentStringFormat}"
+                                          ContentSource="SelectedContent" Margin="{TemplateBinding Padding}"
+                                          SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                     </Border>
                 </Grid>
                 <ControlTemplate.Triggers>
@@ -62,7 +73,8 @@
                         <Setter Property="Margin" TargetName="HeaderPanel" Value="0,2,2,2" />
                     </Trigger>
                     <Trigger Property="IsEnabled" Value="False">
-                        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        <Setter Property="Foreground"
+                                Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                     </Trigger>
                 </ControlTemplate.Triggers>
             </ControlTemplate>
@@ -73,10 +85,14 @@
                             <Grid Margin="2 1">
                                 <Border x:Name="hoverborder" BorderThickness="1" CornerRadius="3" Margin="0">
                                     <Border x:Name="bordoor" Padding="0" BorderThickness="1" CornerRadius="3">
-                                        <TextBlock x:Name="Header" Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}" FontFamily="{TemplateBinding FontFamily}"
-        								Foreground="{TemplateBinding Foreground}" Padding="{TemplateBinding Padding}">
+                                        <TextBlock x:Name="Header"
+                                                   Text="{Binding Header, RelativeSource={RelativeSource TemplatedParent}}"
+                                                   FontFamily="{TemplateBinding FontFamily}"
+                                                   Foreground="{TemplateBinding Foreground}"
+                                                   Padding="{TemplateBinding Padding}">
                                             <TextBlock.Effect>
-                                                <DropShadowEffect ShadowDepth="2" Opacity=".2" BlurRadius="10" Direction="-90" />
+                                                <DropShadowEffect ShadowDepth="2" Opacity=".2" BlurRadius="10"
+                                                                  Direction="-90" />
                                             </TextBlock.Effect>
                                         </TextBlock>
                                     </Border>
@@ -117,13 +133,15 @@
 
             <ControlTemplate x:Key="HeaderTextBlockTemplate" TargetType="{x:Type HeaderedContentControl}">
                 <Border Background="{x:Static SystemColors.HighlightBrush}" BorderThickness="1" CornerRadius="2"
-                    HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,5" BorderBrush="{x:Static SystemColors.HighlightTextBrush}" Height="24">
+                        HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="0,5"
+                        BorderBrush="{x:Static SystemColors.HighlightTextBrush}" Height="24">
                     <Border.Effect>
                         <DropShadowEffect BlurRadius="2" Opacity="0.75" ShadowDepth="0" />
                     </Border.Effect>
                     <Grid VerticalAlignment="Top">
                         <ContentPresenter ContentSource="Header" Margin="5,0" TextOptions.TextFormattingMode="Display"
-                                       TextBlock.FontSize="16" TextBlock.Foreground="{x:Static SystemColors.HighlightTextBrush}">
+                                          TextBlock.FontSize="16"
+                                          TextBlock.Foreground="{x:Static SystemColors.HighlightTextBrush}">
                             <ContentPresenter.Effect>
                                 <DropShadowEffect Color="#F000" Opacity="0.75" ShadowDepth="0" />
                             </ContentPresenter.Effect>
@@ -138,9 +156,12 @@
     </UserControl.Resources>
 
     <UserControl.CommandBindings>
-        <CommandBinding Command="{StaticResource CancelCommand}" Executed="CancelCommand_Executed" CanExecute="CancelCommand_CanExecute" />
-        <CommandBinding Command="{StaticResource ApplyCommand}" Executed="ApplyCommand_Executed" CanExecute="ApplyCommand_CanExecute" />
-        <CommandBinding Command="{StaticResource ResetCommand}" Executed="ResetCommand_Executed" CanExecute="ResetCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource CancelCommand}" Executed="CancelCommand_Executed"
+                        CanExecute="CancelCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource ApplyCommand}" Executed="ApplyCommand_Executed"
+                        CanExecute="ApplyCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource ResetCommand}" Executed="ResetCommand_Executed"
+                        CanExecute="ResetCommand_CanExecute" />
     </UserControl.CommandBindings>
     <Grid DataContext="{Binding Source={x:Static p:Configuration.Default}}">
         <Grid.RowDefinitions>
@@ -154,7 +175,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <HeaderedContentControl Header="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}}" Template="{StaticResource HeaderTextBlockTemplate}" />
+                    <HeaderedContentControl
+                        Header="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}}"
+                        Template="{StaticResource HeaderTextBlockTemplate}" />
                     <Grid Grid.Row="1">
                         <WrapPanel Grid.IsSharedSizeScope="True">
                             <Grid>
@@ -164,7 +187,8 @@
                                     <ColumnDefinition Width="auto" MinWidth="90" SharedSizeGroup="confRightCol" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock VerticalAlignment="Center" Text="MyAnimeListUsername" />
-                                <TextBox Grid.Column="2" Margin="2" Padding="0" Text="{Binding MyAnimeListUsername, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBox Grid.Column="2" Margin="2" Padding="0"
+                                         Text="{Binding MyAnimeListUsername, UpdateSourceTrigger=PropertyChanged}" />
                             </Grid>
                         </WrapPanel>
                     </Grid>
@@ -176,7 +200,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <HeaderedContentControl Header="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}}" Template="{StaticResource HeaderTextBlockTemplate}" />
+                    <HeaderedContentControl
+                        Header="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}}"
+                        Template="{StaticResource HeaderTextBlockTemplate}" />
                     <ItemsControl Grid.Row="1" Grid.IsSharedSizeScope="True">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -185,7 +211,9 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock VerticalAlignment="Center" Text="Gesehene Animes: " HorizontalAlignment="Right" />
 
-                            <Button HorizontalContentAlignment="Stretch" Grid.Column="1" Name="btnChooseSeenFolder" Style="{StaticResource CoolOpenFolderTemplate}" Padding="10 2 2 2" Click="btnChooseSeenFolder_Click">
+                            <Button HorizontalContentAlignment="Stretch" Grid.Column="1" Name="btnChooseSeenFolder"
+                                    Style="{StaticResource CoolOpenFolderTemplate}" Padding="10 2 2 2"
+                                    Click="btnChooseSeenFolder_Click">
                                 <Button.Content>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -193,7 +221,8 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock VerticalAlignment="Center" Text="Pfad: " />
-                                        <TextBox Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding SeenDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
+                                                 Text="{Binding SeenDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
                                 </Button.Content>
                             </Button>
@@ -205,7 +234,9 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock VerticalAlignment="Center" Text="Neue Animes: " HorizontalAlignment="Right" />
 
-                            <Button HorizontalContentAlignment="Stretch" Grid.Column="1" Name="btnChooseNewAnimesDirectory" Style="{StaticResource CoolOpenFolderTemplate}" Padding="10 2 2 2" Click="btnChooseSeenFolder_Click">
+                            <Button HorizontalContentAlignment="Stretch" Grid.Column="1"
+                                    Name="btnChooseNewAnimesDirectory" Style="{StaticResource CoolOpenFolderTemplate}"
+                                    Padding="10 2 2 2" Click="btnChooseSeenFolder_Click">
                                 <Button.Content>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
@@ -213,13 +244,16 @@
                                             <ColumnDefinition />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock VerticalAlignment="Center" Text="Pfad: " />
-                                        <TextBox Grid.Column="1" HorizontalAlignment="Stretch" Text="{Binding ObservedDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                                        <TextBox Grid.Column="1" HorizontalAlignment="Stretch"
+                                                 Text="{Binding ObservedDirectory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                                     </Grid>
                                 </Button.Content>
                             </Button>
                         </Grid>
-                        <CheckBox IsChecked="{Binding IsAutoRenamingEnabled, UpdateSourceTrigger=PropertyChanged}" Content="Gesehene Animes automatisch umbenennen" />
-                        <CheckBox IsChecked="{Binding IsAutoGroupingEnabled, UpdateSourceTrigger=PropertyChanged}" Content="Gesehene Animes automatisch in Unterordner sortieren" />
+                        <CheckBox IsChecked="{Binding IsAutoRenamingEnabled, UpdateSourceTrigger=PropertyChanged}"
+                                  Content="Gesehene Animes automatisch umbenennen" />
+                        <CheckBox IsChecked="{Binding IsAutoGroupingEnabled, UpdateSourceTrigger=PropertyChanged}"
+                                  Content="Gesehene Animes automatisch in Unterordner sortieren" />
                     </ItemsControl>
                 </Grid>
             </TabItem>
@@ -229,7 +263,9 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition />
                     </Grid.RowDefinitions>
-                    <HeaderedContentControl Header="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}}" Template="{StaticResource HeaderTextBlockTemplate}" />
+                    <HeaderedContentControl
+                        Header="{Binding Header, RelativeSource={RelativeSource AncestorType={x:Type TabItem}, Mode=FindAncestor}}"
+                        Template="{StaticResource HeaderTextBlockTemplate}" />
                     <Grid Grid.Row="1">
                         <StackPanel Grid.IsSharedSizeScope="True">
                             <Grid>

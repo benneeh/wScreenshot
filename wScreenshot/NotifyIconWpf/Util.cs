@@ -21,7 +21,6 @@
 //
 // THIS COPYRIGHT NOTICE MAY NOT BE REMOVED FROM THIS FILE
 
-using Hardcodet.Wpf.TaskbarNotification.Interop;
 using System;
 using System.ComponentModel;
 using System.Drawing;
@@ -29,11 +28,12 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Resources;
+using Hardcodet.Wpf.TaskbarNotification.Interop;
 
 namespace Hardcodet.Wpf.TaskbarNotification
 {
     /// <summary>
-    /// Util and extension methods.
+    ///     Util and extension methods.
     /// </summary>
     internal static class Util
     {
@@ -44,7 +44,7 @@ namespace Hardcodet.Wpf.TaskbarNotification
         private static readonly bool isDesignMode;
 
         /// <summary>
-        /// Checks whether the application is currently in design mode.
+        ///     Checks whether the application is currently in design mode.
         /// </summary>
         public static bool IsDesignMode
         {
@@ -58,8 +58,10 @@ namespace Hardcodet.Wpf.TaskbarNotification
         static Util()
         {
             isDesignMode =
-                (bool)DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty, typeof(FrameworkElement))
-                          .Metadata.DefaultValue;
+                (bool)
+                    DependencyPropertyDescriptor.FromProperty(DesignerProperties.IsInDesignModeProperty,
+                        typeof (FrameworkElement))
+                        .Metadata.DefaultValue;
         }
 
         #endregion construction
@@ -67,9 +69,9 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region CreateHelperWindow
 
         /// <summary>
-        /// Creates an transparent window without dimension that
-        /// can be used to temporarily obtain focus and/or
-        /// be used as a window message sink.
+        ///     Creates an transparent window without dimension that
+        ///     can be used to temporarily obtain focus and/or
+        ///     be used as a window message sink.
         /// </summary>
         /// <returns>Empty window.</returns>
         public static Window CreateHelperWindow()
@@ -90,8 +92,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region WriteIconData
 
         /// <summary>
-        /// Updates the taskbar icons with data provided by a given
-        /// <see cref="NotifyIconData"/> instance.
+        ///     Updates the taskbar icons with data provided by a given
+        ///     <see cref="NotifyIconData" /> instance.
         /// </summary>
         /// <param name="data">Configuration settings for the NotifyIcon.</param>
         /// <param name="command">Operation on the icon (e.g. delete the icon).</param>
@@ -103,13 +105,15 @@ namespace Hardcodet.Wpf.TaskbarNotification
         }
 
         /// <summary>
-        /// Updates the taskbar icons with data provided by a given
-        /// <see cref="NotifyIconData"/> instance.
+        ///     Updates the taskbar icons with data provided by a given
+        ///     <see cref="NotifyIconData" /> instance.
         /// </summary>
         /// <param name="data">Configuration settings for the NotifyIcon.</param>
         /// <param name="command">Operation on the icon (e.g. delete the icon).</param>
-        /// <param name="flags">Defines which members of the <paramref name="data"/>
-        /// structure are set.</param>
+        /// <param name="flags">
+        ///     Defines which members of the <paramref name="data" />
+        ///     structure are set.
+        /// </param>
         /// <returns>True if the data was successfully written.</returns>
         /// <remarks>See Shell_NotifyIcon documentation on MSDN for details.</remarks>
         public static bool WriteIconData(ref NotifyIconData data, NotifyCommand command, IconDataMembers flags)
@@ -129,8 +133,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region GetBalloonFlag
 
         /// <summary>
-        /// Gets a <see cref="BalloonFlags"/> enum value that
-        /// matches a given <see cref="BalloonIcon"/>.
+        ///     Gets a <see cref="BalloonFlags" /> enum value that
+        ///     matches a given <see cref="BalloonIcon" />.
         /// </summary>
         public static BalloonFlags GetBalloonFlag(this BalloonIcon icon)
         {
@@ -154,17 +158,21 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region ImageSource to Icon
 
         /// <summary>
-        /// Reads a given image resource into a WinForms icon.
+        ///     Reads a given image resource into a WinForms icon.
         /// </summary>
-        /// <param name="imageSource">Image source pointing to
-        /// an icon file (*.ico).</param>
-        /// <returns>An icon object that can be used with the
-        /// taskbar area.</returns>
+        /// <param name="imageSource">
+        ///     Image source pointing to
+        ///     an icon file (*.ico).
+        /// </param>
+        /// <returns>
+        ///     An icon object that can be used with the
+        ///     taskbar area.
+        /// </returns>
         public static Icon ToIcon(this ImageSource imageSource)
         {
             if (imageSource == null) return null;
 
-            Uri uri = new Uri(imageSource.ToString());
+            var uri = new Uri(imageSource.ToString());
             StreamResourceInfo streamInfo = Application.GetResourceStream(uri);
 
             if (streamInfo == null)
@@ -182,24 +190,30 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region evaluate listings
 
         /// <summary>
-        /// Checks a list of candidates for equality to a given
-        /// reference value.
+        ///     Checks a list of candidates for equality to a given
+        ///     reference value.
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="value">The evaluated value.</param>
-        /// <param name="candidates">A liste of possible values that are
-        /// regarded valid.</param>
-        /// <returns>True if one of the submitted <paramref name="candidates"/>
-        /// matches the evaluated value. If the <paramref name="candidates"/>
-        /// parameter itself is null, too, the method returns false as well,
-        /// which allows to check with null values, too.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="candidates"/>
-        /// is a null reference.</exception>
+        /// <param name="candidates">
+        ///     A liste of possible values that are
+        ///     regarded valid.
+        /// </param>
+        /// <returns>
+        ///     True if one of the submitted <paramref name="candidates" />
+        ///     matches the evaluated value. If the <paramref name="candidates" />
+        ///     parameter itself is null, too, the method returns false as well,
+        ///     which allows to check with null values, too.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     If <paramref name="candidates" />
+        ///     is a null reference.
+        /// </exception>
         public static bool Is<T>(this T value, params T[] candidates)
         {
             if (candidates == null) return false;
 
-            foreach (var t in candidates)
+            foreach (T t in candidates)
             {
                 if (value.Equals(t)) return true;
             }
@@ -212,8 +226,8 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region match MouseEvent to PopupActivation
 
         /// <summary>
-        /// Checks if a given <see cref="PopupActivationMode"/> is a match for
-        /// an effectively pressed mouse button.
+        ///     Checks if a given <see cref="PopupActivationMode" /> is a match for
+        ///     an effectively pressed mouse button.
         /// </summary>
         public static bool IsMatch(this MouseEvent me, PopupActivationMode activationMode)
         {
@@ -245,18 +259,20 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #region execute command
 
         /// <summary>
-        /// Executes a given command if its <see cref="ICommand.CanExecute"/> method
-        /// indicates it can run.
+        ///     Executes a given command if its <see cref="ICommand.CanExecute" /> method
+        ///     indicates it can run.
         /// </summary>
         /// <param name="command">The command to be executed, or a null reference.</param>
-        /// <param name="commandParameter">An optional parameter that is associated with
-        /// the command.</param>
+        /// <param name="commandParameter">
+        ///     An optional parameter that is associated with
+        ///     the command.
+        /// </param>
         /// <param name="target">The target element on which to raise the command.</param>
         public static void ExecuteIfEnabled(this ICommand command, object commandParameter, IInputElement target)
         {
             if (command == null) return;
 
-            RoutedCommand rc = command as RoutedCommand;
+            var rc = command as RoutedCommand;
             if (rc != null)
             {
                 //routed commands work on a target
@@ -271,14 +287,18 @@ namespace Hardcodet.Wpf.TaskbarNotification
         #endregion execute command
 
         /// <summary>
-        /// Checks whether the <see cref="FrameworkElement.DataContextProperty"/>
-        ///  is bound or not.
+        ///     Checks whether the <see cref="FrameworkElement.DataContextProperty" />
+        ///     is bound or not.
         /// </summary>
         /// <param name="element">The element to be checked.</param>
-        /// <returns>True if the data context property is being managed by a
-        /// binding expression.</returns>
-        /// <exception cref="ArgumentNullException">If <paramref name="element"/>
-        /// is a null reference.</exception>
+        /// <returns>
+        ///     True if the data context property is being managed by a
+        ///     binding expression.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">
+        ///     If <paramref name="element" />
+        ///     is a null reference.
+        /// </exception>
         public static bool IsDataContextDataBound(this FrameworkElement element)
         {
             if (element == null) throw new ArgumentNullException("element");

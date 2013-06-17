@@ -1,26 +1,21 @@
 ﻿using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
-using System.Text;
+using System.Reflection;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace wScreenshot.Controls.AutoUpdate
 {
     /// <summary>
-    /// Interaction logic for AutoUpdate.xaml
+    ///     Interaction logic for AutoUpdate.xaml
     /// </summary>
     public partial class AutoUpdate : UserControl
     {
@@ -38,7 +33,9 @@ namespace wScreenshot.Controls.AutoUpdate
                     Thread.Sleep(50);
                     if (i == 20)
                     {
-                        if (MessageBox.Show("Couldn't remove bRenamer.exe, retry?", "Error:", MessageBoxButton.YesNo, MessageBoxImage.Asterisk, MessageBoxResult.OK) == MessageBoxResult.OK)
+                        if (
+                            MessageBox.Show("Couldn't remove bRenamer.exe, retry?", "Error:", MessageBoxButton.YesNo,
+                                MessageBoxImage.Asterisk, MessageBoxResult.OK) == MessageBoxResult.OK)
                         {
                             i = 0;
                         }
@@ -65,13 +62,13 @@ namespace wScreenshot.Controls.AutoUpdate
 
         #region events
 
+        public delegate void UpdateEventHandler(object sender, UpdateEventArgs e);
+
         /// <summary>
-        /// Occurs when an update is avialable
+        ///     Occurs when an update is avialable
         /// </summary>
         [Category("Update"), Description("Sets an global update event.")]
         public event UpdateEventHandler UpdateAvialable;
-
-        public delegate void UpdateEventHandler(object sender, UpdateEventArgs e);
 
         #endregion events
 
@@ -83,77 +80,52 @@ namespace wScreenshot.Controls.AutoUpdate
 
         #region public properties fields
 
+        public static readonly DependencyProperty HostNameProperty = DependencyProperty.Register("HostName",
+            typeof (string), typeof (AutoUpdate),
+            new FrameworkPropertyMetadata("nightow.mine.nu"));
+
+        public static readonly DependencyProperty PortProperty = DependencyProperty.Register("Port", typeof (int),
+            typeof (AutoUpdate),
+            new FrameworkPropertyMetadata(1315));
+
         public Dictionary<string, string> UserObjects
         {
-            get
-            {
-                return _UserObjects;
-            }
-            set
-            {
-                _UserObjects = value;
-            }
+            get { return _UserObjects; }
+            set { _UserObjects = value; }
         }
-
-        public static readonly DependencyProperty HostNameProperty = DependencyProperty.Register("HostName", typeof(string), typeof(AutoUpdate),
-            new FrameworkPropertyMetadata("nightow.mine.nu"));
 
         [Category("Update"), DefaultValue(false), Description("Gets or sets the servers hostname")]
         public string HostName
         {
-            get
-            {
-                return (string)GetValue(HostNameProperty);
-            }
+            get { return (string) GetValue(HostNameProperty); }
 
-            set
-            {
-                SetValue(HostNameProperty, value);
-            }
+            set { SetValue(HostNameProperty, value); }
         }
-
-        public static readonly DependencyProperty PortProperty = DependencyProperty.Register("Port", typeof(int), typeof(AutoUpdate),
-            new FrameworkPropertyMetadata(1315));
 
         [Category("Update"), DefaultValue(1315), Description("Gets or sets the servers port")]
         public int Port
         {
-            get
-            {
-                return (int)GetValue(PortProperty);
-            }
+            get { return (int) GetValue(PortProperty); }
 
-            set
-            {
-                SetValue(PortProperty, value);
-            }
+            set { SetValue(PortProperty, value); }
         }
 
         [Category("Update"), Description("Indicates if the current exe is x64")]
         public bool Isx64
         {
-            get
-            {
-                return (IntPtr.Size == 8);
-            }
+            get { return (IntPtr.Size == 8); }
         }
 
         [Category("Update"), Description("Indicates if the OS is x64")]
         public bool IsOsx64
         {
-            get
-            {
-                return (IntPtr.Size == 8);
-            }
+            get { return (IntPtr.Size == 8); }
         }
 
         [Category("Update"), Description("Gets the clients ComputerName")]
         public string ComputerName
         {
-            get
-            {
-                return System.Environment.MachineName;
-            }
+            get { return Environment.MachineName; }
         }
 
         [Category("Update"), Description("Gets the clients Version")]
@@ -162,8 +134,8 @@ namespace wScreenshot.Controls.AutoUpdate
             get
             {
                 if (Isx64Forced) return "force_x64";
-                else if (Isx86Forced) return "force_x86";
-                else return "v" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+                if (Isx86Forced) return "force_x86";
+                return "v" + Assembly.GetExecutingAssembly().GetName().Version;
             }
         }
 
@@ -172,7 +144,7 @@ namespace wScreenshot.Controls.AutoUpdate
         {
             get
             {
-                string s = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+                string s = Assembly.GetExecutingAssembly().GetName().Name;
                 if (Isx64 || Isx64Forced)
                 {
                     s += "x64";
@@ -187,10 +159,7 @@ namespace wScreenshot.Controls.AutoUpdate
 
         public bool IsAllSet
         {
-            get
-            {
-                return !string.IsNullOrEmpty(HostName) && Port > 0;
-            }
+            get { return !string.IsNullOrEmpty(HostName) && Port > 0; }
         }
 
         #endregion public properties fields
@@ -213,13 +182,10 @@ namespace wScreenshot.Controls.AutoUpdate
         {
             if (IsAllSet)
             {
-                var host = HostName;
-                var port = Port;
+                string host = HostName;
+                int port = Port;
                 var bw = new BackgroundWorker();
-                bw.DoWork += (s, e) =>
-                    {
-                        Updatethread(host, port);
-                    };
+                bw.DoWork += (s, e) => { Updatethread(host, port); };
                 bw.RunWorkerAsync();
             }
 
@@ -232,13 +198,10 @@ namespace wScreenshot.Controls.AutoUpdate
             Isx64Forced = cpuArchitectureForceX64;
             if (IsAllSet)
             {
-                var host = HostName;
-                var port = Port;
+                string host = HostName;
+                int port = Port;
                 var bw = new BackgroundWorker();
-                bw.DoWork += (s, e) =>
-                {
-                    Updatethread(host, port);
-                };
+                bw.DoWork += (s, e) => { Updatethread(host, port); };
                 bw.RunWorkerAsync();
             }
             return IsAllSet;
@@ -254,10 +217,10 @@ namespace wScreenshot.Controls.AutoUpdate
                     {
                         try
                         {
-                            new System.Net.WebClient().DownloadFile(e.Url, ProgramName + ".update");
+                            new WebClient().DownloadFile(e.Url, ProgramName + ".update");
 
-                            FileInfo fi = new FileInfo(ProgramName + ".update");
-                            System.CodeDom.Compiler.CompilerParameters cp = new System.CodeDom.Compiler.CompilerParameters();
+                            var fi = new FileInfo(ProgramName + ".update");
+                            var cp = new CompilerParameters();
                             cp.ReferencedAssemblies.Add("System.dll");
                             cp.ReferencedAssemblies.Add("System.Core.dll");
                             cp.ReferencedAssemblies.Add("System.Xaml.dll");
@@ -265,20 +228,24 @@ namespace wScreenshot.Controls.AutoUpdate
                             cp.ReferencedAssemblies.Add("PresentationFramework.dll");
                             cp.ReferencedAssemblies.Add("PresentationCore.dll");
                             cp.GenerateExecutable = true;
-                            cp.CompilerOptions = string.Format("/target:winexe /lib:\"{0}\"", System.IO.Path.Combine(System.Environment.GetFolderPath(System.Environment.SpecialFolder.ProgramFiles), @"Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0"));
+                            cp.CompilerOptions = string.Format("/target:winexe /lib:\"{0}\"",
+                                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                                    @"Reference Assemblies\Microsoft\Framework\.NETFramework\v4.0"));
 
                             //new string[] {"",""}.Any()
-                            System.CodeDom.Compiler.CodeDomProvider cdp = System.CodeDom.Compiler.CodeDomProvider.CreateProvider("c#");
-                            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
-                            var resourceName = assembly.GetManifestResourceNames().Where(x => x.EndsWith("bRenamer.cs")).First();
+                            CodeDomProvider cdp = CodeDomProvider.CreateProvider("c#");
+                            Assembly assembly = Assembly.GetExecutingAssembly();
+                            string resourceName =
+                                assembly.GetManifestResourceNames().Where(x => x.EndsWith("bRenamer.cs")).First();
                             var resourceStreamReader = new StreamReader(assembly.GetManifestResourceStream(resourceName));
                             string prog = resourceStreamReader.ReadToEnd();
 
-                            var Results = cdp.CompileAssemblyFromSource(cp, prog);
+                            CompilerResults Results = cdp.CompileAssemblyFromSource(cp, prog);
 
-                            Process.Start(Results.PathToAssembly, "\"" + fi.FullName + "\" \"" + System.Reflection.Assembly.GetExecutingAssembly().Location + "\"");
+                            Process.Start(Results.PathToAssembly,
+                                "\"" + fi.FullName + "\" \"" + Assembly.GetExecutingAssembly().Location + "\"");
 
-                            Dispatcher.Invoke((Action)delegate { App.Current.MainWindow.Close(); });
+                            Dispatcher.Invoke((Action) delegate { Application.Current.MainWindow.Close(); });
                         }
                         catch (Exception ex)
                         {
@@ -299,12 +266,12 @@ namespace wScreenshot.Controls.AutoUpdate
             string serverVers = "";
             try
             {
-                Socket updater = new Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp);
+                var updater = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 updater.Connect(host, port);
-                NetworkStream ns = new NetworkStream(updater);//hier der stream für das socket
-                BinaryWriter bw = new BinaryWriter(ns);//klasse zum binären schreiben in einen stream
-                BinaryReader br = new BinaryReader(ns);//   "    "     "    lesen     aus einem  "
-                UpdateEventArgs e = new UpdateEventArgs(null, false, false, null, null);
+                var ns = new NetworkStream(updater); //hier der stream für das socket
+                var bw = new BinaryWriter(ns); //klasse zum binären schreiben in einen stream
+                var br = new BinaryReader(ns); //   "    "     "    lesen     aus einem  "
+                var e = new UpdateEventArgs(null, false, false, null, null);
                 if (updater.Connected)
                 {
                     bw.Write(3 + UserObjects.Count); //anzahl an zusatzinformationen + 3 die man sowieso hat
@@ -331,7 +298,7 @@ namespace wScreenshot.Controls.AutoUpdate
                     bw.Close();
                     updater.Close(); //schließen
 
-                    if (serverVers != Version)//...
+                    if (serverVers != Version) //...
                     {
                         e = new UpdateEventArgs(serverOrt, true, true, "Update available.", serverVers);
                     }
@@ -342,7 +309,8 @@ namespace wScreenshot.Controls.AutoUpdate
                 }
                 else
                 {
-                    e = new UpdateEventArgs(serverOrt, false, false, "Updateprogress failed. Don't know if an update is available.", serverVers);
+                    e = new UpdateEventArgs(serverOrt, false, false,
+                        "Updateprogress failed. Don't know if an update is available.", serverVers);
                 }
                 if (UpdateAvialable != null)
                 {

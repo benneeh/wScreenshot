@@ -1,18 +1,27 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Drawing;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
-using System.Windows.Media;
 using wScreenshot.Model;
+using Brushes = System.Windows.Media.Brushes;
+using Color = System.Windows.Media.Color;
 
 namespace wScreenshot.View
 {
     /// <summary>
-    /// Interaction logic for Options.xaml
+    ///     Interaction logic for Options.xaml
     /// </summary>
     public partial class Options : Window
     {
         private static Options _CurrentOptions;
+        private bool CloseReally;
+
+        public Options()
+        {
+            InitializeComponent();
+        }
 
         public static Options CurrentOptions
         {
@@ -26,30 +35,11 @@ namespace wScreenshot.View
             }
         }
 
-        public Options()
-        {
-            InitializeComponent();
-        }
-
         public wScreenshotOptionsModel Model
         {
-            get
-            {
-                return DataContext as Model.wScreenshotOptionsModel;
-            }
-            set
-            {
-                DataContext = value;
-            }
+            get { return DataContext as wScreenshotOptionsModel; }
+            set { DataContext = value; }
         }
-
-        public struct MARGINS
-        {
-            public int cxLeftWidth;      // width of left border that retains its size
-            public int cxRightWidth;     // width of right border that retains its size
-            public int cyTopHeight;      // height of top border that retains its size
-            public int cyBottomHeight;   // height of bottom border that retains its size
-        };
 
         [DllImport("DwmApi.dll")]
         public static extern int DwmExtendFrameIntoClientArea(
@@ -66,20 +56,20 @@ namespace wScreenshot.View
                 mainWindowSrc.CompositionTarget.BackgroundColor = Color.FromArgb(0, 0, 0, 0);
 
                 // Get System Dpi
-                System.Drawing.Graphics desktop = System.Drawing.Graphics.FromHwnd(mainWindowPtr);
+                Graphics desktop = Graphics.FromHwnd(mainWindowPtr);
                 float DesktopDpiX = desktop.DpiX;
                 float DesktopDpiY = desktop.DpiY;
 
                 // Set Margins
-                MARGINS margins = new MARGINS();
+                var margins = new MARGINS();
 
                 // Extend glass frame into client area
                 // Note that the default desktop Dpi is 96dpi. The  margins are
                 // adjusted for the system Dpi.
-                margins.cxLeftWidth = Convert.ToInt32(5 * (DesktopDpiX / 96));
-                margins.cxRightWidth = Convert.ToInt32(5 * (DesktopDpiX / 96));
-                margins.cyTopHeight = Convert.ToInt32(((int)50 + 5) * (DesktopDpiX / 96));
-                margins.cyBottomHeight = Convert.ToInt32((bottomMarginIndicator.ActualHeight + 5) * (DesktopDpiX / 96));
+                margins.cxLeftWidth = Convert.ToInt32(5*(DesktopDpiX/96));
+                margins.cxRightWidth = Convert.ToInt32(5*(DesktopDpiX/96));
+                margins.cyTopHeight = Convert.ToInt32((50 + 5)*(DesktopDpiX/96));
+                margins.cyBottomHeight = Convert.ToInt32((bottomMarginIndicator.ActualHeight + 5)*(DesktopDpiX/96));
 
                 int hr = DwmExtendFrameIntoClientArea(mainWindowSrc.Handle, ref margins);
 
@@ -90,14 +80,12 @@ namespace wScreenshot.View
                 }
             }
 
-            // If not Vista, paint background white.
+                // If not Vista, paint background white.
             catch (DllNotFoundException)
             {
                 Application.Current.MainWindow.Background = Brushes.White;
             }
         }
-
-        private bool CloseReally = false;
 
         public new void Close()
         {
@@ -105,7 +93,7 @@ namespace wScreenshot.View
             base.Close();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             if (CloseReally)
             {
@@ -115,8 +103,16 @@ namespace wScreenshot.View
                 e.Cancel = true;
 
                 //this.Visibility = System.Windows.Visibility.Hidden;
-                this.Hide();
+                Hide();
             }
         }
+
+        public struct MARGINS
+        {
+            public int cxLeftWidth; // width of left border that retains its size
+            public int cxRightWidth; // width of right border that retains its size
+            public int cyBottomHeight; // height of bottom border that retains its size
+            public int cyTopHeight; // height of top border that retains its size
+        };
     }
 }
