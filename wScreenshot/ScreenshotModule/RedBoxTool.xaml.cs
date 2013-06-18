@@ -2,12 +2,11 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using wScreenshot.Annotations;
 using wScreenshot.DataObject;
 using wScreenshot.Helper;
 using wScreenshot.Hooks;
@@ -17,15 +16,17 @@ namespace wScreenshot.ScreenshotModule
     /// <summary>
     ///     Interaction logic for RedBoxTool.xaml
     /// </summary>
-    public partial class RedBoxTool : Window
+    public partial class RedBoxTool : Window, INotifyPropertyChanged
     {
         private readonly MouseHook _m;
 
-        private IntPtr _handle;
-        private bool _isMoving;
-
         private readonly ObservableCollection<AnnoyingRectangle> borderCollectionSource =
             new ObservableCollection<AnnoyingRectangle>();
+
+        private IntPtr _handle;
+        private bool _isAltDown;
+        private bool _isMoving;
+        private KeyboardHook _k;
 
         private AnnoyingRectangle currentBorder;
         private bool lastMouseDownHandled;
@@ -34,10 +35,24 @@ namespace wScreenshot.ScreenshotModule
         {
             InitializeComponent();
             _m = new MouseHook();
+            _k = new KeyboardHook();
             BorderContainer.ItemsSource = borderCollectionSource;
         }
 
+        public bool IsAltDown
+        {
+            get { return _isAltDown; }
+            set
+            {
+                if (value.Equals(_isAltDown)) return;
+                _isAltDown = value;
+                OnPropertyChanged("IsAltDown");
+            }
+        }
+
         public Point Down { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -52,6 +67,24 @@ namespace wScreenshot.ScreenshotModule
             _m.MouseMove += m_MouseMove;
             _m.MouseUp += m_MouseUp;
             _m.MouseDown += m_MouseDown;
+
+            _k.IsHooked = true;
+            _k.KeyDown += (s, ev) =>
+            {
+                if (ev.Key == Key.System || ev.Key == Key.LeftAlt || ev.Key == Key.RightAlt)
+                {
+                    IsAltDown = true;
+                    e.Handled = true;
+                }
+            };
+            _k.KeyUp += (s, ev) =>
+            {
+                if (ev.Key == Key.System || ev.Key == Key.LeftAlt || ev.Key == Key.RightAlt)
+                {
+                    IsAltDown = false;
+                    e.Handled = true;
+                }
+            };
         }
 
         private void m_MouseDown(object sender, MouseHookEventArgs e)
@@ -92,7 +125,8 @@ namespace wScreenshot.ScreenshotModule
         {
             if (_isMoving)
             {
-                SetBounds(Math.Min(e.X, (int)Down.X), Math.Min(e.Y, (int)Down.Y), Math.Abs(e.X - (int)Down.X), Math.Abs(e.Y - (int)Down.Y));
+                SetBounds(Math.Min(e.X, (int)Down.X), Math.Min(e.Y, (int)Down.Y), Math.Abs(e.X - (int)Down.X),
+                    Math.Abs(e.Y - (int)Down.Y));
             }
         }
 
@@ -128,6 +162,13 @@ namespace wScreenshot.ScreenshotModule
 
         private void ResizerNE_MouseDown(object sender, MouseButtonEventArgs e)
         {
+        }
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

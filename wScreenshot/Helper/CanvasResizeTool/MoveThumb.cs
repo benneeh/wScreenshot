@@ -38,8 +38,8 @@ namespace wScreenshot.Helper.CanvasResizeTool
                     dragDelta = _rotateTransform.Transform(dragDelta);
                 }
                 var annoyingRectangle = _designerItem.DataContext as AnnoyingRectangle;
-                annoyingRectangle.X += (decimal)dragDelta.X;
-                annoyingRectangle.Y += (decimal)dragDelta.Y;
+                annoyingRectangle.X += dragDelta.X;
+                annoyingRectangle.Y += dragDelta.Y;
 
                 //Canvas.SetLeft(_designerItem, Canvas.GetLeft(this._designerItem) + dragDelta.X);
                 //Canvas.SetTop(_designerItem, Canvas.GetTop(this._designerItem) + dragDelta.Y);

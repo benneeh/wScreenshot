@@ -42,7 +42,8 @@ namespace wScreenshot.Helper.CanvasResizeTool
                 if (adornerLayer != null)
                 {
                     var designerItem = this.DataContext as ContentControl;
-                    var canvas = VisualTreeHelper.GetParent(designerItem) as Canvas;
+
+                    //var canvas = designerItem.FindParentControl<Canvas>();
                     _adorner = new ResizeRotateAdorner(designerItem);
                     adornerLayer.Add(this._adorner);
 

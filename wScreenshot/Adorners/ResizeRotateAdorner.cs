@@ -14,7 +14,7 @@ namespace wScreenshot.Adorners
         {
             get
             {
-                return this.visuals.Count;
+                return visuals.Count;
             }
         }
 
@@ -22,21 +22,21 @@ namespace wScreenshot.Adorners
             : base(designerItem)
         {
             SnapsToDevicePixels = true;
-            this.chrome = new ResizeRotateChrome();
-            this.chrome.DataContext = designerItem;
-            this.visuals = new VisualCollection(this);
-            this.visuals.Add(this.chrome);
+            chrome = new ResizeRotateChrome();
+            chrome.DataContext = designerItem;
+            visuals = new VisualCollection(this);
+            visuals.Add(this.chrome);
         }
 
         protected override Size ArrangeOverride(Size arrangeBounds)
         {
-            this.chrome.Arrange(new Rect(arrangeBounds));
+            chrome.Arrange(new Rect(arrangeBounds));
             return arrangeBounds;
         }
 
         protected override Visual GetVisualChild(int index)
         {
-            return this.visuals[index];
+            return visuals[index];
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
+using wScreenshot.DataObject;
 
 namespace wScreenshot.Adorners
 {
@@ -9,7 +10,7 @@ namespace wScreenshot.Adorners
     {
         private SizeChrome chrome;
         private VisualCollection visuals;
-        private ContentControl designerItem;
+        private ContentControl _designerItem;
 
         protected override int VisualChildrenCount
         {
@@ -22,22 +23,23 @@ namespace wScreenshot.Adorners
         public SizeAdorner(ContentControl designerItem)
             : base(designerItem)
         {
-            this.SnapsToDevicePixels = true;
-            this.designerItem = designerItem;
-            this.chrome = new SizeChrome();
-            this.chrome.DataContext = designerItem;
-            this.visuals = new VisualCollection(this);
-            this.visuals.Add(this.chrome);
+            SnapsToDevicePixels = true;
+            this._designerItem = designerItem;
+            var angryRectangle = designerItem.DataContext as AnnoyingRectangle;
+            chrome = new SizeChrome();
+            chrome.DataContext = angryRectangle;
+            visuals = new VisualCollection(this);
+            visuals.Add(this.chrome);
         }
 
         protected override Visual GetVisualChild(int index)
         {
-            return this.visuals[index];
+            return visuals[index];
         }
 
         protected override Size ArrangeOverride(Size arrangeBounds)
         {
-            this.chrome.Arrange(new Rect(new Point(0.0, 0.0), arrangeBounds));
+            chrome.Arrange(new Rect(new Point(0.0, 0.0), arrangeBounds));
             return arrangeBounds;
         }
     }

@@ -11,63 +11,82 @@ namespace wScreenshot.Helper
     {
         private readonly Dictionary<string, bool> KeyDictionary = new Dictionary<string, bool>();
         private Binding b = new Binding();
+        private UIElement BoundControl;
+
+        ~KeyBoardEventHelper()
+        {
+            if (BoundControl != null)
+            {
+                Keyboard.RemoveKeyDownHandler(BoundControl, KeyDownHandler);
+                Keyboard.RemoveKeyUpHandler(BoundControl, KeyUpHandler);
+            }
+        }
 
         public KeyBoardEventHelper()
+            : this(Application.Current.MainWindow)
         {
-            Keyboard.AddKeyDownHandler(Application.Current.MainWindow, (s, e) =>
-            {
-                string key = e.Key.ToString();
-                string subKey = key.Replace("Left", "").Replace("Right", "");
-                if (!string.IsNullOrEmpty(subKey))
-                {
-                    if (!KeyDictionary.ContainsKey(subKey))
-                    {
-                        KeyDictionary.Add(subKey, true);
-                    }
-                    else
-                    {
-                        KeyDictionary[subKey] = true;
-                    }
-                    OnPropertyChanged(string.Format("[{0}]", subKey));
-                }
+        }
 
-                if (!KeyDictionary.ContainsKey(key))
+        public KeyBoardEventHelper(UIElement control)
+        {
+            Keyboard.AddKeyDownHandler(control, KeyDownHandler);
+            Keyboard.AddKeyUpHandler(control, KeyUpHandler);
+        }
+
+        private void KeyDownHandler(object sender, KeyEventArgs e)
+        {
+            string key = e.Key.ToString();
+            string subKey = key.Replace("Left", "").Replace("Right", "");
+            if (!string.IsNullOrEmpty(subKey) && subKey != key)
+            {
+                if (!KeyDictionary.ContainsKey(subKey))
                 {
-                    KeyDictionary.Add(key, true);
+                    KeyDictionary.Add(subKey, true);
                 }
                 else
                 {
-                    KeyDictionary[key] = true;
+                    KeyDictionary[subKey] = true;
                 }
-                OnPropertyChanged(string.Format("[{0}]", e.Key));
-            });
-            Keyboard.AddKeyUpHandler(Application.Current.MainWindow, (s, e) =>
-            {
-                string key = e.Key.ToString();
-                string subKey = key.Replace("Left", "").Replace("Right", "");
-                if (!string.IsNullOrEmpty(subKey))
-                {
-                    if (!KeyDictionary.ContainsKey(subKey))
-                    {
-                        KeyDictionary.Add(subKey, false);
-                    }
-                    else
-                    {
-                        KeyDictionary[subKey] = false;
-                    }
-                    OnPropertyChanged(string.Format("[{0}]", subKey));
-                }
+                OnPropertyChanged(string.Format("{0}", subKey));
+            }
 
-                if (!KeyDictionary.ContainsKey(key))
+            if (!KeyDictionary.ContainsKey(key))
+            {
+                KeyDictionary.Add(key, true);
+            }
+            else
+            {
+                KeyDictionary[key] = true;
+            }
+            OnPropertyChanged(string.Format("{0}", e.Key));
+        }
+
+        private void KeyUpHandler(object sender, KeyEventArgs e)
+        {
+            string key = e.Key.ToString();
+            string subKey = key.Replace("Left", "").Replace("Right", "");
+            if (!string.IsNullOrEmpty(subKey))
+            {
+                if (!KeyDictionary.ContainsKey(subKey))
                 {
-                    KeyDictionary.Add(key, false);
+                    KeyDictionary.Add(subKey, false);
                 }
                 else
                 {
-                    KeyDictionary[key] = false;
+                    KeyDictionary[subKey] = false;
                 }
-                OnPropertyChanged(string.Format("[{0}]", e.Key));
-            });
+                OnPropertyChanged(string.Format("{0}", subKey));
+            }
+
+            if (!KeyDictionary.ContainsKey(key))
+            {
+                KeyDictionary.Add(key, false);
+            }
+            else
+            {
+                KeyDictionary[key] = false;
+            }
+            OnPropertyChanged(string.Format("{0}", e.Key));
         }
 
         public bool this[string key]

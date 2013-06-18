@@ -27,67 +27,72 @@
                     <Grid>
                         <Grid Opacity="0" Margin="-3">
                             <canvasResizeTool:RotateThumb Width="7"
-                             Height="7"
-                             Margin="0,-20,0,0"
-                             Cursor="Hand"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Center" />
+                                                          Height="7"
+                                                          Margin="0,-20,0,0"
+                                                          Cursor="Hand"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Center" />
                             <canvasResizeTool:ResizeThumb Height="3"
-                             Cursor="SizeNS"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Stretch" />
+                                                          Cursor="SizeNS"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Stretch" />
                             <canvasResizeTool:ResizeThumb Width="3"
-                             Cursor="SizeWE"
-                             VerticalAlignment="Stretch"
-                             HorizontalAlignment="Left" />
+                                                          Cursor="SizeWE"
+                                                          VerticalAlignment="Stretch"
+                                                          HorizontalAlignment="Left" />
                             <canvasResizeTool:ResizeThumb Width="3"
-                             Cursor="SizeWE"
-                             VerticalAlignment="Stretch"
-                             HorizontalAlignment="Right" />
+                                                          Cursor="SizeWE"
+                                                          VerticalAlignment="Stretch"
+                                                          HorizontalAlignment="Right" />
                             <canvasResizeTool:ResizeThumb Height="3"
-                             Cursor="SizeNS"
-                             VerticalAlignment="Bottom"
-                             HorizontalAlignment="Stretch" />
+                                                          Cursor="SizeNS"
+                                                          VerticalAlignment="Bottom"
+                                                          HorizontalAlignment="Stretch" />
                             <canvasResizeTool:ResizeThumb Width="7"
-                             Height="7"
-                             Margin="-2"
-                             Cursor="SizeNWSE"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Left" />
+                                                          Height="7"
+                                                          Margin="-2"
+                                                          Cursor="SizeNWSE"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Left" />
                             <canvasResizeTool:ResizeThumb Width="7"
-                             Height="7"
-                             Margin="-2"
-                             Cursor="SizeNESW"
-                             VerticalAlignment="Top"
-                             HorizontalAlignment="Right" />
+                                                          Height="7"
+                                                          Margin="-2"
+                                                          Cursor="SizeNESW"
+                                                          VerticalAlignment="Top"
+                                                          HorizontalAlignment="Right" />
                             <canvasResizeTool:ResizeThumb Width="7"
-                             Height="7"
-                             Margin="-2"
-                             Cursor="SizeNESW"
-                             VerticalAlignment="Bottom"
-                             HorizontalAlignment="Left" />
+                                                          Height="7"
+                                                          Margin="-2"
+                                                          Cursor="SizeNESW"
+                                                          VerticalAlignment="Bottom"
+                                                          HorizontalAlignment="Left" />
                             <canvasResizeTool:ResizeThumb Width="7"
-                             Height="7"
-                             Margin="-2"
-                             Cursor="SizeNWSE"
-                             VerticalAlignment="Bottom"
-                             HorizontalAlignment="Right" />
+                                                          Height="7"
+                                                          Margin="-2"
+                                                          Cursor="SizeNWSE"
+                                                          VerticalAlignment="Bottom"
+                                                          HorizontalAlignment="Right" />
                         </Grid>
                         <Grid IsHitTestVisible="False" Opacity="1" Margin="-3">
-                            <!--<Rectangle SnapsToDevicePixels="True"
-                         StrokeThickness="1"
-                         Margin="1"
-                         Stroke="White" />
+                            <Rectangle SnapsToDevicePixels="True"
+                                         StrokeThickness="1"
+                                         Margin="1"
+                                         Stroke="#aa000000" />
                             <Line StrokeThickness="1" X1="0" Y1="0" X2="0" Y2="20"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Margin="0,-19,0,0"
-                    Stroke="Green" />-->
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="-1,-20,0,0" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Top" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Top" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left" VerticalAlignment="Bottom" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Top"
+                                    Margin="0,-19,0,0"
+                                    Stroke="#aa000000" />
+                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Center"
+                                     VerticalAlignment="Top" Margin="-1,-20,0,0" />
+                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left"
+                                     VerticalAlignment="Top" />
+                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right"
+                                     VerticalAlignment="Top" />
+                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left"
+                                     VerticalAlignment="Bottom" />
+                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right"
+                                     VerticalAlignment="Bottom" />
                         </Grid>
                     </Grid>
                 </ControlTemplate>

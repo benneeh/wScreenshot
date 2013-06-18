@@ -45,7 +45,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>3</WarningLevel>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -77,6 +77,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -114,6 +115,7 @@
     <Compile Include="Controls\ColorPicker\HsvControl.cs" />
     <Compile Include="Controls\ColorPicker\SpectrumSlider.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converter\BorderGapMaskConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="DataObject\AnnoyingRectangle.cs" />
     <Compile Include="DataObject\wScreenshotImage.cs" />
@@ -132,6 +134,7 @@
     <Compile Include="Hooks\Classes\HotKeyEventArgs.cs" />
     <Compile Include="Hooks\Classes\HotKeyList.cs" />
     <Compile Include="Hooks\Classes\HotKeyUtil.cs" />
+    <Compile Include="Hooks\KeyboardHook.cs" />
     <Compile Include="Hooks\HotKeyWinApi.cs" />
     <Compile Include="Hooks\Keys.cs" />
     <Compile Include="Hooks\MouseHook.cs" />

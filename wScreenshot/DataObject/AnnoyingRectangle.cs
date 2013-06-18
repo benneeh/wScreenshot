@@ -7,12 +7,12 @@ namespace wScreenshot.DataObject
     internal class AnnoyingRectangle : INotifyPropertyChanged
     {
         private GradientBrush _Backrground;
-        private decimal _Height;
-        private decimal _Width;
-        private decimal _X;
-        private decimal _Y;
+        private double _Height;
+        private double _Width;
+        private double _X;
+        private double _Y;
 
-        public decimal Width
+        public double Width
         {
             get { return _Width; }
             set
@@ -23,7 +23,7 @@ namespace wScreenshot.DataObject
             }
         }
 
-        public decimal Height
+        public double Height
         {
             get { return _Height; }
             set
@@ -34,7 +34,7 @@ namespace wScreenshot.DataObject
             }
         }
 
-        public decimal X
+        public double X
         {
             get { return _X; }
             set
@@ -45,7 +45,7 @@ namespace wScreenshot.DataObject
             }
         }
 
-        public decimal Y
+        public double Y
         {
             get { return _Y; }
             set
@@ -79,9 +79,9 @@ namespace wScreenshot.DataObject
             unchecked
             {
                 int hashCode = _Width.GetHashCode();
-                hashCode = (hashCode*397) ^ _Height.GetHashCode();
-                hashCode = (hashCode*397) ^ _X.GetHashCode();
-                hashCode = (hashCode*397) ^ _Y.GetHashCode();
+                hashCode = (hashCode * 397) ^ _Height.GetHashCode();
+                hashCode = (hashCode * 397) ^ _X.GetHashCode();
+                hashCode = (hashCode * 397) ^ _Y.GetHashCode();
                 return hashCode;
             }
         }
@@ -108,7 +108,7 @@ namespace wScreenshot.DataObject
         {
             if (ReferenceEquals(null, obj)) return false;
             if (obj.GetType() != GetType()) return false;
-            return Equals((AnnoyingRectangle) obj);
+            return Equals((AnnoyingRectangle)obj);
         }
 
         [NotifyPropertyChangedInvocator]

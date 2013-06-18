@@ -12,7 +12,7 @@
         ShowInTaskbar="False" Topmost="True" BorderThickness="0" WindowStyle="None"
         Padding="0" Margin="0" AllowsTransparency="True" Loaded="Window_Loaded"
         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-        ResizeMode="NoResize" Closing="Window_Closing">
+        ResizeMode="NoResize" Closing="Window_Closing" Name="BindingReference">
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -46,213 +46,19 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ContentControl Width="{Binding Width}" Height="{Binding Height}"
+                    <ContentControl
                       Padding="1"
                       Canvas.Left="695"
                       Canvas.Top="370"
-                                    Selector.IsSelected="True"
+                      Selector.IsSelected="{Binding IsAltDown,ElementName=BindingReference}"
                       Style="{StaticResource DesignerItemStyle}">
-                        <Border Background="{Binding Background}"
+                        <Border Background="{Binding Background}" Width="{Binding Width}" Height="{Binding Height}"
                             Margin="0" Padding="0" BorderThickness="1" BorderBrush="#aaff0000" Cursor="Hand">
                             <Border.RenderTransform>
                                 <RotateTransform />
                             </Border.RenderTransform>
                         </Border>
                     </ContentControl>
-
-                    <!--<Border Background="{Binding Background}" Width="{Binding Width}" Height="{Binding Height}"
-                            Margin="0" Padding="0" BorderThickness="1" BorderBrush="#aaff0000" Cursor="Hand">
-                    <Grid>
-                        <Grid x:Name="resizerNW" HorizontalAlignment="Left" Background="#01ff0000" SnapsToDevicePixels="True"
-                              Margin="2" VerticalAlignment="Top" MouseDown="ResizerNW_MouseDown" Cursor="SizeNWSE">
-                            <Grid.Resources>
-                                <Style x:Name="weirdNWResizerStyle" TargetType="{x:Type Border}">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <LinearGradientBrush StartPoint="1 1" EndPoint="0 0">
-                                                <LinearGradientBrush.GradientStops>
-                                                    <GradientStop Color="Transparent" Offset="0.3" />
-                                                    <GradientStop Color="#aa000000" Offset="1" />
-                                                </LinearGradientBrush.GradientStops>
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Grid.Row="0" />
-                            <Border Grid.Column="0" Grid.Row="2" />
-                            <Border Grid.Column="0" Grid.Row="4" />
-                            <Border Grid.Column="0" Grid.Row="6" />
-                            <Border Grid.Column="2" Grid.Row="2" />
-                            <Border Grid.Column="2" Grid.Row="4" />
-                            <Border Grid.Column="2"  Grid.Row="0" />
-                            <Border Grid.Column="4"  Grid.Row="0" />
-                            <Border Grid.Column="4"  Grid.Row="2" />
-                            <Border Grid.Column="6" Grid.Row="0" />
-                        </Grid>
-                        <Grid x:Name="resizerNE" HorizontalAlignment="Right" Background="#01ff0000" SnapsToDevicePixels="True"
-                              Margin="2" VerticalAlignment="Top" MouseDown="ResizerNE_MouseDown" Cursor="SizeNESW">
-                            <Grid.Resources>
-                                <Style x:Name="weirdNEResizerStyle" TargetType="{x:Type Border}">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <LinearGradientBrush StartPoint="0 1" EndPoint="1 0">
-                                                <LinearGradientBrush.GradientStops>
-                                                    <GradientStop Color="Transparent" Offset="0.3" />
-                                                    <GradientStop Color="#aa000000" Offset="1" />
-                                                </LinearGradientBrush.GradientStops>
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Grid.Row="0" />
-                            <Border Grid.Column="6" Grid.Row="2" />
-                            <Border Grid.Column="6" Grid.Row="4" />
-                            <Border Grid.Column="4" Grid.Row="2" />
-                            <Border Grid.Column="2" Grid.Row="2" />
-                            <Border Grid.Column="6" Grid.Row="0" />
-                            <Border Grid.Column="2"  Grid.Row="0" />
-                            <Border Grid.Column="4"  Grid.Row="4" />
-                            <Border Grid.Column="4"  Grid.Row="0" />
-                            <Border Grid.Column="6" Grid.Row="6" />
-                        </Grid>
-                        <Grid x:Name="resizerSW" HorizontalAlignment="Left" Background="#01ff0000" SnapsToDevicePixels="True"
-                              Margin="2" VerticalAlignment="Bottom" MouseDown="ResizerSW_MouseDown" Cursor="SizeNESW">
-                            <Grid.Resources>
-                                <Style x:Name="weirdSWResizerStyle" TargetType="{x:Type Border}">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <LinearGradientBrush StartPoint="1 0" EndPoint="0 1">
-                                                <LinearGradientBrush.GradientStops>
-                                                    <GradientStop Color="Transparent" Offset="0.3" />
-                                                    <GradientStop Color="#aa000000" Offset="1" />
-                                                </LinearGradientBrush.GradientStops>
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="0" Grid.Row="0" />
-                            <Border Grid.Column="0" Grid.Row="2" />
-                            <Border Grid.Column="0" Grid.Row="4" />
-                            <Border Grid.Column="0" Grid.Row="6" />
-                            <Border Grid.Column="2" Grid.Row="2" />
-                            <Border Grid.Column="2" Grid.Row="4" />
-                            <Border Grid.Column="2"  Grid.Row="6" />
-                            <Border Grid.Column="4"  Grid.Row="4" />
-                            <Border Grid.Column="4"  Grid.Row="6" />
-                            <Border Grid.Column="6" Grid.Row="6" />
-                        </Grid>
-                        <Grid x:Name="resizerSE" HorizontalAlignment="Right" Background="#01ff0000" SnapsToDevicePixels="True"
-                              Margin="2" VerticalAlignment="Bottom" MouseDown="ResizerSE_MouseDown" Cursor="SizeNWSE">
-                            <Grid.Resources>
-                                <Style x:Name="weirdSEResizerStyle" TargetType="{x:Type Border}">
-                                    <Setter Property="Background">
-                                        <Setter.Value>
-                                            <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
-                                                <LinearGradientBrush.GradientStops>
-                                                    <GradientStop Color="Transparent" Offset="0.3" />
-                                                    <GradientStop Color="#aa000000" Offset="1" />
-                                                </LinearGradientBrush.GradientStops>
-                                            </LinearGradientBrush>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </Grid.Resources>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                                <RowDefinition Height="1.5" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                                <ColumnDefinition Width="1.5" />
-                            </Grid.ColumnDefinitions>
-                            <Border Grid.Column="6" Grid.Row="0" />
-                            <Border Grid.Column="6" Grid.Row="2" />
-                            <Border Grid.Column="6" Grid.Row="4" />
-                            <Border Grid.Column="0" Grid.Row="6" />
-                            <Border Grid.Column="4" Grid.Row="2" />
-                            <Border Grid.Column="2" Grid.Row="4" />
-                            <Border Grid.Column="2"  Grid.Row="6" />
-                            <Border Grid.Column="4"  Grid.Row="4" />
-                            <Border Grid.Column="4"  Grid.Row="6" />
-                            <Border Grid.Column="6" Grid.Row="6" />
-                        </Grid>
-                    </Grid>
-                </Border>-->
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

@@ -7,7 +7,7 @@
         <ResourceDictionary Source="ResizeRotateChrome.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <ControlTemplate x:Key="MoveThumbTemplate"  TargetType="{x:Type canvasResizeTool:MoveThumb}">
+    <ControlTemplate x:Key="MoveThumbTemplate" TargetType="{x:Type canvasResizeTool:MoveThumb}">
         <Rectangle Fill="Transparent" />
     </ControlTemplate>
 
@@ -21,7 +21,7 @@
                 <ControlTemplate TargetType="ContentControl">
                     <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                         <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
-                              Margin="{TemplateBinding Padding}" />
+                                          Margin="{TemplateBinding Padding}" />
                         <canvasResizeTool:MoveThumb Cursor="SizeAll" Template="{StaticResource MoveThumbTemplate}" />
                         <canvasResizeTool:DesignerItemDecorator x:Name="ItemDecorator" />
                     </Grid>

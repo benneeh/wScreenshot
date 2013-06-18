@@ -37,12 +37,12 @@
                             <Grid Margin="0 0 0 0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="80" x:Name="btHoleCol1" />
-                                    <ColumnDefinition Width="10" x:Name="btHoleCol2" />
+                                    <ColumnDefinition Width="120" x:Name="btHoleCol2" />
                                     <ColumnDefinition Width="*" x:Name="btHoleCol3" />
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="30" x:Name="btHoleRow1" />
-                                    <RowDefinition Height="10" x:Name="btHoleRow2" />
+                                    <RowDefinition Height="80" x:Name="btHoleRow2" />
                                     <RowDefinition Height="*" x:Name="btHoleRow3" />
                                 </Grid.RowDefinitions>
                                 <Rectangle Grid.Row="0" Grid.Column="0" Fill="#aa000000" Margin="0 0 0 0" />
@@ -61,12 +61,12 @@
             <Grid Background="#ffffff">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="80" x:Name="btHoleCol11" />
-                    <ColumnDefinition Width="10" x:Name="btHoleCol22" />
+                    <ColumnDefinition Width="120" x:Name="btHoleCol22" />
                     <ColumnDefinition Width="*" x:Name="btHoleCol33" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" x:Name="btHoleRow11" />
-                    <RowDefinition Height="10" x:Name="btHoleRow22" />
+                    <RowDefinition Height="80" x:Name="btHoleRow22" />
                     <RowDefinition Height="*" x:Name="btHoleRow33" />
                 </Grid.RowDefinitions>
                 <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="0 0 0 1" BorderBrush="Red" />
