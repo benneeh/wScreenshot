@@ -6,9 +6,11 @@
     xmlns:Controls="clr-namespace:wScreenshot.Controls"
     xmlns:Tools="clr-namespace:wScreenshot.Tools"
     xmlns:NotifyIcon="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
-    xmlns:AutoUpdate="clr-namespace:wScreenshot.Controls.AutoUpdate" x:Class="wScreenshot.View.MainWindow"
+    xmlns:AutoUpdate="clr-namespace:wScreenshot.Controls.AutoUpdate"
+    xmlns:converter="clr-namespace:wScreenshot.Modules.Base.Converter"
+    x:Class="wScreenshot.View.MainWindow"
     Title="wScreenshot" Height="Auto" Width="Auto" WindowStyle="None" Background="Transparent"
-    SizeToContent="WidthAndHeight" ResizeMode="CanResizeWithGrip" AllowsTransparency="True" Opacity=".8"
+    SizeToContent="WidthAndHeight" ResizeMode="NoResize" AllowsTransparency="True" Opacity=".8"
     Loaded="Window_Loaded" Icon="/wScreenshot;component/Resource/Untitled%20-%2017.ico">
 
     <Window.Resources>
@@ -27,6 +29,8 @@
             <RoutedUICommand x:Key="RunScreenshotWindowTool" Text="" />
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <converter:InvertedBooleanToVisibilityConverter x:Key="InvertedBooleanToVisibilityConverter" />
         </ResourceDictionary>
     </Window.Resources>
 
@@ -136,6 +140,7 @@
                                 <Button x:Name="btHae" Style="{StaticResource InformButton}" Margin="2" Grid.Row="0"
                                         Grid.Column="2" Content="??" />
                                 <Button Command="{DynamicResource RunScreenshotBoxTool}"
+                                        Visibility="{Binding KeyBoard[Ctrl], Converter={StaticResource InvertedBooleanToVisibilityConverter}, BindsDirectlyToSource=True}"
                                         Style="{StaticResource InformButton}" Margin="2" Grid.Row="1" Grid.Column="0"
                                         Height="30" HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch">
@@ -143,6 +148,7 @@
                                             HorizontalAlignment="Stretch" Margin="0" />
                                 </Button>
                                 <Button Command="{DynamicResource RunScreenshotWindowTool}"
+                                        Visibility="{Binding KeyBoard[Ctrl], Converter={StaticResource InvertedBooleanToVisibilityConverter}, BindsDirectlyToSource=True}"
                                         Style="{StaticResource InformButton}" Margin="2" Grid.Row="1" Grid.Column="1"
                                         Height="30" HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch">
@@ -150,6 +156,7 @@
                                             HorizontalAlignment="Stretch" Margin="0" />
                                 </Button>
                                 <Button Command="{DynamicResource RunScreenshotHoleTool}" x:Name="btnCoolHole"
+                                        Visibility="{Binding KeyBoard[Ctrl], Converter={StaticResource InvertedBooleanToVisibilityConverter}, BindsDirectlyToSource=True}"
                                         Style="{StaticResource InformButton}" Margin="2" Grid.Row="1" Grid.Column="2"
                                         Height="30" HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch"
@@ -209,15 +216,15 @@
                                     </Grid>
                                 </Button>
                                 <Button Grid.ColumnSpan="3"
-                                        Visibility="{Binding KeyBoard[Ctrl], Converter={StaticResource BooleanToVisibilityConverter}}"
-                                        Command="{DynamicResource RunScreenshotBoxTool}"
+                                        Visibility="{Binding KeyBoard[Ctrl], Converter={StaticResource BooleanToVisibilityConverter}, BindsDirectlyToSource=True}"
+
                                         Style="{StaticResource InformButton}" Margin="2" Grid.Row="1" Grid.Column="0"
                                         Height="30" HorizontalContentAlignment="Stretch"
                                         VerticalContentAlignment="Stretch">
                                     <Grid>
                                         <Border Background="#80ff0000" BorderBrush="#c0ff0000" BorderThickness="1"
                                                 HorizontalAlignment="Stretch" Margin="0" />
-                                        <TextBlock Text="Screenshot last Location again" />
+                                        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center"  Text="Screenshot last Location again" />
                                     </Grid>
                                 </Button>
                             </Grid>
@@ -263,7 +270,21 @@
         </Border>
 
         <Grid x:Name="resizerSW" HorizontalAlignment="Left" Background="#01ff0000" SnapsToDevicePixels="True"
-              Margin="2 0 0 1.5" VerticalAlignment="Bottom" MouseDown="Border_MouseDown" Cursor="SizeNESW">
+              Margin="2 0 0 1.5" VerticalAlignment="Bottom" MouseDown="ResizerSW_MouseDown" Cursor="SizeNESW">
+            <Grid.Resources>
+                <Style x:Name="weirdSWResizerStyle" TargetType="{x:Type Border}">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="1 0" EndPoint="0 1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Color="White" Offset="0.3" />
+                                    <GradientStop Color="#888" Offset="1" />
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1.5" />
                 <RowDefinition Height="1.5" />
@@ -284,16 +305,63 @@
                 <ColumnDefinition Width="1.5" />
                 <ColumnDefinition Width="1.5" />
             </Grid.ColumnDefinitions>
-            <Border Grid.Column="0" Background="White" Grid.Row="0" />
-            <Border Grid.Column="0" Background="White" Grid.Row="2" />
-            <Border Grid.Column="0" Background="White" Grid.Row="4" />
-            <Border Grid.Column="0" Background="White" Grid.Row="6" />
-            <Border Grid.Column="2" Background="White" Grid.Row="2" />
-            <Border Grid.Column="2" Background="White" Grid.Row="4" />
-            <Border Grid.Column="2" Background="White" Grid.Row="6" />
-            <Border Grid.Column="4" Background="White" Grid.Row="4" />
-            <Border Grid.Column="4" Background="White" Grid.Row="6" />
-            <Border Grid.Column="6" Background="White" Grid.Row="6" />
+            <Border Grid.Column="0" Grid.Row="0" />
+            <Border Grid.Column="0" Grid.Row="2" />
+            <Border Grid.Column="0" Grid.Row="4" />
+            <Border Grid.Column="0" Grid.Row="6" />
+            <Border Grid.Column="2" Grid.Row="2" />
+            <Border Grid.Column="2" Grid.Row="4" />
+            <Border Grid.Column="2"  Grid.Row="6" />
+            <Border Grid.Column="4"  Grid.Row="4" />
+            <Border Grid.Column="4"  Grid.Row="6" />
+            <Border Grid.Column="6" Grid.Row="6" />
+        </Grid>
+        <Grid x:Name="resizerSE" HorizontalAlignment="Right" Background="#01ff0000" SnapsToDevicePixels="True"
+              Margin="2 0 0 1.5" VerticalAlignment="Bottom" MouseDown="ResizerSE_MouseDown" Cursor="SizeNWSE">
+            <Grid.Resources>
+                <Style x:Name="weirdSEResizerStyle" TargetType="{x:Type Border}">
+                    <Setter Property="Background">
+                        <Setter.Value>
+                            <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+                                <LinearGradientBrush.GradientStops>
+                                    <GradientStop Color="White" Offset="0.3" />
+                                    <GradientStop Color="#888" Offset="1" />
+                                </LinearGradientBrush.GradientStops>
+                            </LinearGradientBrush>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Grid.Resources>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="1.5" />
+                <RowDefinition Height="1.5" />
+                <RowDefinition Height="1.5" />
+                <RowDefinition Height="1.5" />
+                <RowDefinition Height="1.5" />
+                <RowDefinition Height="1.5" />
+                <RowDefinition Height="1.5" />
+                <RowDefinition Height="1.5" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1.5" />
+                <ColumnDefinition Width="1.5" />
+                <ColumnDefinition Width="1.5" />
+                <ColumnDefinition Width="1.5" />
+                <ColumnDefinition Width="1.5" />
+                <ColumnDefinition Width="1.5" />
+                <ColumnDefinition Width="1.5" />
+                <ColumnDefinition Width="1.5" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="6" Grid.Row="0" />
+            <Border Grid.Column="6" Grid.Row="2" />
+            <Border Grid.Column="6" Grid.Row="4" />
+            <Border Grid.Column="0" Grid.Row="6" />
+            <Border Grid.Column="4" Grid.Row="2" />
+            <Border Grid.Column="2" Grid.Row="4" />
+            <Border Grid.Column="2"  Grid.Row="6" />
+            <Border Grid.Column="4"  Grid.Row="4" />
+            <Border Grid.Column="4"  Grid.Row="6" />
+            <Border Grid.Column="6" Grid.Row="6" />
         </Grid>
     </Grid>
 </Window>

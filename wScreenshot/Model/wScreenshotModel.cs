@@ -28,7 +28,7 @@ namespace wScreenshot.Model
                 if (_keyBoard == null)
                 {
                     _keyBoard = new KeyBoardEventHelper();
-                    _keyBoard.PropertyChanged += (s, e) => { RaisePropertyChangedEvent("KeyBoard" + e.PropertyName); };
+                    _keyBoard.PropertyChanged += (s, e) => { RaisePropertyChangedEvent("KeyBoard"); };
                 }
                 return _keyBoard;
             }

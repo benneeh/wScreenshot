@@ -242,10 +242,16 @@ namespace wScreenshot.View
             }
         }
 
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        private void ResizerSW_MouseDown(object sender, MouseButtonEventArgs e)
         {
             User32.ReleaseCapture();
             User32.SendMessage(Handle, Win32.WindowsMessages.WM_SYSCOMMAND, Win32.SystemCommands.SC_DRAGSIZE_SW, 0);
+        }
+
+        private void ResizerSE_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            User32.ReleaseCapture();
+            User32.SendMessage(Handle, Win32.WindowsMessages.WM_SYSCOMMAND, Win32.SystemCommands.SC_DRAGSIZE_SE, 0);
         }
 
         private void btnCoolHole_PreviewMouseDown(object sender, MouseButtonEventArgs e)

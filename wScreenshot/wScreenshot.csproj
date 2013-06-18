@@ -105,6 +105,8 @@
     <Compile Include="Controls\ColorPicker\ColorUtils.cs" />
     <Compile Include="Controls\ColorPicker\HsvControl.cs" />
     <Compile Include="Controls\ColorPicker\SpectrumSlider.cs" />
+    <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Converter\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="DataObject\AnnoyingRectangle.cs" />
     <Compile Include="DataObject\wScreenshotImage.cs" />
     <Compile Include="Dialog\OpenFolderDialog.cs" />

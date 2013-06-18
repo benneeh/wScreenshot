@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace wScreenshot.Helper
@@ -9,6 +10,7 @@ namespace wScreenshot.Helper
     public class KeyBoardEventHelper : INotifyPropertyChanged
     {
         private readonly Dictionary<string, bool> KeyDictionary = new Dictionary<string, bool>();
+        private Binding b = new Binding();
 
         public KeyBoardEventHelper()
         {
