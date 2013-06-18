@@ -20,9 +20,10 @@ namespace wScreenshot.ScreenshotModule
         private readonly ObservableCollection<AnnoyingRectangle> borderCollectionSource =
             new ObservableCollection<AnnoyingRectangle>();
 
-        private readonly MouseHook m;
         private AnnoyingRectangle currentBorder;
         private bool lastMouseDownHandled;
+
+        private readonly MouseHook m;
 
         public WindowSelectorTool()
         {
@@ -73,7 +74,7 @@ namespace wScreenshot.ScreenshotModule
             {
                 var r = new Rect();
                 borderCollectionSource.ToList()
-                    .ForEach(x => r.Union(new Rect((double) x.X, (double) x.Y, (double) x.Width, (double) x.Height)));
+                    .ForEach(x => r.Union(new Rect((double)x.X, (double)x.Y, (double)x.Width, (double)x.Height)));
 
                 //screenshot
             }

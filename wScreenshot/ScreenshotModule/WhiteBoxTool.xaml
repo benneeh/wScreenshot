@@ -5,45 +5,69 @@
         ShowInTaskbar="False" Topmost="True" BorderThickness="0" WindowStyle="None"
         Padding="0" Margin="0" AllowsTransparency="True" Loaded="Window_Loaded"
         ScrollViewer.VerticalScrollBarVisibility="Disabled"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize" Closing="Window_Closing">
     <Grid>
-        <Border Background="#01ffffff" />
-        <Border BorderBrush="#000000" Grid.IsSharedSizeScope="True" BorderThickness="1" Margin="0" Name="borderHole"
-                MouseMove="borderHole_MouseMove" MouseDown="borderHole_MouseDown" MouseUp="borderHole_MouseUp">
+        <!--<Border Background="#01ffffff" />-->
+        <Border Grid.IsSharedSizeScope="True" BorderThickness="0" Margin="0" Name="borderHole">
             <Border.OpacityMask>
+                <!--<DrawingBrush Stretch="None" AlignmentX="Left" AlignmentY="Top">
+                    <DrawingBrush.Drawing>
+                        <DrawingGroup>
+                            <GeometryDrawing Brush="#aa000000">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry>
+                                        <RectangleGeometry.Rect>
+                                            <Rect X="-1" Y="-1" Width="300" Height="200" />
+                                        </RectangleGeometry.Rect>
+                                        </RectangleGeometry>
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                            <GeometryDrawing Brush="Black">
+                                <GeometryDrawing.Geometry>
+                                    <RectangleGeometry x:Name="btHooooole" Rect="80,30,10,10" />
+                                </GeometryDrawing.Geometry>
+                            </GeometryDrawing>
+                        </DrawingGroup>
+                    </DrawingBrush.Drawing>
+                </DrawingBrush>-->
                 <VisualBrush>
                     <VisualBrush.Visual>
-                        <Grid
-                            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
+                        <Grid Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}"
                             Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Border}}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="5*" x:Name="btHoleCol1" />
-                                <ColumnDefinition Width="4*" x:Name="btHoleCol2" />
-                                <ColumnDefinition Width="2*" x:Name="btHoleCol3" />
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="3*" x:Name="btHoleRow1" />
-                                <RowDefinition Height="4*" x:Name="btHoleRow2" />
-                                <RowDefinition Height="4*" x:Name="btHoleRow3" />
-                            </Grid.RowDefinitions>
-                            <Rectangle Grid.Column="0" Grid.Row="1" Fill="#aa000000" />
-                            <Rectangle Grid.Column="2" Grid.Row="1" Fill="#aa000000" />
-                            <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Fill="#aa000000" Margin="0 0 0 0" />
-                            <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Fill="#aa000000" />
+                            <Grid Margin="0 0 0 0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="80" x:Name="btHoleCol1" />
+                                    <ColumnDefinition Width="10" x:Name="btHoleCol2" />
+                                    <ColumnDefinition Width="*" x:Name="btHoleCol3" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" x:Name="btHoleRow1" />
+                                    <RowDefinition Height="10" x:Name="btHoleRow2" />
+                                    <RowDefinition Height="*" x:Name="btHoleRow3" />
+                                </Grid.RowDefinitions>
+                                <Rectangle Grid.Row="0" Grid.Column="0" Fill="#aa000000" Margin="0 0 0 0" />
+                                <Rectangle Grid.Row="0" Grid.Column="1" Fill="#aa000000" Margin="0 0 0 0" />
+                                <Rectangle Grid.Row="0" Grid.Column="2" Fill="#aa000000" Margin="0 0 0 0" />
+                                <Rectangle Grid.Row="1" Grid.Column="0" Fill="#aa000000" Margin="0 0 0 0" />
+                                <Rectangle Grid.Row="1" Grid.Column="2" Fill="#aa000000" Margin="0 0 0 0" />
+                                <Rectangle Grid.Row="2" Grid.Column="0" Fill="#aa000000" Margin="0 0 0 0" />
+                                <Rectangle Grid.Row="2" Grid.Column="1" Fill="#aa000000" Margin="0 0 0 0" />
+                                <Rectangle Grid.Row="2" Grid.Column="2" Fill="#aa000000" Margin="0 0 0 0" />
+                            </Grid>
                         </Grid>
                     </VisualBrush.Visual>
                 </VisualBrush>
             </Border.OpacityMask>
             <Grid Background="#ffffff">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="5*" x:Name="btHoleCol11" />
-                    <ColumnDefinition Width="4*" x:Name="btHoleCol22" />
-                    <ColumnDefinition Width="2*" x:Name="btHoleCol33" />
+                    <ColumnDefinition Width="80" x:Name="btHoleCol11" />
+                    <ColumnDefinition Width="10" x:Name="btHoleCol22" />
+                    <ColumnDefinition Width="*" x:Name="btHoleCol33" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="3*" x:Name="btHoleRow11" />
-                    <RowDefinition Height="4*" x:Name="btHoleRow22" />
-                    <RowDefinition Height="4*" x:Name="btHoleRow33" />
+                    <RowDefinition Height="30" x:Name="btHoleRow11" />
+                    <RowDefinition Height="10" x:Name="btHoleRow22" />
+                    <RowDefinition Height="*" x:Name="btHoleRow33" />
                 </Grid.RowDefinitions>
                 <Border Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" BorderThickness="0 0 0 1" BorderBrush="Red" />
                 <Border Grid.Column="0" Grid.Row="0" Grid.RowSpan="3" BorderThickness="0 0 1 0" BorderBrush="Red" />

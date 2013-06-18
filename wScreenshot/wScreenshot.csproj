@@ -69,12 +69,15 @@
     <ApplicationIcon>Untitled - 17.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="PresentationFramework.Aero" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -83,6 +86,7 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
+    <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -92,6 +96,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Adorners\ResizeRotateAdorner.cs" />
+    <Compile Include="Adorners\ResizeRotateChrome.cs" />
+    <Compile Include="Adorners\SizeAdorner.cs" />
+    <Compile Include="Adorners\SizeChrome.cs" />
     <Compile Include="Configuration\wScreenshot.cs" />
     <Compile Include="Controls\AutoUpdate\AutoUpdate.xaml.cs">
       <DependentUpon>AutoUpdate.xaml</DependentUpon>
@@ -112,9 +120,14 @@
     <Compile Include="Dialog\OpenFolderDialog.cs" />
     <Compile Include="Dialog\SafeModuleHandle.cs" />
     <Compile Include="Helper\BitmapHelper.cs" />
+    <Compile Include="Helper\CanvasResizeTool\DesignerItemDecorator.cs" />
+    <Compile Include="Helper\CanvasResizeTool\MoveThumb.cs" />
+    <Compile Include="Helper\CanvasResizeTool\ResizeThumb.cs" />
+    <Compile Include="Helper\CanvasResizeTool\RotateThumb.cs" />
     <Compile Include="Helper\ExceptionHelper.cs" />
     <Compile Include="Helper\KeyBoardEventHelper.cs" />
     <Compile Include="Helper\Screeen.cs" />
+    <Compile Include="Helper\VisualTreeHelper.cs" />
     <Compile Include="Hooks\Classes\HotKey.cs" />
     <Compile Include="Hooks\Classes\HotKeyEventArgs.cs" />
     <Compile Include="Hooks\Classes\HotKeyList.cs" />
@@ -232,6 +245,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Resource\DesignerItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\ResizeRotateChrome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\SizeChrome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Resource\Style.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -306,7 +331,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resource\Untitled - 17-small.ico" />
-    <Resource Include="Resource\Untitled - 17.ico" />
+    <Resource Include="Resource\Untitled17.ico" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="View\002832.png" />

@@ -15,11 +15,8 @@ namespace wScreenshot.View
     /// </summary>
     public partial class MainWindow : Window
     {
-        #region internal properties
-
-        #endregion internal properties
-
-        #region public properties
+        private Point holePos;
+        private bool moving;
 
         public IntPtr Handle { get; set; }
 
@@ -29,10 +26,6 @@ namespace wScreenshot.View
             set { DataContext = value; }
         }
 
-        #endregion public properties
-
-        #region constructors
-
         public MainWindow()
         {
             InitializeComponent();
@@ -40,10 +33,6 @@ namespace wScreenshot.View
             Model = new wScreenshotModel();
             btnCoolHole.AddHandler(MouseMoveEvent, new MouseEventHandler(borderHole_MouseMove), true);
         }
-
-        #endregion constructors
-
-        #region private methods
 
         private void PrivateTest()
         {
@@ -133,13 +122,6 @@ namespace wScreenshot.View
             Options.CurrentOptions.Close();
             Close();
         }
-
-        #endregion private methods
-
-        #region eventhandlers
-
-        private Point holePos;
-        private bool moving;
 
         private void MainWindow_StateChanged(object sender, EventArgs e)
         {
@@ -271,8 +253,6 @@ namespace wScreenshot.View
             btHae.Content = "Up";
         }
 
-        #endregion eventhandlers
-
         private void ShowOptionsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = true;
@@ -321,6 +301,72 @@ namespace wScreenshot.View
         private void RunScreenshotWindowToolCommand_Executed(object sender, ExecutedRoutedEventArgs e)
         {
             new WindowSelectorTool().Show();
+        }
+
+        private void FullScreenshotScreenSelectCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+        }
+
+        private void FullScreenshotScreenSelectCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void FullScreenshotCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+        }
+
+        private void FullScreenshotCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void AllScreenshotCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+        }
+
+        private void AllScreenshotCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void SaveAsCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+        }
+
+        private void SaveAsCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void CopyCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+        }
+
+        private void CopyCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void SaveCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+        }
+
+        private void SaveCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+        }
+
+        private void PasteCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void PasteCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
+            MessageBox.Show("Paste");
+        }
+
+        private void CutCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+        }
+
+        private void CutCommand_Executed(object sender, ExecutedRoutedEventArgs e)
+        {
         }
     }
 }

@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Interop;
+using System.Windows.Media;
+using wScreenshot.DataObject;
 using wScreenshot.Helper;
 using wScreenshot.Hooks;
 
@@ -17,15 +21,20 @@ namespace wScreenshot.ScreenshotModule
     {
         private readonly MouseHook _m;
 
-        private int _downX;
-        private int _downY;
         private IntPtr _handle;
         private bool _isMoving;
+
+        private readonly ObservableCollection<AnnoyingRectangle> borderCollectionSource =
+            new ObservableCollection<AnnoyingRectangle>();
+
+        private AnnoyingRectangle currentBorder;
+        private bool lastMouseDownHandled;
 
         public RedBoxTool()
         {
             InitializeComponent();
             _m = new MouseHook();
+            BorderContainer.ItemsSource = borderCollectionSource;
         }
 
         public Point Down { get; set; }
@@ -33,7 +42,7 @@ namespace wScreenshot.ScreenshotModule
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             var r = new Rect();
-            ScreenHelper.AllScreens.Select(x => x.Bounds).ToList().ForEach(r.Union);
+            ScreenHelper.AllScreens.Select(x => x.Bounds).ToList().ForEach(x => r.Union(x));
             Left = r.Left;
             Top = r.Top;
             Width = r.Width;
@@ -47,26 +56,43 @@ namespace wScreenshot.ScreenshotModule
 
         private void m_MouseDown(object sender, MouseHookEventArgs e)
         {
+            if (Keyboard.IsKeyDown(Key.LeftAlt)) return;
             e.Handled = true;
             _isMoving = true;
-            _downX = e.X;
-            _downY = e.Y;
-            MinWidth = 1;
-            MinHeight = 1;
 
-            SetBounds(Math.Min(e.X, _downX), Math.Min(e.Y, _downY), Math.Abs(e.X - _downX), Math.Abs(e.Y - _downY));
+            currentBorder = new AnnoyingRectangle();
+            currentBorder.Background = new LinearGradientBrush(
+                Color.FromArgb(20, 255, 0, 0),
+                Color.FromArgb(20, 255, 0, 0),
+                90.0);
+            borderCollectionSource.Add(currentBorder);
+            e.Handled = lastMouseDownHandled = true;
+
+            Down = new Point(e.X, e.Y);
         }
 
         private void m_MouseUp(object sender, MouseHookEventArgs e)
         {
+            if (Keyboard.IsKeyDown(Key.LeftAlt)) return;
             _isMoving = false;
+            lastMouseDownHandled = false;
+            if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+            {
+                currentBorder.Background = new LinearGradientBrush(
+                    Color.FromArgb(20, 255, 0, 0),
+                    Color.FromArgb(20, 255, 0, 0),
+                    90.0);
+                currentBorder = new AnnoyingRectangle();
+                borderCollectionSource.Add(currentBorder);
+                e.Handled = lastMouseDownHandled = true;
+            }
         }
 
         private void m_MouseMove(object sender, MouseHookEventArgs e)
         {
             if (_isMoving)
             {
-                SetBounds(Math.Min(e.X, _downX), Math.Min(e.Y, _downY), Math.Abs(e.X - _downX), Math.Abs(e.Y - _downY));
+                SetBounds(Math.Min(e.X, (int)Down.X), Math.Min(e.Y, (int)Down.Y), Math.Abs(e.X - (int)Down.X), Math.Abs(e.Y - (int)Down.Y));
             }
         }
 
@@ -77,26 +103,31 @@ namespace wScreenshot.ScreenshotModule
                 _handle = new WindowInteropHelper(this).Handle;
             }
 
-            //SetWindowPos(_handle, IntPtr.Zero, left, top, width, height, 0);
-            redBord.SetValue(Canvas.LeftProperty, (double) left);
-            redBord.SetValue(WidthProperty, (double) width);
-            redBord.SetValue(Canvas.TopProperty, (double) top);
-            redBord.SetValue(HeightProperty, (double) height);
+            currentBorder.X = left;
+            currentBorder.Width = width;
+            currentBorder.Y = top;
+            currentBorder.Height = height;
         }
-
-        [DllImport("user32")]
-        private static extern bool SetWindowPos(
-            IntPtr hWnd,
-            IntPtr hWndInsertAfter,
-            int x,
-            int y,
-            int cx,
-            int cy,
-            uint uFlags);
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             _m.IsHooked = false;
+        }
+
+        private void ResizerSW_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void ResizerSE_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void ResizerNW_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        private void ResizerNE_MouseDown(object sender, MouseButtonEventArgs e)
+        {
         }
     }
 }

@@ -11,7 +11,7 @@
     x:Class="wScreenshot.View.MainWindow"
     Title="wScreenshot" Height="Auto" Width="Auto" WindowStyle="None" Background="Transparent"
     SizeToContent="WidthAndHeight" ResizeMode="NoResize" AllowsTransparency="True" Opacity=".8"
-    Loaded="Window_Loaded" Icon="/wScreenshot;component/Resource/Untitled%20-%2017.ico">
+    Loaded="Window_Loaded" Icon="/wScreenshot;component/Resource/Untitled17.ico">
 
     <Window.Resources>
         <ResourceDictionary>
@@ -27,6 +27,9 @@
             <RoutedUICommand x:Key="RunScreenshotBoxTool" Text="" />
             <RoutedUICommand x:Key="RunScreenshotHoleTool" Text="" />
             <RoutedUICommand x:Key="RunScreenshotWindowTool" Text="" />
+            <RoutedUICommand x:Key="AllScreenshot" Text="" />
+            <RoutedUICommand x:Key="FullScreenshot" Text="" />
+            <RoutedUICommand x:Key="FullScreenshotScreenSelect" Text="" />
 
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
@@ -35,10 +38,28 @@
     </Window.Resources>
 
     <Window.InputBindings>
-        <KeyBinding Gesture="Control" />
+        <KeyBinding Gesture="Ctrl+V" Command="Paste" />
+        <KeyBinding Gesture="Ctrl+C" Command="Copy" />
+        <KeyBinding Gesture="Ctrl+S" Command="Save" />
     </Window.InputBindings>
 
     <Window.CommandBindings>
+        <CommandBinding Command="SaveAs" Executed="SaveAsCommand_Executed"
+                        CanExecute="SaveAsCommand_CanExecute" />
+        <CommandBinding Command="Copy" Executed="CopyCommand_Executed"
+                        CanExecute="CopyCommand_CanExecute" />
+        <CommandBinding Command="Save" Executed="SaveCommand_Executed"
+                        CanExecute="SaveCommand_CanExecute" />
+        <CommandBinding Command="Paste" Executed="PasteCommand_Executed"
+                        CanExecute="PasteCommand_CanExecute" />
+        <CommandBinding Command="Cut" Executed="CutCommand_Executed"
+                        CanExecute="CutCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource AllScreenshot}" Executed="AllScreenshotCommand_Executed"
+                        CanExecute="AllScreenshotCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource FullScreenshot}" Executed="FullScreenshotCommand_Executed"
+                        CanExecute="FullScreenshotCommand_CanExecute" />
+        <CommandBinding Command="{StaticResource FullScreenshotScreenSelect}" Executed="FullScreenshotScreenSelectCommand_Executed"
+                        CanExecute="FullScreenshotScreenSelectCommand_CanExecute" />
         <CommandBinding Command="{StaticResource ShowOptions}" Executed="ShowOptionsCommand_Executed"
                         CanExecute="ShowOptionsCommand_CanExecute" />
         <CommandBinding Command="{StaticResource DoUpload}" Executed="DoUploadCommand_Executed"
@@ -57,7 +78,7 @@
                          ProgressState="{Binding ProgressState}">
             <TaskbarItemInfo.ThumbButtonInfos>
                 <ThumbButtonInfo Description="test" DismissWhenClicked="True"
-                                 ImageSource="/wScreenshot;component/Resource/Untitled%20-%2017.ico" />
+                                 ImageSource="/wScreenshot;component/Resource/Untitled17.ico" />
                 <ThumbButtonInfo Description="tessdgdf2" />
             </TaskbarItemInfo.ThumbButtonInfos>
         </TaskbarItemInfo>
@@ -66,7 +87,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <NotifyIcon:TaskbarIcon IconSource="..\Resource\Untitled - 17.ico">
+        <NotifyIcon:TaskbarIcon IconSource="/wScreenshot;component/Resource/Untitled17.ico">
             <NotifyIcon:TaskbarIcon.TrayToolTip>
                 <Controls:CoolColorPicker Height="200" Width="200" />
             </NotifyIcon:TaskbarIcon.TrayToolTip>
@@ -89,7 +110,7 @@
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Horizontal" Margin="6 2 0 2">
-                            <Image Source="..\Resource\Untitled - 17.ico" Height="14" />
+                            <Image Source="/wScreenshot;component/Resource/Untitled17.ico" Height="14" />
                             <TextBlock Text="wScreenshot v0.1.3.8" Margin="6 3 0 0" Foreground="White"
                                        FontFamily="Verdana" FontSize="10" />
                         </StackPanel>
@@ -245,19 +266,21 @@
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
-                                    <Button Grid.Row="0" Style="{StaticResource InformButton}" Margin="2"
-                                            Content="AllScreenshot" />
-                                    <Button Grid.Row="1" Style="{StaticResource InformButton}" Margin="2"
-                                            Content="FullScreenshot" />
+                                    <Button Grid.Row="0" Style="{StaticResource InformButton}"
+                                            Content="AllScreenshot" Command="{DynamicResource AllScreenshot}" />
+                                    <Button Grid.Row="1" Style="{StaticResource InformButton}"
+                                            Content="FullScreenshot" Command="{DynamicResource FullScreenshot}" />
                                     <Button Grid.Row="2" CommandParameter="{Binding Options}"
                                             Command="{StaticResource ShowOptions}"
-                                            Style="{StaticResource InformButton}" Margin="2" Content="Options" />
+                                            Style="{StaticResource InformButton}" Content="Options" />
                                     <Button Grid.Row="3" Grid.ColumnSpan="2" CommandParameter="{Binding}"
                                             Command="{StaticResource DoUpload}" Style="{StaticResource InformButton}"
                                             Margin="2" Content="Upload" />
-                                    <Button Grid.Row="4" Style="{StaticResource InformButton}" Margin="2"
+                                    <Button Grid.Row="4" Style="{StaticResource InformButton}"
+                                            Command="Save"
                                             Content="Save" />
-                                    <Button Grid.Row="5" Style="{StaticResource InformButton}" Margin="2"
+                                    <Button Grid.Row="5" Style="{StaticResource InformButton}"
+                                            Command="Copy"
                                             Content="Copy" />
                                 </Grid>
                             </Grid>
@@ -277,8 +300,8 @@
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="1 0" EndPoint="0 1">
                                 <LinearGradientBrush.GradientStops>
-                                    <GradientStop Color="White" Offset="0.3" />
-                                    <GradientStop Color="#888" Offset="1" />
+                                    <GradientStop Color="Transparent" Offset="0.3" />
+                                    <GradientStop Color="#aa000000" Offset="1" />
                                 </LinearGradientBrush.GradientStops>
                             </LinearGradientBrush>
                         </Setter.Value>
@@ -324,8 +347,8 @@
                         <Setter.Value>
                             <LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
                                 <LinearGradientBrush.GradientStops>
-                                    <GradientStop Color="White" Offset="0.3" />
-                                    <GradientStop Color="#888" Offset="1" />
+                                    <GradientStop Color="Transparent" Offset="0.3" />
+                                    <GradientStop Color="#aa000000" Offset="1" />
                                 </LinearGradientBrush.GradientStops>
                             </LinearGradientBrush>
                         </Setter.Value>
