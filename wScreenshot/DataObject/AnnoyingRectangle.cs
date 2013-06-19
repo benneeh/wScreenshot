@@ -45,6 +45,17 @@ namespace wScreenshot.DataObject
             }
         }
 
+        public double Angle
+        {
+            get { return _Angle; }
+            set
+            {
+                if (value == _Angle) return;
+                _Angle = value;
+                OnPropertyChanged("Angle");
+            }
+        }
+
         public double Y
         {
             get { return _Y; }
@@ -68,6 +79,8 @@ namespace wScreenshot.DataObject
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        private double _Angle;
 
         protected bool Equals(AnnoyingRectangle other)
         {

@@ -4,6 +4,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="SizeChrome.xaml" />
+        <ResourceDictionary Source="RotateChrome.xaml" />
         <ResourceDictionary Source="ResizeRotateChrome.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

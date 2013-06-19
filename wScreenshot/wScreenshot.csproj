@@ -97,6 +97,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Adorners\RotateChrome.cs" />
+    <Compile Include="Adorners\RotateAdorner.cs" />
     <Compile Include="Adorners\ResizeRotateAdorner.cs" />
     <Compile Include="Adorners\ResizeRotateChrome.cs" />
     <Compile Include="Adorners\SizeAdorner.cs" />
@@ -255,6 +257,10 @@
     <Page Include="Resource\ResizeRotateChrome.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resource\RotateChrome.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resource\SizeChrome.xaml">
       <Generator>MSBuild:Compile</Generator>

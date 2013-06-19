@@ -24,6 +24,7 @@ namespace wScreenshot.Adorners
             SnapsToDevicePixels = true;
             chrome = new ResizeRotateChrome();
             chrome.DataContext = designerItem;
+
             visuals = new VisualCollection(this);
             visuals.Add(this.chrome);
         }

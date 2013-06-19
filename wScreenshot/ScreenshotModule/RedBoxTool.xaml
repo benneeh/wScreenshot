@@ -52,12 +52,11 @@
                       Canvas.Top="370"
                       Selector.IsSelected="{Binding IsAltDown,ElementName=BindingReference}"
                       Style="{StaticResource DesignerItemStyle}">
+                        <ContentControl.RenderTransform>
+                            <RotateTransform Angle="{Binding Angle}" />
+                        </ContentControl.RenderTransform>
                         <Border Background="{Binding Background}" Width="{Binding Width}" Height="{Binding Height}"
-                            Margin="0" Padding="0" BorderThickness="1" BorderBrush="#aaff0000" Cursor="Hand">
-                            <Border.RenderTransform>
-                                <RotateTransform />
-                            </Border.RenderTransform>
-                        </Border>
+                            Margin="0" Padding="0" BorderThickness="1" BorderBrush="#aaff0000" Cursor="Hand" />
                     </ContentControl>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

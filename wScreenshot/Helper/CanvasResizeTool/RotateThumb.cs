@@ -11,23 +11,27 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Media3D;
+using wScreenshot.Adorners;
 using wScreenshot.DataObject;
 
 namespace wScreenshot.Helper.CanvasResizeTool
 {
     public class RotateThumb : Thumb
     {
-        private double _initialAngle;
-        private RotateTransform _rotateTransform;
+        //private RotateTransform _rotateTransform;
         private Vector _startVector;
+
         private Point _centerPoint;
+        private Adorner adorner;
         private ContentControl _designerItem;
         private Canvas _canvas;
+        private double _offset;
 
         public RotateThumb()
         {
-            DragDelta += new DragDeltaEventHandler(RotateThumb_DragDelta);
-            DragStarted += new DragStartedEventHandler(RotateThumb_DragStarted);
+            DragDelta += RotateThumb_DragDelta;
+            DragStarted += RotateThumb_DragStarted;
+            DragCompleted += RotateThumb_DragCompleted;
         }
 
         private void RotateThumb_DragStarted(object sender, DragStartedEventArgs e)
@@ -49,17 +53,29 @@ namespace wScreenshot.Helper.CanvasResizeTool
                     Point startPoint = Mouse.GetPosition(_canvas);
                     _startVector = Point.Subtract(startPoint, _centerPoint);
 
-                    _rotateTransform = _designerItem.RenderTransform as RotateTransform;
-                    if (_rotateTransform == null)
+                    _offset = annoyingRectangle.Angle;
+
+                    AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._canvas);
+                    if (adornerLayer != null)
                     {
-                        _designerItem.RenderTransform = new RotateTransform(0);
-                        _initialAngle = 0;
-                    }
-                    else
-                    {
-                        _initialAngle = _rotateTransform.Angle;
+                        adorner = new RotateAdorner(this._designerItem);
+                        adornerLayer.Add(this.adorner);
                     }
                 }
+            }
+        }
+
+        private void RotateThumb_DragCompleted(object sender, DragCompletedEventArgs e)
+        {
+            if (adorner != null)
+            {
+                AdornerLayer adornerLayer = AdornerLayer.GetAdornerLayer(this._canvas);
+                if (adornerLayer != null)
+                {
+                    adornerLayer.Remove(this.adorner);
+                }
+
+                adorner = null;
             }
         }
 
@@ -86,8 +102,8 @@ namespace wScreenshot.Helper.CanvasResizeTool
             {
                 Point currentPoint = Mouse.GetPosition(_canvas);
                 Vector deltaVector = Point.Subtract(currentPoint, _centerPoint);
-
-                double angle = _initialAngle + Vector.AngleBetween(_startVector, deltaVector);
+                var annoyingRectangle = (AnnoyingRectangle)_designerItem.DataContext;
+                double angle = _offset + Vector.AngleBetween(_startVector, deltaVector);
                 while (angle > 360) angle -= 360;
                 while (angle < 0) angle += 360;
                 RotateTransform rotateTransform = _designerItem.RenderTransform as RotateTransform;
@@ -100,11 +116,11 @@ namespace wScreenshot.Helper.CanvasResizeTool
                                 val = i
                             };
 
-                    rotateTransform.Angle = q.OrderBy(x => Math.Abs(x.dif)).First().val;
+                    annoyingRectangle.Angle = q.OrderBy(x => Math.Abs(x.dif)).First().val;
                 }
                 else
                 {
-                    rotateTransform.Angle = angle;
+                    annoyingRectangle.Angle = angle;
                 }
                 _designerItem.InvalidateMeasure();
             }
