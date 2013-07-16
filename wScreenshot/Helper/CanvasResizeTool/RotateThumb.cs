@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web.Caching;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -89,7 +88,7 @@ namespace wScreenshot.Helper.CanvasResizeTool
                 double start = 0;
                 for (double i = 0; i < Subs; i++)
                 {
-                    ret.Add(i * 360.0 / (double)Subs);
+                    ret.Add((i * 360.0 / (double)Subs) - 180.0);
                 }
                 snapCache.Add(Subs, ret);
             }
@@ -103,9 +102,34 @@ namespace wScreenshot.Helper.CanvasResizeTool
                 Point currentPoint = Mouse.GetPosition(_canvas);
                 Vector deltaVector = Point.Subtract(currentPoint, _centerPoint);
                 var annoyingRectangle = (AnnoyingRectangle)_designerItem.DataContext;
+                var lastAngle = annoyingRectangle.Angle;
                 double angle = _offset + Vector.AngleBetween(_startVector, deltaVector);
-                while (angle > 360) angle -= 360;
-                while (angle < 0) angle += 360;
+
+                //Debug.WriteLine("{0}, {1}", angle, lastAngle);
+                //var angleDif = angle - lastAngle;
+                //if (angleDif > 0)
+                //{
+                //    int i = 0;
+                //    while (angleDif > 180)
+                //    {
+                //        i++;
+                //        angleDif -= 360;
+                //    }
+                //    angle -= i * 360;
+                //}
+                //else
+                //{
+                //    int i = 0;
+                //    while (angleDif < 180)
+                //    {
+                //        i++;
+                //        angleDif += 360;
+                //    }
+                //    angle += i * 360;
+                //}
+
+                //while (angle + angleOffset > 360) angleOffset -= 360;
+                //while (angle + angleOffset < 0) angleOffset += 360;
                 RotateTransform rotateTransform = _designerItem.RenderTransform as RotateTransform;
                 if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
                 {

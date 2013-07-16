@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Windows;
 using System.Windows.Navigation;
 
@@ -10,6 +11,8 @@ namespace wScreenshot
     /// </summary>
     public partial class App : Application
     {
+        private ObjectCache cache = MemoryCache.Default;
+
         private void Application_LoadCompleted(object sender, NavigationEventArgs e)
         {
             string AppPath = Assembly.GetExecutingAssembly().GetName().FullName;
