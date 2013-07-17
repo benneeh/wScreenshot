@@ -120,6 +120,7 @@
     <Compile Include="Controls\ColorPicker\SpectrumSlider.cs" />
     <Compile Include="Converter\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converter\BorderGapMaskConverter.cs" />
+    <Compile Include="Converter\BooleanToCursorConverter.cs" />
     <Compile Include="Converter\InvertedBooleanToVisibilityConverter.cs" />
     <Compile Include="DataObject\AnnoyingRectangle.cs" />
     <Compile Include="DataObject\wScreenshotImage.cs" />

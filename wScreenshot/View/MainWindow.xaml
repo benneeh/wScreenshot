@@ -7,7 +7,7 @@
     xmlns:Tools="clr-namespace:wScreenshot.Tools"
     xmlns:NotifyIcon="clr-namespace:Hardcodet.Wpf.TaskbarNotification"
     xmlns:AutoUpdate="clr-namespace:wScreenshot.Controls.AutoUpdate"
-    xmlns:converter="clr-namespace:wScreenshot.Modules.Base.Converter"
+    xmlns:converter="clr-namespace:wScreenshot.Converter"
     x:Class="wScreenshot.View.MainWindow"
     Title="wScreenshot" Height="Auto" Width="Auto" WindowStyle="None" Background="Transparent"
     SizeToContent="WidthAndHeight" ResizeMode="NoResize" AllowsTransparency="True" Opacity=".8"

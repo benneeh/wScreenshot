@@ -6,12 +6,19 @@
     <adorners:DoubleFormatConverter x:Key="doubleFormatConverter" />
     <BorderGapMaskConverter x:Key="BorderGapMaskConverter" />
     <converter:MultiplyConverter x:Key="MultiplyConverter" />
-
+    <LinearGradientBrush x:Key="CompasArcBrush" StartPoint="0 0" EndPoint="1 0">
+        <GradientStop Color="#33aaaaaa" Offset="0" />
+        <GradientStop Color="#66aaaaaa" Offset=".9" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="CompasArcReversedBrush" StartPoint="0 0" EndPoint="1 0">
+        <GradientStop Color="#66aaaaaa" Offset="0" />
+        <GradientStop Color="#33aaaaaa" Offset=".9" />
+    </LinearGradientBrush>
     <Style TargetType="{x:Type adorners:RotateChrome}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type adorners:RotateChrome}">
-                    <Grid Background="#01000000" Width="300" Height="300">
+                    <Grid Background="#01000000" Width="300" Height="300" HorizontalAlignment="Center" VerticalAlignment="Center">
                         <Grid.OpacityMask>
                             <VisualBrush>
                                 <VisualBrush.Visual>
@@ -42,7 +49,6 @@
                             <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="#55000000" Points="0 100, 15 0, 0 0" />
                         </Grid>
                         <Grid DataContext="{Binding Angle, NotifyOnSourceUpdated=True,NotifyOnTargetUpdated=True}">
-
                             <Grid.Triggers>
                                 <EventTrigger RoutedEvent="Binding.TargetUpdated">
                                     <BeginStoryboard>
@@ -52,7 +58,7 @@
                                                     Storyboard.TargetProperty="Angle"
                                                     To="{Binding Converter={StaticResource MultiplyConverter}, ConverterParameter=-1}" Duration="0:0:0.6">
                                                 <DoubleAnimation.EasingFunction>
-                                                    <CircleEase EasingMode="EaseOut" />
+                                                    <CircleEase EasingMode="EaseInOut" />
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                         </Storyboard>
@@ -62,7 +68,7 @@
                             <Grid.Resources>
                             </Grid.Resources>
                             <Grid.LayoutTransform>
-                                <RotateTransform x:Name="muhRotatta" />
+                                <RotateTransform x:Name="muhRotatta" CenterX="0.5" CenterY="0.5" />
                             </Grid.LayoutTransform>
                             <Grid.Effect>
                                 <BlurEffect Radius="2" />
@@ -83,11 +89,16 @@
                                     <RowDefinition Height="100" />
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
-
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 0 0" />
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="#11000000" Points="0 0, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="#11000000" Points="0 100, 15 0, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="{DynamicResource CompasArcBrush}" Points="0 100, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 100, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="{DynamicResource CompasArcBrush}" Points="0 0, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 0, 0 0" />
+                                <TextBlock Margin="0" Padding="0" Text="E" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Margin="0" Padding="0" Text="W" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="180" />
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
                             </Grid>
                             <Grid>
                                 <Grid.ColumnDefinitions>
@@ -103,11 +114,20 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 0 0" />
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="#11000000" Points="0 0, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="#11000000" Points="0 100, 15 0, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="{DynamicResource CompasArcBrush}" Points="0 100, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 100, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="{DynamicResource CompasArcBrush}" Points="0 0, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 0, 0 0" />
+
+                                <TextBlock Margin="0" Padding="0" Text="N" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                <TextBlock Margin="0" Padding="0" Text="S" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="180" />
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
                             </Grid>
+
+                            <!--smallones-->
                             <Grid>
                                 <Grid.LayoutTransform>
                                     <TransformGroup>
@@ -128,10 +148,10 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 0 0" />
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="#11000000" Points="0 0, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="#11000000" Points="0 100, 15 0, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="{DynamicResource CompasArcBrush}" Points="0 100, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 100, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="{DynamicResource CompasArcBrush}" Points="0 0, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 0, 0 0" />
                             </Grid>
                             <Grid>
                                 <Grid.LayoutTransform>
@@ -153,10 +173,10 @@
                                     <RowDefinition Height="*" />
                                 </Grid.RowDefinitions>
 
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="#11000000" Points="0 100, 15 100, 0 0" />
-                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="#11000000" Points="0 0, 15 100, 15 0" />
-                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="#11000000" Points="0 100, 15 0, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Bottom" Grid.Column="1" Grid.Row="1" Fill="{DynamicResource CompasArcBrush}" Points="0 100, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Bottom" Grid.Column="2" Grid.Row="1" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 100, 0 0" />
+                                <Polygon HorizontalAlignment="Right" VerticalAlignment="Top" Grid.Column="1" Grid.Row="2" Fill="{DynamicResource CompasArcBrush}" Points="0 0, 15 100, 15 0" />
+                                <Polygon HorizontalAlignment="Left" VerticalAlignment="Top" Grid.Column="2" Grid.Row="2" Fill="{DynamicResource CompasArcReversedBrush}" Points="0 100, 15 0, 0 0" />
                             </Grid>
                         </Grid>
                     </Grid>

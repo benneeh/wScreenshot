@@ -75,23 +75,36 @@
                         </Grid>
                         <Grid IsHitTestVisible="False" Opacity="1" Margin="-3">
                             <Rectangle SnapsToDevicePixels="True"
-                                         StrokeThickness="1"
-                                         Margin="1"
-                                         Stroke="#aa000000" />
+                                       StrokeThickness="1"
+                                       Margin="1"
+                                       Stroke="#aa888888" />
                             <Line StrokeThickness="1" X1="0" Y1="0" X2="0" Y2="20"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Top"
-                                    Margin="0,-19,0,0"
-                                    Stroke="#aa000000" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Center"
-                                     VerticalAlignment="Top" Margin="-1,-20,0,0" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Top"
+                                  Margin="0,-19,0,0"
+                                  Stroke="#aa888888" />
+                            <Ellipse Style="{StaticResource ThumbCorner}"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Top"
+                                     Margin="-1,-20,0,0">
+                                <Ellipse.Fill>
+                                    <RadialGradientBrush>
+                                        <GradientStop Color="Black" Offset="1.5" />
+                                        <GradientStop Color="#FF17FF00" Offset="0.531" />
+                                    </RadialGradientBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <Ellipse Style="{StaticResource ThumbCorner}"
+                                     HorizontalAlignment="Left"
                                      VerticalAlignment="Top" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right"
+                            <Ellipse Style="{StaticResource ThumbCorner}"
+                                     HorizontalAlignment="Right"
                                      VerticalAlignment="Top" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Left"
+                            <Ellipse Style="{StaticResource ThumbCorner}"
+                                     HorizontalAlignment="Left"
                                      VerticalAlignment="Bottom" />
-                            <Ellipse Style="{StaticResource ThumbCorner}" HorizontalAlignment="Right"
+                            <Ellipse Style="{StaticResource ThumbCorner}"
+                                     HorizontalAlignment="Right"
                                      VerticalAlignment="Bottom" />
                         </Grid>
                     </Grid>

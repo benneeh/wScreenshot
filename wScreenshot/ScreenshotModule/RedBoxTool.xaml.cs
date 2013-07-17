@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -18,25 +19,24 @@ namespace wScreenshot.ScreenshotModule
     /// </summary>
     public partial class RedBoxTool : Window, INotifyPropertyChanged
     {
-        private readonly MouseHook _m;
-
-        private readonly ObservableCollection<AnnoyingRectangle> borderCollectionSource =
+        private readonly ObservableCollection<AnnoyingRectangle> _borderCollectionSource =
             new ObservableCollection<AnnoyingRectangle>();
+
+        private readonly KeyboardHook _k;
+        private readonly MouseHook _m;
+        private AnnoyingRectangle _currentBorder;
 
         private IntPtr _handle;
         private bool _isAltDown;
         private bool _isMoving;
-        private KeyboardHook _k;
-
-        private AnnoyingRectangle currentBorder;
-        private bool lastMouseDownHandled;
+        private bool _lastMouseDownHandled;
 
         public RedBoxTool()
         {
             InitializeComponent();
             _m = new MouseHook();
             _k = new KeyboardHook();
-            BorderContainer.ItemsSource = borderCollectionSource;
+            BorderContainer.ItemsSource = _borderCollectionSource;
         }
 
         public bool IsAltDown
@@ -93,13 +93,13 @@ namespace wScreenshot.ScreenshotModule
             e.Handled = true;
             _isMoving = true;
 
-            currentBorder = new AnnoyingRectangle();
-            currentBorder.Background = new LinearGradientBrush(
-                Color.FromArgb(20, 255, 0, 0),
-                Color.FromArgb(20, 255, 0, 0),
+            _currentBorder = new AnnoyingRectangle();
+            _currentBorder.Background = new LinearGradientBrush(
+                Color.FromArgb(80, 255, 0, 0),
+                Color.FromArgb(80, 255, 0, 0),
                 90.0);
-            borderCollectionSource.Add(currentBorder);
-            e.Handled = lastMouseDownHandled = true;
+            _borderCollectionSource.Add(_currentBorder);
+            e.Handled = _lastMouseDownHandled = true;
 
             Down = new Point(e.X, e.Y);
         }
@@ -108,17 +108,35 @@ namespace wScreenshot.ScreenshotModule
         {
             if (Keyboard.IsKeyDown(Key.LeftAlt)) return;
             _isMoving = false;
-            lastMouseDownHandled = false;
+            _lastMouseDownHandled = false;
+            _currentBorder.Background = new LinearGradientBrush(
+                Color.FromArgb(110, 255, 0, 0),
+                Color.FromArgb(110, 255, 0, 0),
+                90.0);
             if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
             {
-                currentBorder.Background = new LinearGradientBrush(
-                    Color.FromArgb(20, 255, 0, 0),
-                    Color.FromArgb(20, 255, 0, 0),
-                    90.0);
-                currentBorder = new AnnoyingRectangle();
-                borderCollectionSource.Add(currentBorder);
-                e.Handled = lastMouseDownHandled = true;
+                //currentBorder = new AnnoyingRectangle();
+                //currentBorder.Background = new LinearGradientBrush(
+                //    Color.FromArgb(80, 255, 0, 0),
+                //    Color.FromArgb(80, 255, 0, 0),
+                //    90.0);
+                //borderCollectionSource.Add(currentBorder);
+                e.Handled = _lastMouseDownHandled = true;
             }
+            else
+            {
+                DoFinish();
+            }
+        }
+
+        private void DoFinish()
+        {
+            _m.IsHooked = false;
+            _k.IsHooked = false;
+            var bw = new BackgroundWorker();
+            bw.DoWork += (s, e) => Thread.Sleep(1000);
+            bw.RunWorkerCompleted += (s, e) => Close();
+            bw.RunWorkerAsync();
         }
 
         private void m_MouseMove(object sender, MouseHookEventArgs e)
@@ -137,31 +155,16 @@ namespace wScreenshot.ScreenshotModule
                 _handle = new WindowInteropHelper(this).Handle;
             }
 
-            currentBorder.X = left;
-            currentBorder.Width = width;
-            currentBorder.Y = top;
-            currentBorder.Height = height;
+            _currentBorder.X = left;
+            _currentBorder.Width = width;
+            _currentBorder.Y = top;
+            _currentBorder.Height = height;
         }
 
         private void Window_Closing(object sender, CancelEventArgs e)
         {
             _m.IsHooked = false;
-        }
-
-        private void ResizerSW_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void ResizerSE_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void ResizerNW_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-        }
-
-        private void ResizerNE_MouseDown(object sender, MouseButtonEventArgs e)
-        {
+            _k.IsHooked = false;
         }
 
         [NotifyPropertyChangedInvocator]

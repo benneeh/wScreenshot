@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace wScreenshot.Modules.Base.Converter
+namespace wScreenshot.Converter
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {

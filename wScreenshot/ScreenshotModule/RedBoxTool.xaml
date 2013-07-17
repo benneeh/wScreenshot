@@ -6,6 +6,7 @@
         xmlns:ee="http://schemas.microsoft.com/expression/2010/effects"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:converter="clr-namespace:wScreenshot.Converter"
         mc:Ignorable="d"
         d:DesignHeight="100" d:DesignWidth="100"
         Title="RedBoxTool" Height="100" Width="100" Background="Transparent"
@@ -18,6 +19,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="/wScreenshot;component/Resource/DesignerItem.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <converter:BooleanToCursorConverter x:Key="BooleanToCursorConverter" WhenFalseCursor="Arrow" WhenTrueCursor="SizeAll" />
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -46,7 +48,7 @@
             </ItemsControl.ItemContainerStyle>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <ContentControl
+                    <ContentControl Cursor="{Binding IsAltDown, ElementName=BindingReference, Converter={StaticResource BooleanToCursorConverter}}"
                       Padding="1"
                       Canvas.Left="695"
                       Canvas.Top="370"
@@ -56,7 +58,7 @@
                             <RotateTransform Angle="{Binding Angle}" />
                         </ContentControl.RenderTransform>
                         <Border Background="{Binding Background}" Width="{Binding Width}" Height="{Binding Height}"
-                            Margin="0" Padding="0" BorderThickness="1" BorderBrush="#aaff0000" Cursor="Hand" />
+                            Margin="0" Padding="0" BorderThickness="1" BorderBrush="#aaff0000" IsHitTestVisible="True" />
                     </ContentControl>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>

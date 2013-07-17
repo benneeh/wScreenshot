@@ -23,7 +23,7 @@
                     <Grid DataContext="{Binding RelativeSource={RelativeSource TemplatedParent}}">
                         <ContentPresenter Content="{TemplateBinding ContentControl.Content}"
                                           Margin="{TemplateBinding Padding}" />
-                        <canvasResizeTool:MoveThumb Cursor="SizeAll" Template="{StaticResource MoveThumbTemplate}" />
+                        <canvasResizeTool:MoveThumb Template="{StaticResource MoveThumbTemplate}" />
                         <canvasResizeTool:DesignerItemDecorator x:Name="ItemDecorator" />
                     </Grid>
                     <ControlTemplate.Triggers>

@@ -40,7 +40,7 @@ namespace wScreenshot.Converter
             }
 
             decimal.TryParse(value.ToString(), out retVal);
-            return Math.Round(retVal*mul, round);
+            return Math.Round(retVal * mul, round);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace wScreenshot.Converter
             }
             if (value is int)
             {
-                return (decimal) (((int) value)/100);
+                return (decimal)(((int)value) / 100);
             }
             return 0;
         }

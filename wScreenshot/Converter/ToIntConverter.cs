@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 
-namespace wScreenshot.Modules.Base.Converter
+namespace wScreenshot.Converter
 {
     public class ToIntConverter : IValueConverter
     {
